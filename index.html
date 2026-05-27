@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KodaForge — Sites que convertem</title>
+  <link rel="icon" type="image/png" href="Logo.png.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ========================
+       RESET & BASE
+    ======================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #06061a;
+      color: #e2e8f0;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ========================
+       TOKENS
+    ======================== */
+    :root {
+      --navy:    #06061a;
+      --blue-dk: #0d1235;
+      --blue:    #1e2d7d;
+      --indigo:  #3730a3;
+      --violet:  #6d28d9;
+      --purple:  #7c3aed;
+      --plum:    #a855f7;
+      --pink:    #c084fc;
+      --white:   #f8faff;
+      --muted:   #94a3b8;
+      --border:  rgba(139,92,246,.18);
+      --card-bg: rgba(13,18,53,.6);
+      --glow-1:  rgba(109,40,217,.35);
+      --glow-2:  rgba(168,85,247,.2);
+      --radius:  16px;
+      --trans:   .25s ease;
+    }
+
+    /* ========================
+       UTILITIES
+    ======================== */
+    .container { width: min(1200px, 92vw); margin: 0 auto; }
+    .tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .75rem; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--plum);
+      background: rgba(168,85,247,.12); border: 1px solid rgba(168,85,247,.3);
+      padding: 4px 14px; border-radius: 999px;
+    }
+    .tag svg { width: 12px; height: 12px; }
+    h2.section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700; color: var(--white);
+      line-height: 1.15;
+    }
+    p.section-sub {
+      color: var(--muted); font-size: 1.05rem;
+      max-width: 560px; margin: 1rem auto 0;
+    }
+    .section-head { text-align: center; margin-bottom: 3.5rem; }
+
+    /* ========================
+       GLOW BLOBS
+    ======================== */
+    .blob {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); pointer-events: none; z-index: 0;
+    }
+
+    /* ========================
+       NAVBAR
+    ======================== */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 0 5vw;
+      background: rgba(6,6,26,.75);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      transition: background var(--trans);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+    }
+    .logo {
+      display: inline-flex; align-items: center;
+      text-decoration: none; line-height: 0;
+    }
+    .logo img {
+      height: 48px; width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px rgba(109,40,217,.5));
+      transition: filter var(--trans);
+    }
+    .logo:hover img { filter: drop-shadow(0 0 14px rgba(168,85,247,.8)); }
+    .logo-footer img { height: 64px; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: .9rem;
+      font-weight: 500; transition: color var(--trans);
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--violet), var(--purple));
+      color: var(--white); border: none; padding: 10px 22px;
+      border-radius: 10px; font-size: .9rem; font-weight: 600;
+      cursor: pointer; transition: opacity var(--trans), transform var(--trans);
+      text-decoration: none;
+    }
+    .nav-cta:hover { opacity: .88; transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: var(--trans); }
+
+    /* ========================
+       HERO
+    ======================== */
+    #hero {
+      position: relative; overflow: hidden;
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 100px 0 60px;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(109,40,217,.25) 0%, transparent 70%);
+    }
+    #hero .blob:nth-child(1) { width: 600px; height: 600px; background: var(--glow-1); top: -200px; left: -200px; }
+    #hero .blob:nth-child(2) { width: 500px; height: 500px; background: var(--glow-2); bottom: -150px; right: -100px; }
+    .hero-grid {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    }
+    .hero-badge { margin-bottom: 1.5rem; }
+    .hero-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.4rem, 5.5vw, 4rem);
+      font-weight: 800; line-height: 1.1; color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, #818cf8 0%, #a855f7 50%, #ec4899 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-desc { color: var(--muted); font-size: 1.1rem; max-width: 480px; margin-bottom: 2.5rem; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--violet), var(--purple));
+      color: var(--white); padding: 14px 28px; border-radius: 12px;
+      font-weight: 600; font-size: 1rem; text-decoration: none;
+      box-shadow: 0 8px 30px rgba(109,40,217,.4);
+      transition: transform var(--trans), box-shadow var(--trans);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(109,40,217,.55); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--border); color: var(--muted);
+      padding: 14px 28px; border-radius: 12px; font-weight: 600;
+      font-size: 1rem; text-decoration: none; background: transparent;
+      transition: border-color var(--trans), color var(--trans);
+    }
+    .btn-outline:hover { border-color: var(--plum); color: var(--white); }
+    .hero-stats {
+      display: flex; gap: 2rem; margin-top: 3rem;
+      padding-top: 2rem; border-top: 1px solid var(--border);
+    }
+    .hero-stat { }
+    .hero-stat strong { display: block; font-size: 1.8rem; font-weight: 800; color: var(--white); }
+    .hero-stat span { font-size: .82rem; color: var(--muted); }
+    .hero-visual {
+      position: relative; display: flex; justify-content: center; align-items: center;
+    }
+    .browser-mock {
+      width: 100%; max-width: 500px;
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 18px; overflow: hidden;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 30px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(168,85,247,.15);
+    }
+    .browser-bar {
+      background: rgba(255,255,255,.04); padding: 12px 16px;
+      display: flex; align-items: center; gap: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .browser-dots { display: flex; gap: 6px; }
+    .browser-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .browser-dots span:nth-child(1) { background: #ff5f57; }
+    .browser-dots span:nth-child(2) { background: #febc2e; }
+    .browser-dots span:nth-child(3) { background: #28c840; }
+    .browser-url {
+      flex: 1; background: rgba(255,255,255,.06); border-radius: 8px;
+      padding: 5px 12px; font-size: .75rem; color: var(--muted);
+    }
+    .browser-body { padding: 24px; }
+    .mock-hero { background: linear-gradient(135deg, rgba(109,40,217,.3), rgba(168,85,247,.15)); border-radius: 10px; height: 90px; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; }
+    .mock-hero-text { display: flex; flex-direction: column; gap: 8px; width: 60%; }
+    .mock-bar { height: 8px; border-radius: 4px; background: rgba(168,85,247,.5); }
+    .mock-bar.short { width: 60%; }
+    .mock-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+    .mock-card { background: rgba(255,255,255,.05); border-radius: 8px; height: 64px; border: 1px solid var(--border); }
+    .mock-btn { margin-top: 14px; background: linear-gradient(135deg, var(--violet), var(--purple)); border-radius: 6px; height: 32px; width: 50%; }
+    .floating-badge {
+      position: absolute;
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 12px; padding: 10px 16px; backdrop-filter: blur(16px);
+      font-size: .8rem; font-weight: 600; color: var(--white);
+      display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.3);
+    }
+    .fb-1 { top: -20px; right: -20px; }
+    .fb-2 { bottom: 20px; left: -30px; }
+    .fb-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; }
+
+    /* ========================
+       LOGOS STRIP
+    ======================== */
+    #logos {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: rgba(13,18,53,.3);
+    }
+    .logos-label { text-align: center; color: var(--muted); font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .logos-track {
+      display: flex; align-items: center; justify-content: center;
+      gap: 3rem; flex-wrap: wrap;
+    }
+    .logo-item {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem; font-weight: 700;
+      color: rgba(255,255,255,.15);
+      letter-spacing: .04em; transition: color var(--trans);
+    }
+    .logo-item:hover { color: rgba(168,85,247,.5); }
+
+    /* ========================
+       SERVICES
+    ======================== */
+    #services { padding: 100px 0; position: relative; overflow: hidden; }
+    #services .blob { width: 500px; height: 500px; background: rgba(109,40,217,.18); top: 0; right: -200px; }
+    .services-grid {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem;
+    }
+    .service-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 2rem;
+      backdrop-filter: blur(16px);
+      transition: transform var(--trans), border-color var(--trans), box-shadow var(--trans);
+      position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(109,40,217,.08) 0%, transparent 60%);
+      opacity: 0; transition: opacity var(--trans);
+    }
+    .service-card:hover { transform: translateY(-6px); border-color: rgba(168,85,247,.35); box-shadow: 0 20px 50px rgba(109,40,217,.25); }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--indigo), var(--violet));
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.4rem; font-size: 1.5rem;
+    }
+    .service-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--white); margin-bottom: .6rem; }
+    .service-card p { color: var(--muted); font-size: .9rem; line-height: 1.7; margin-bottom: 1.5rem; }
+    .service-list { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+    .service-list li { font-size: .85rem; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+    .service-list li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--plum); flex-shrink: 0; }
+    .service-card.featured {
+      border-color: rgba(168,85,247,.4);
+      background: linear-gradient(135deg, rgba(109,40,217,.2) 0%, rgba(13,18,53,.7) 100%);
+    }
+    .featured-badge {
+      position: absolute; top: 16px; right: 16px;
+      background: linear-gradient(135deg, var(--violet), var(--plum));
+      color: white; font-size: .7rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 999px; letter-spacing: .04em;
+    }
+
+    /* ========================
+       HOW IT WORKS
+    ======================== */
+    #process { padding: 100px 0; background: rgba(13,18,53,.4); position: relative; overflow: hidden; }
+    #process .blob { width: 600px; height: 400px; background: rgba(168,85,247,.1); bottom: -200px; left: -200px; }
+    .process-steps {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem;
+    }
+    .process-steps::before {
+      content: ''; position: absolute;
+      top: 40px; left: 10%; right: 10%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), var(--border), transparent);
+      z-index: 0;
+    }
+    .step-card { text-align: center; position: relative; z-index: 1; }
+    .step-num {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--indigo), var(--violet));
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.2rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem; font-weight: 800; color: white;
+      box-shadow: 0 8px 24px rgba(109,40,217,.4);
+      border: 3px solid rgba(168,85,247,.3);
+    }
+    .step-card h4 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: .5rem; }
+    .step-card p { font-size: .85rem; color: var(--muted); }
+
+    /* ========================
+       WHY US
+    ======================== */
+    #why { padding: 100px 0; }
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .why-visual { position: relative; }
+    .metrics-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 2rem; backdrop-filter: blur(16px);
+    }
+    .metrics-card h4 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; color: var(--muted); margin-bottom: 1.5rem; }
+    .metric-row { display: flex; align-items: center; gap: 12px; margin-bottom: 1.2rem; }
+    .metric-row:last-child { margin-bottom: 0; }
+    .metric-label { font-size: .85rem; color: var(--muted); width: 140px; flex-shrink: 0; }
+    .metric-bar-wrap { flex: 1; background: rgba(255,255,255,.06); border-radius: 999px; height: 8px; }
+    .metric-bar { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--indigo), var(--plum)); }
+    .metric-val { font-size: .85rem; font-weight: 600; color: var(--white); width: 36px; text-align: right; }
+    .mini-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+    .mini-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.2rem; text-align: center; backdrop-filter: blur(12px);
+    }
+    .mini-card strong { display: block; font-size: 1.6rem; font-weight: 800; color: var(--white); }
+    .mini-card span { font-size: .78rem; color: var(--muted); }
+    .why-content { }
+    .why-items { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+    .why-item { display: flex; gap: 1rem; }
+    .why-icon {
+      width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(109,40,217,.3), rgba(168,85,247,.2));
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .why-item h4 { font-family: 'Space Grotesk', sans-serif; font-size: .95rem; font-weight: 600; color: var(--white); margin-bottom: .25rem; }
+    .why-item p { font-size: .85rem; color: var(--muted); }
+
+    /* ========================
+       PRICING
+    ======================== */
+    #pricing { padding: 100px 0; background: rgba(13,18,53,.4); position: relative; overflow: hidden; }
+    #pricing .blob { width: 600px; height: 600px; background: rgba(109,40,217,.15); top: -200px; left: 50%; transform: translateX(-50%); }
+    .pricing-toggle {
+      display: flex; align-items: center; justify-content: center; gap: 1rem;
+      margin-bottom: 3rem; position: relative; z-index: 1;
+    }
+    .toggle-label { font-size: .9rem; color: var(--muted); font-weight: 500; }
+    .toggle-switch {
+      width: 52px; height: 28px; background: rgba(109,40,217,.3); border-radius: 999px;
+      position: relative; cursor: pointer; border: 1px solid var(--border);
+      transition: background var(--trans);
+    }
+    .toggle-switch.active { background: linear-gradient(135deg, var(--violet), var(--purple)); }
+    .toggle-switch::after {
+      content: ''; position: absolute; width: 20px; height: 20px;
+      background: white; border-radius: 50%; top: 3px; left: 3px;
+      transition: transform var(--trans);
+    }
+    .toggle-switch.active::after { transform: translateX(24px); }
+    .save-badge {
+      background: linear-gradient(135deg, var(--violet), var(--plum));
+      color: white; font-size: .7rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 999px;
+    }
+    .pricing-grid {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem;
+    }
+    .price-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 2rem;
+      backdrop-filter: blur(16px);
+      transition: transform var(--trans), border-color var(--trans);
+      position: relative;
+    }
+    .price-card.popular {
+      border-color: rgba(168,85,247,.5);
+      background: linear-gradient(160deg, rgba(109,40,217,.25) 0%, rgba(13,18,53,.7) 100%);
+      transform: scale(1.03);
+      box-shadow: 0 20px 60px rgba(109,40,217,.35);
+    }
+    .popular-tag {
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--violet), var(--plum));
+      color: white; font-size: .72rem; font-weight: 700;
+      padding: 4px 16px; border-radius: 999px; white-space: nowrap;
+      letter-spacing: .04em;
+    }
+    .price-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--muted); margin-bottom: .5rem; }
+    .price-amount { display: flex; align-items: baseline; gap: 4px; margin: 1rem 0; }
+    .price-currency { font-size: 1.2rem; font-weight: 600; color: var(--muted); }
+    .price-value { font-family: 'Space Grotesk', sans-serif; font-size: 3rem; font-weight: 800; color: var(--white); line-height: 1; }
+    .price-period { font-size: .85rem; color: var(--muted); }
+    .price-desc { font-size: .85rem; color: var(--muted); margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+    .price-features { list-style: none; display: flex; flex-direction: column; gap: .75rem; margin-bottom: 2rem; }
+    .price-features li { font-size: .88rem; color: #cbd5e1; display: flex; align-items: flex-start; gap: 10px; }
+    .check-icon { color: var(--plum); font-size: 1rem; flex-shrink: 0; line-height: 1.4; }
+    .x-icon { color: rgba(148,163,184,.4); flex-shrink: 0; line-height: 1.4; }
+    .btn-plan {
+      display: block; text-align: center;
+      padding: 13px; border-radius: 10px; font-weight: 600; font-size: .95rem;
+      text-decoration: none; transition: all var(--trans);
+    }
+    .btn-plan-outline {
+      border: 1px solid var(--border); color: var(--muted);
+    }
+    .btn-plan-outline:hover { border-color: var(--plum); color: var(--white); }
+    .btn-plan-fill {
+      background: linear-gradient(135deg, var(--violet), var(--purple));
+      color: white; box-shadow: 0 6px 20px rgba(109,40,217,.35);
+    }
+    .btn-plan-fill:hover { opacity: .88; transform: translateY(-1px); }
+
+    /* ========================
+       TESTIMONIALS
+    ======================== */
+    #testimonials { padding: 100px 0; }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .testi-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 2rem;
+      backdrop-filter: blur(16px);
+      transition: transform var(--trans);
+    }
+    .testi-card:hover { transform: translateY(-4px); }
+    .stars { color: #f59e0b; letter-spacing: 2px; font-size: .85rem; margin-bottom: 1rem; }
+    .testi-text { color: #cbd5e1; font-size: .9rem; line-height: 1.8; margin-bottom: 1.5rem; font-style: italic; }
+    .testi-author { display: flex; align-items: center; gap: 10px; }
+    .author-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--indigo), var(--violet));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: .85rem; color: white;
+    }
+    .author-name { font-weight: 600; font-size: .88rem; color: var(--white); }
+    .author-role { font-size: .78rem; color: var(--muted); }
+
+    /* ========================
+       FAQ
+    ======================== */
+    #faq { padding: 100px 0; background: rgba(13,18,53,.4); }
+    .faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
+    .faq-item {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      backdrop-filter: blur(16px);
+    }
+    .faq-q {
+      width: 100%; background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .95rem; font-weight: 600; color: var(--white);
+      text-align: left; gap: 1rem;
+    }
+    .faq-q:hover { color: var(--plum); }
+    .faq-chevron { transition: transform .3s ease; color: var(--muted); font-size: 1.2rem; flex-shrink: 0; }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); color: var(--plum); }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height .35s ease, padding .35s ease;
+    }
+    .faq-item.open .faq-a { max-height: 300px; }
+    .faq-a p { padding: 0 1.5rem 1.25rem; font-size: .88rem; color: var(--muted); line-height: 1.8; }
+
+    /* ========================
+       CTA SECTION
+    ======================== */
+    #cta {
+      padding: 100px 0; position: relative; overflow: hidden;
+      background: radial-gradient(ellipse 100% 80% at 50% 50%, rgba(109,40,217,.2) 0%, transparent 70%);
+    }
+    .cta-box {
+      background: var(--card-bg); border: 1px solid rgba(168,85,247,.3);
+      border-radius: 24px; padding: 4rem; text-align: center;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 30px 80px rgba(0,0,0,.4), 0 0 0 1px rgba(168,85,247,.1);
+      position: relative; overflow: hidden;
+    }
+    .cta-box::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(109,40,217,.12) 0%, rgba(168,85,247,.06) 50%, transparent 100%);
+    }
+    .cta-box > * { position: relative; z-index: 1; }
+    .cta-box h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; color: var(--white); margin-bottom: 1rem; }
+    .cta-box p { color: var(--muted); font-size: 1.05rem; max-width: 500px; margin: 0 auto 2.5rem; }
+    .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ========================
+       CONTACT FORM
+    ======================== */
+    #contact { padding: 100px 0; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .contact-info h2 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; color: var(--white); margin-bottom: 1rem; }
+    .contact-info p { color: var(--muted); font-size: .95rem; margin-bottom: 2rem; }
+    .contact-details { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-detail { display: flex; align-items: center; gap: 12px; }
+    .c-icon { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, rgba(109,40,217,.3), rgba(168,85,247,.2)); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+    .c-text strong { display: block; font-size: .88rem; color: var(--white); font-weight: 600; }
+    .c-text span { font-size: .82rem; color: var(--muted); }
+    .contact-form {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 2.5rem;
+      backdrop-filter: blur(16px);
+    }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    label { display: block; font-size: .82rem; font-weight: 500; color: var(--muted); margin-bottom: 6px; }
+    input, select, textarea {
+      width: 100%; background: rgba(255,255,255,.05);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 11px 14px; color: var(--white);
+      font-family: 'Inter', sans-serif; font-size: .9rem;
+      transition: border-color var(--trans), background var(--trans);
+      outline: none; appearance: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: rgba(168,85,247,.5); background: rgba(255,255,255,.07); }
+    input::placeholder, textarea::placeholder { color: rgba(148,163,184,.4); }
+    select option { background: #0d1235; }
+    textarea { resize: vertical; min-height: 100px; }
+    .form-submit {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, var(--violet), var(--purple));
+      color: white; border: none; border-radius: 10px;
+      font-size: 1rem; font-weight: 600; cursor: pointer;
+      transition: opacity var(--trans), transform var(--trans);
+      box-shadow: 0 6px 20px rgba(109,40,217,.4);
+    }
+    .form-submit:hover { opacity: .88; transform: translateY(-1px); }
+
+    /* ========================
+       FOOTER
+    ======================== */
+    footer {
+      padding: 60px 0 30px;
+      border-top: 1px solid var(--border);
+      background: rgba(6,6,26,.8);
+    }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand p { color: var(--muted); font-size: .88rem; margin-top: 1rem; max-width: 280px; line-height: 1.7; }
+    .footer-social { display: flex; gap: .75rem; margin-top: 1.5rem; }
+    .soc-btn {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(255,255,255,.06); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; text-decoration: none;
+      transition: background var(--trans), border-color var(--trans);
+    }
+    .soc-btn:hover { background: rgba(168,85,247,.2); border-color: rgba(168,85,247,.4); }
+    .footer-col h5 { font-family: 'Space Grotesk', sans-serif; font-size: .88rem; font-weight: 700; color: var(--white); margin-bottom: 1.2rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .75rem; }
+    .footer-col a { color: var(--muted); text-decoration: none; font-size: .85rem; transition: color var(--trans); }
+    .footer-col a:hover { color: var(--plum); }
+    .footer-bottom { padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .footer-bottom p { font-size: .8rem; color: var(--muted); }
+
+    /* ========================
+       SCROLL-REVEAL
+    ======================== */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ========================
+       RESPONSIVE
+    ======================== */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .process-steps { grid-template-columns: repeat(2,1fr); }
+      .process-steps::before { display: none; }
+    }
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .hero-grid, .why-grid, .contact-grid, .footer-grid { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .services-grid, .pricing-grid, .testimonials-grid { grid-template-columns: 1fr; }
+      .price-card.popular { transform: scale(1); }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .mini-cards { grid-template-columns: 1fr 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .cta-box { padding: 2.5rem 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .process-steps { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-stats { flex-wrap: wrap; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <img src="Logo.png.png" alt="KodaForge" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Serviços</a></li>
+      <li><a href="#process">Como funciona</a></li>
+      <li><a href="#pricing">Preços</a></li>
+      <li><a href="#testimonials">Depoimentos</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Solicitar orçamento</a>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="blob"></div>
+  <div class="blob"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content reveal">
+        <div class="hero-badge">
+          <span class="tag">
+            <svg viewBox="0 0 12 12" fill="currentColor"><circle cx="6" cy="6" r="6"/></svg>
+            Mais de 120 projetos entregues
+          </span>
+        </div>
+        <h1 class="hero-title">
+          Sites que vendem,<br />
+          <span>não só que existem</span>
+        </h1>
+        <p class="hero-desc">
+          Criamos, redesenhamos e mantemos sites com foco em conversão, desempenho e identidade visual. Seu negócio merece uma presença digital à altura.
+        </p>
+        <div class="hero-actions">
+          <a href="#pricing" class="btn-primary">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Ver planos
+          </a>
+          <a href="#services" class="btn-outline">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+            Como funciona
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <strong>120+</strong>
+            <span>Projetos entregues</span>
+          </div>
+          <div class="hero-stat">
+            <strong>97%</strong>
+            <span>Clientes satisfeitos</span>
+          </div>
+          <div class="hero-stat">
+            <strong>48h</strong>
+            <span>Tempo médio de resposta</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual reveal">
+        <div class="floating-badge fb-1">
+          <div class="fb-dot"></div>
+          Projeto ao vivo
+        </div>
+        <div class="browser-mock">
+          <div class="browser-bar">
+            <div class="browser-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="browser-url">seusite.com.br</div>
+          </div>
+          <div class="browser-body">
+            <div class="mock-hero">
+              <div class="mock-hero-text">
+                <div class="mock-bar"></div>
+                <div class="mock-bar short"></div>
+              </div>
+            </div>
+            <div class="mock-cards">
+              <div class="mock-card"></div>
+              <div class="mock-card"></div>
+              <div class="mock-card"></div>
+            </div>
+            <div class="mock-btn"></div>
+          </div>
+        </div>
+        <div class="floating-badge fb-2">
+          ⚡ Otimizado para SEO &amp; velocidade
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<section id="logos">
+  <div class="container">
+    <p class="logos-label">Tecnologias que dominamos</p>
+    <div class="logos-track">
+      <span class="logo-item">React</span>
+      <span class="logo-item">Next.js</span>
+      <span class="logo-item">WordPress</span>
+      <span class="logo-item">Shopify</span>
+      <span class="logo-item">Figma</span>
+      <span class="logo-item">Tailwind</span>
+      <span class="logo-item">Node.js</span>
+      <span class="logo-item">Vercel</span>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="blob"></div>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="tag">Serviços</span>
+      <h2 class="section-title" style="margin-top:.8rem">Tudo que seu negócio<br />precisa no digital</h2>
+      <p class="section-sub">Soluções sob medida — desde a criação do zero até a manutenção mensal com suporte dedicado.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon">🚀</div>
+        <h3>Criação de Site</h3>
+        <p>Do briefing ao deploy. Desenvolvemos sites modernos, rápidos e prontos para converter visitantes em clientes.</p>
+        <ul class="service-list">
+          <li>Design exclusivo e responsivo</li>
+          <li>Otimização SEO on-page</li>
+          <li>Integração com Google Analytics</li>
+          <li>Velocidade acima de 90 no PageSpeed</li>
+          <li>Entrega em até 15 dias úteis</li>
+        </ul>
+      </div>
+      <div class="service-card featured reveal">
+        <span class="featured-badge">MAIS PEDIDO</span>
+        <div class="service-icon">✨</div>
+        <h3>Redesign Completo</h3>
+        <p>Transformamos sites antigos em experiências modernas que geram confiança, retêm visitantes e aumentam conversões.</p>
+        <ul class="service-list">
+          <li>Auditoria completa do site atual</li>
+          <li>Novo visual alinhado à sua marca</li>
+          <li>Migração de conteúdo sem perda</li>
+          <li>Melhora na experiência mobile</li>
+          <li>Aumento de velocidade garantido</li>
+        </ul>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">🔄</div>
+        <h3>Manutenção Mensal</h3>
+        <p>Sua presença digital nunca para. Atualizações, backups, segurança e suporte — tudo incluído no plano mensal.</p>
+        <ul class="service-list">
+          <li>Suporte prioritário por WhatsApp</li>
+          <li>Atualizações ilimitadas de conteúdo</li>
+          <li>Backups diários automáticos</li>
+          <li>Monitoramento de uptime 24/7</li>
+          <li>Relatório mensal de performance</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="blob"></div>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="tag">Como funciona</span>
+      <h2 class="section-title" style="margin-top:.8rem">Do briefing ao ar<br />em 4 passos simples</h2>
+      <p class="section-sub">Nosso processo é transparente, ágil e colaborativo. Você acompanha cada etapa.</p>
+    </div>
+    <div class="process-steps">
+      <div class="step-card reveal">
+        <div class="step-num">1</div>
+        <h4>Briefing</h4>
+        <p>Entendemos seu negócio, objetivos, público-alvo e referências visuais em uma call de 30 minutos.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">2</div>
+        <h4>Design</h4>
+        <p>Criamos o layout no Figma com identidade visual única. Você aprova antes de qualquer linha de código.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">3</div>
+        <h4>Desenvolvimento</h4>
+        <p>Codificamos com as melhores práticas do mercado — rápido, responsivo, acessível e otimizado para SEO.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">4</div>
+        <h4>Lançamento</h4>
+        <p>Deploy, testes finais e entrega. Você recebe o projeto funcionando com suporte pós-entrega incluso.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="container">
+    <div class="why-grid">
+      <div class="why-visual reveal">
+        <div class="metrics-card">
+          <h4>Resultados médios dos nossos clientes</h4>
+          <div class="metric-row">
+            <span class="metric-label">Velocidade do site</span>
+            <div class="metric-bar-wrap"><div class="metric-bar" style="width:94%"></div></div>
+            <span class="metric-val">94</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Taxa de conversão</span>
+            <div class="metric-bar-wrap"><div class="metric-bar" style="width:78%"></div></div>
+            <span class="metric-val">+78%</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Tráfego orgânico</span>
+            <div class="metric-bar-wrap"><div class="metric-bar" style="width:65%"></div></div>
+            <span class="metric-val">+65%</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Tempo no site</span>
+            <div class="metric-bar-wrap"><div class="metric-bar" style="width:82%"></div></div>
+            <span class="metric-val">+82%</span>
+          </div>
+        </div>
+        <div class="mini-cards">
+          <div class="mini-card">
+            <strong>120+</strong>
+            <span>Clientes ativos</span>
+          </div>
+          <div class="mini-card">
+            <strong>4.9★</strong>
+            <span>Avaliação média</span>
+          </div>
+          <div class="mini-card">
+            <strong>15d</strong>
+            <span>Entrega média</span>
+          </div>
+          <div class="mini-card">
+            <strong>100%</strong>
+            <span>Uptime garantido</span>
+          </div>
+        </div>
+      </div>
+      <div class="why-content reveal">
+        <span class="tag">Por que a KodaForge</span>
+        <h2 class="section-title" style="text-align:left;margin-top:.8rem">Sites que trabalham<br />por você</h2>
+        <div class="why-items">
+          <div class="why-item">
+            <div class="why-icon">⚡</div>
+            <div>
+              <h4>Performance que converte</h4>
+              <p>Sites lentos perdem clientes. Entregamos acima de 90 no Google PageSpeed — velocidade real, não só promessa.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon">🎨</div>
+            <div>
+              <h4>Design focado em UX</h4>
+              <p>Interface intuitiva e bonita que guia o visitante até a conversão. Design pensado para pessoas, não para prêmios.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon">🔒</div>
+            <div>
+              <h4>Segurança e estabilidade</h4>
+              <p>SSL, backups diários e monitoramento 24/7. Seu site fica no ar e protegido enquanto você foca no seu negócio.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon">📈</div>
+            <div>
+              <h4>SEO desde o primeiro dia</h4>
+              <p>Estrutura técnica correta, metatags, sitemap e velocidade — para seu site aparecer no Google de verdade.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="blob"></div>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="tag">Planos e preços</span>
+      <h2 class="section-title" style="margin-top:.8rem">Investimento transparente,<br />resultados claros</h2>
+      <p class="section-sub">Escolha o plano ideal para o momento do seu negócio. Sem taxas ocultas, sem surpresas.</p>
+    </div>
+    <div class="pricing-toggle reveal">
+      <span class="toggle-label">Avulso</span>
+      <div class="toggle-switch" id="toggleSwitch" onclick="toggleBilling()"></div>
+      <span class="toggle-label">Mensal</span>
+      <span class="save-badge">Economize 20%</span>
+    </div>
+    <div class="pricing-grid">
+      <!-- STARTER -->
+      <div class="price-card reveal">
+        <h3>Starter</h3>
+        <div class="price-amount">
+          <span class="price-currency">R$</span>
+          <span class="price-value" data-monthly="997" data-oneoff="1497">1.497</span>
+          <span class="price-period" id="period-1">&nbsp;único</span>
+        </div>
+        <p class="price-desc">Ideal para profissionais autônomos e pequenos negócios que querem uma presença online profissional.</p>
+        <ul class="price-features">
+          <li><span class="check-icon">✓</span> Site institucional até 5 páginas</li>
+          <li><span class="check-icon">✓</span> Design responsivo (mobile)</li>
+          <li><span class="check-icon">✓</span> Formulário de contato</li>
+          <li><span class="check-icon">✓</span> SEO básico on-page</li>
+          <li><span class="check-icon">✓</span> 30 dias de suporte pós-entrega</li>
+          <li><span class="x-icon">✗</span> <span style="opacity:.4">E-commerce / loja virtual</span></li>
+          <li><span class="x-icon">✗</span> <span style="opacity:.4">Integrações avançadas</span></li>
+        </ul>
+        <a href="#contact" class="btn-plan btn-plan-outline">Solicitar orçamento</a>
+      </div>
+      <!-- PROFISSIONAL -->
+      <div class="price-card popular reveal">
+        <span class="popular-tag">MAIS POPULAR</span>
+        <h3>Profissional</h3>
+        <div class="price-amount">
+          <span class="price-currency">R$</span>
+          <span class="price-value" data-monthly="1997" data-oneoff="2997">2.997</span>
+          <span class="price-period" id="period-2">&nbsp;único</span>
+        </div>
+        <p class="price-desc">Para empresas que querem um site robusto, com mais páginas, funcionalidades e geração de leads.</p>
+        <ul class="price-features">
+          <li><span class="check-icon">✓</span> Site até 10 páginas + blog</li>
+          <li><span class="check-icon">✓</span> Design UI/UX personalizado</li>
+          <li><span class="check-icon">✓</span> Integrações (WhatsApp, maps, etc.)</li>
+          <li><span class="check-icon">✓</span> SEO avançado + Google Analytics</li>
+          <li><span class="check-icon">✓</span> Velocidade acima de 90</li>
+          <li><span class="check-icon">✓</span> 60 dias de suporte prioritário</li>
+          <li><span class="x-icon">✗</span> <span style="opacity:.4">Loja virtual completa</span></li>
+        </ul>
+        <a href="#contact" class="btn-plan btn-plan-fill">Quero esse plano</a>
+      </div>
+      <!-- ENTERPRISE -->
+      <div class="price-card reveal">
+        <h3>Enterprise</h3>
+        <div class="price-amount">
+          <span class="price-currency">R$</span>
+          <span class="price-value" data-monthly="3997" data-oneoff="5997">5.997</span>
+          <span class="price-period" id="period-3">&nbsp;único</span>
+        </div>
+        <p class="price-desc">Solução completa para e-commerce, portais ou projetos com necessidades avançadas e escalabilidade.</p>
+        <ul class="price-features">
+          <li><span class="check-icon">✓</span> Páginas ilimitadas</li>
+          <li><span class="check-icon">✓</span> Loja virtual / e-commerce completo</li>
+          <li><span class="check-icon">✓</span> Painel administrativo</li>
+          <li><span class="check-icon">✓</span> Integrações com ERPs e APIs</li>
+          <li><span class="check-icon">✓</span> SEO técnico avançado</li>
+          <li><span class="check-icon">✓</span> 90 dias de suporte VIP</li>
+          <li><span class="check-icon">✓</span> Treinamento da equipe incluso</li>
+        </ul>
+        <a href="#contact" class="btn-plan btn-plan-outline">Solicitar orçamento</a>
+      </div>
+    </div>
+    <!-- MAINTENANCE ADDONS -->
+    <div class="section-head reveal" style="margin-top:5rem;margin-bottom:2rem">
+      <span class="tag">Manutenção mensal</span>
+      <h2 class="section-title" style="margin-top:.8rem;font-size:1.8rem">Adicione suporte contínuo ao seu site</h2>
+    </div>
+    <div class="services-grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="service-card reveal" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.8rem">🛡️</div>
+        <h3>Básico</h3>
+        <div style="font-size:2rem;font-weight:800;color:var(--white);margin:.5rem 0">R$ 197<span style="font-size:1rem;color:var(--muted)">/mês</span></div>
+        <p>Backup semanal, monitoramento de uptime, certificado SSL renovado automaticamente.</p>
+      </div>
+      <div class="service-card featured reveal" style="text-align:center">
+        <span class="featured-badge">RECOMENDADO</span>
+        <div style="font-size:2rem;margin-bottom:.8rem">⚙️</div>
+        <h3>Completo</h3>
+        <div style="font-size:2rem;font-weight:800;color:var(--white);margin:.5rem 0">R$ 397<span style="font-size:1rem;color:var(--muted)">/mês</span></div>
+        <p>Tudo do Básico + atualizações de conteúdo ilimitadas, suporte WhatsApp em horário comercial e relatório mensal.</p>
+      </div>
+      <div class="service-card reveal" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.8rem">🚀</div>
+        <h3>VIP</h3>
+        <div style="font-size:2rem;font-weight:800;color:var(--white);margin:.5rem 0">R$ 697<span style="font-size:1rem;color:var(--muted)">/mês</span></div>
+        <p>Tudo do Completo + suporte 24/7, otimização contínua de SEO, melhorias mensais de performance e prioridade total.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="tag">Depoimentos</span>
+      <h2 class="section-title" style="margin-top:.8rem">O que nossos clientes dizem</h2>
+      <p class="section-sub">Mais de 120 negócios transformados. Veja o que quem já passou por aqui tem a dizer.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"O redesign do nosso site foi um divisor de águas. Em 60 dias, nossas consultas pelo site triplicaram. A equipe entendeu exatamente o que precisávamos."</p>
+        <div class="testi-author">
+          <div class="author-avatar">MF</div>
+          <div>
+            <div class="author-name">Marina Ferreira</div>
+            <div class="author-role">CEO — Clínica Bem Estar</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Profissionalismo do início ao fim. Cumpriram o prazo, o design ficou incrível e o suporte pós-entrega me salvou várias vezes. Recomendo sem hesitar."</p>
+        <div class="testi-author">
+          <div class="author-avatar">RL</div>
+          <div>
+            <div class="author-name">Rafael Lima</div>
+            <div class="author-role">Fundador — Construtora Alves Lima</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Assino o plano mensal há 8 meses. Sinto que tenho um time de TI dedicado ao meu negócio. Vale cada centavo. Meu site nunca ficou fora do ar."</p>
+        <div class="testi-author">
+          <div class="author-avatar">CS</div>
+          <div>
+            <div class="author-name">Camila Santos</div>
+            <div class="author-role">Diretora — Escola de Idiomas Prime</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Meu e-commerce saiu do zero e já está faturando. Eles cuidaram de tudo — design, produto, checkout, SEO. Resultado acima do esperado."</p>
+        <div class="testi-author">
+          <div class="author-avatar">JP</div>
+          <div>
+            <div class="author-name">João Pereira</div>
+            <div class="author-role">Empreendedor — Loja Orgânicos</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Precisávamos urgente de um site para um cliente importante. Em 10 dias, entregaram algo que superou todas as expectativas. Parceria garantida."</p>
+        <div class="testi-author">
+          <div class="author-avatar">AT</div>
+          <div>
+            <div class="author-name">Ana Torres</div>
+            <div class="author-role">Gerente — Agência Connect</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Já contratei dois sites. O segundo ficou ainda melhor que o primeiro. A comunicação é excelente, sem enrolação. Preço justo e resultado de qualidade."</p>
+        <div class="testi-author">
+          <div class="author-avatar">BN</div>
+          <div>
+            <div class="author-name">Bruno Neves</div>
+            <div class="author-role">Proprietário — Studio BN Arquitetura</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="tag">Perguntas frequentes</span>
+      <h2 class="section-title" style="margin-top:.8rem">Tem alguma dúvida?</h2>
+      <p class="section-sub">Respondemos as perguntas mais comuns. Se sua dúvida não estiver aqui, é só entrar em contato.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Quanto tempo leva para meu site ficar pronto?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-a"><p>Em média, sites institucionais ficam prontos em 10 a 15 dias úteis após aprovação do design. Projetos maiores (e-commerce, portais) levam de 20 a 40 dias. Trabalhamos com cronograma transparente e você acompanha cada etapa.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Consigo atualizar o site sozinho depois?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-a"><p>Sim! Entregamos todos os projetos com um painel de administração intuitivo (geralmente WordPress ou uma solução customizada). Além disso, fazemos um treinamento para você ou sua equipe aprender a usar com facilidade.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Preciso ter domínio e hospedagem?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-a"><p>Não obrigatoriamente. Podemos orientar e ajudar na contratação de domínio e hospedagem adequados ao seu projeto. Nos planos de manutenção mensal, cuidamos disso por você.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Posso cancelar o plano mensal a qualquer momento?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-a"><p>Sim, sem multa e sem burocracia. O cancelamento é comunicado com 30 dias de antecedência. Você fica com todo o conteúdo e pode continuar com o site normalmente, apenas sem o suporte incluído.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          O site será otimizado para aparecer no Google?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-a"><p>Absolutamente. Todo projeto inclui SEO técnico on-page: estrutura de URLs, metatags, sitemap, velocidade, schema markup e mais. Para SEO contínuo (criação de conteúdo e link building), temos pacotes adicionais.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Como funciona o pagamento?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-a"><p>Projetos avulsos: 50% no início e 50% na entrega. Aceitamos PIX, transferência e cartão de crédito em até 12x. Planos mensais são cobrados via cartão de crédito ou boleto bancário.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="container">
+    <div class="cta-box reveal">
+      <span class="tag" style="margin-bottom:1.5rem">Pronto para começar?</span>
+      <h2>Seu próximo cliente está<br />esperando te encontrar</h2>
+      <p>Não deixe sua concorrência sair na frente. Entre em contato hoje e receba um orçamento sem compromisso em menos de 24 horas.</p>
+      <div class="cta-actions">
+        <a href="#contact" class="btn-primary">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          Solicitar orçamento grátis
+        </a>
+        <a href="https://wa.me/5542991250274" class="btn-outline" target="_blank">
+          💬 Falar no WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <span class="tag">Contato</span>
+        <h2 style="margin-top:.8rem">Vamos conversar<br />sobre seu projeto</h2>
+        <p>Preencha o formulário ou use um dos canais abaixo. Respondemos em até 24 horas em dias úteis.</p>
+        <div class="contact-details">
+          <div class="contact-detail">
+            <div class="c-icon">📧</div>
+            <div class="c-text">
+              <strong>E-mail</strong>
+              <span>kodaforge2026@gmail.com</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="c-icon">💬</div>
+            <div class="c-text">
+              <strong>WhatsApp</strong>
+              <span>(42) 99125-0274</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="c-icon">🕐</div>
+            <div class="c-text">
+              <strong>Horário de atendimento</strong>
+              <span>Seg–Sex, 9h às 18h</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="c-icon">⚡</div>
+            <div class="c-text">
+              <strong>Resposta em</strong>
+              <span>Até 24 horas úteis</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form reveal">
+        <form onsubmit="handleForm(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Nome completo *</label>
+              <input type="text" id="name" placeholder="Seu nome" required />
+            </div>
+            <div class="form-group">
+              <label for="email">E-mail *</label>
+              <input type="email" id="email" placeholder="seu@email.com" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">WhatsApp</label>
+              <input type="tel" id="phone" placeholder="(11) 99999-9999" />
+            </div>
+            <div class="form-group">
+              <label for="service">Serviço de interesse</label>
+              <select id="service">
+                <option value="">Selecione...</option>
+                <option>Criação de site</option>
+                <option>Redesign de site</option>
+                <option>E-commerce</option>
+                <option>Manutenção mensal</option>
+                <option>Outro</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="budget">Orçamento aproximado</label>
+            <select id="budget">
+              <option value="">Selecione...</option>
+              <option>Até R$ 1.500</option>
+              <option>R$ 1.500 – R$ 3.000</option>
+              <option>R$ 3.000 – R$ 6.000</option>
+              <option>Acima de R$ 6.000</option>
+              <option>Plano mensal</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Conte sobre seu projeto *</label>
+            <textarea id="message" placeholder="Descreva brevemente o que você precisa, seu negócio e objetivos..." required></textarea>
+          </div>
+          <button type="submit" class="form-submit">Enviar mensagem →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo logo-footer">
+          <img src="Logo.png.png" alt="KodaForge" />
+        </a>
+        <p>Criamos sites que convertem — do design ao deploy, com excelência e comprometimento.</p>
+        <div class="footer-social">
+          <a href="#" class="soc-btn" title="Instagram">📸</a>
+          <a href="#" class="soc-btn" title="LinkedIn">💼</a>
+          <a href="https://wa.me/5542991250274" class="soc-btn" title="WhatsApp" target="_blank">💬</a>
+          <a href="#" class="soc-btn" title="Behance">🎨</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Serviços</h5>
+        <ul>
+          <li><a href="#services">Criação de sites</a></li>
+          <li><a href="#services">Redesign</a></li>
+          <li><a href="#services">E-commerce</a></li>
+          <li><a href="#services">Manutenção</a></li>
+          <li><a href="#services">SEO</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Empresa</h5>
+        <ul>
+          <li><a href="#why">Sobre nós</a></li>
+          <li><a href="#testimonials">Portfólio</a></li>
+          <li><a href="#testimonials">Depoimentos</a></li>
+          <li><a href="#contact">Contato</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Suporte</h5>
+        <ul>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#">Política de privacidade</a></li>
+          <li><a href="#">Termos de uso</a></li>
+          <li><a href="#contact">Área do cliente</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 KodaForge. Todos os direitos reservados.</p>
+      <p>Feito com ♥ para negócios que querem crescer</p>
+    </div>
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script>
+  /* Scroll reveal */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  /* FAQ toggle */
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  /* Billing toggle */
+  let isMonthly = false;
+  const toggle = document.getElementById('toggleSwitch');
+
+  function toggleBilling() {
+    isMonthly = !isMonthly;
+    toggle.classList.toggle('active', isMonthly);
+    document.querySelectorAll('.price-value').forEach(el => {
+      const raw = isMonthly ? el.dataset.monthly : el.dataset.oneoff;
+      el.textContent = Number(raw).toLocaleString('pt-BR');
+    });
+    ['period-1','period-2','period-3'].forEach(id => {
+      document.getElementById(id).textContent = isMonthly ? ' /mês' : ' único';
+    });
+  }
+
+  /* Form submit */
+  function handleForm(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = '✓ Mensagem enviada!';
+    btn.style.background = 'linear-gradient(135deg, #059669, #10b981)';
+    setTimeout(() => {
+      btn.textContent = 'Enviar mensagem →';
+      btn.style.background = '';
+      e.target.reset();
+    }, 3500);
+  }
+
+  /* Hamburger (mobile) */
+  function toggleMenu() {
+    const links = document.querySelector('.nav-links');
+    const cta = document.querySelector('.nav-cta');
+    if (links) {
+      const showing = links.style.display === 'flex';
+      links.style.display = showing ? 'none' : 'flex';
+      links.style.flexDirection = 'column';
+      links.style.position = 'absolute';
+      links.style.top = '68px';
+      links.style.left = '0';
+      links.style.right = '0';
+      links.style.background = 'rgba(6,6,26,.97)';
+      links.style.padding = '1.5rem 5vw';
+      links.style.borderBottom = '1px solid rgba(139,92,246,.18)';
+    }
+  }
+
+  /* Sticky nav tint */
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.background =
+      window.scrollY > 80 ? 'rgba(6,6,26,.95)' : 'rgba(6,6,26,.75)';
+  });
+
+  /* Animated counter on scroll */
+  const heroStats = document.querySelectorAll('.hero-stat strong');
+  const targets = ['120', '97', '48'];
+  const suffixes = ['+', '%', 'h'];
+  let counted = false;
+
+  const statsObserver = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !counted) {
+      counted = true;
+      heroStats.forEach((el, i) => {
+        const target = parseInt(targets[i]);
+        let current = 0;
+        const step = Math.ceil(target / 40);
+        const timer = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = current + suffixes[i];
+          if (current >= target) clearInterval(timer);
+        }, 35);
+      });
+    }
+  }, { threshold: 0.5 });
+
+  const heroSection = document.getElementById('hero');
+  if (heroSection) statsObserver.observe(heroSection);
+</script>
+</body>
+</html>
