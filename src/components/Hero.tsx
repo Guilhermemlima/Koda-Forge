@@ -1,17 +1,18 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import Link from 'next/link'
 
 const STATS = [
   { target: 120, suffix: '+', label: 'Projetos entregues' },
   { target: 97,  suffix: '%', label: 'Clientes satisfeitos' },
-  { target: 48,  suffix: 'h', label: 'Tempo médio de resposta' },
+  { target: 48,  suffix: 'h', label: 'Resposta média' },
 ]
 
 export default function Hero() {
   const [counts, setCounts] = useState(STATS.map(() => 0))
-  const heroRef = useRef<HTMLElement>(null)
-  const counted = useRef(false)
+  const heroRef  = useRef<HTMLElement>(null)
+  const counted  = useRef(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -20,14 +21,10 @@ export default function Hero() {
           counted.current = true
           STATS.forEach(({ target }, i) => {
             let current = 0
-            const step = Math.ceil(target / 40)
+            const step  = Math.ceil(target / 40)
             const timer = setInterval(() => {
               current = Math.min(current + step, target)
-              setCounts((prev) => {
-                const next = [...prev]
-                next[i] = current
-                return next
-              })
+              setCounts((prev) => { const n = [...prev]; n[i] = current; return n })
               if (current >= target) clearInterval(timer)
             }, 35)
           })
@@ -46,15 +43,14 @@ export default function Hero() {
       <div className="blob" />
       <div className="container">
         <div className="hero-grid">
-          {/* LEFT — copy */}
+
+          {/* ── LEFT — copy ── */}
           <div className="hero-content reveal">
-            <div className="hero-badge">
-              <span className="tag">
-                <svg viewBox="0 0 12 12" fill="currentColor">
-                  <circle cx="6" cy="6" r="6" />
-                </svg>
-                Mais de 120 projetos entregues
-              </span>
+
+            {/* Social proof bar */}
+            <div className="hero-social-proof">
+              <span className="hero-stars">★★★★★</span>
+              <span className="hero-rating-text">4.9 · <strong>120+ projetos</strong> entregues</span>
             </div>
 
             <h1 className="hero-title">
@@ -64,24 +60,31 @@ export default function Hero() {
 
             <p className="hero-desc">
               Criamos, redesenhamos e mantemos sites com foco em conversão,
-              desempenho e identidade visual. Seu negócio merece uma presença
-              digital à altura.
+              desempenho e identidade visual. Sem enrolação — do briefing ao ar
+              em tempo recorde.
             </p>
 
             <div className="hero-actions">
-              <a href="#pricing" className="btn-primary">
+              <Link href="/contato" className="btn-primary">
                 <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
                 </svg>
-                Ver planos
-              </a>
-              <a href="#services" className="btn-outline">
+                Quero meu site agora
+              </Link>
+              <Link href="/precos" className="btn-outline">
                 <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M12 8v4m0 4h.01" />
+                  <rect x="2" y="3" width="20" height="14" rx="2" />
+                  <path d="M8 21h8M12 17v4" />
                 </svg>
-                Como funciona
-              </a>
+                Ver planos e preços
+              </Link>
+            </div>
+
+            {/* Trust signals */}
+            <div className="hero-trust">
+              <span>✓ Orçamento gratuito</span>
+              <span>✓ Sem compromisso</span>
+              <span>✓ Resposta em até 24 h</span>
             </div>
 
             <div className="hero-stats">
@@ -94,7 +97,7 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* RIGHT — browser mock */}
+          {/* ── RIGHT — browser mock ── */}
           <div className="hero-visual reveal">
             <div className="floating-badge fb-1">
               <div className="fb-dot" />
@@ -124,8 +127,16 @@ export default function Hero() {
               </div>
             </div>
 
+            {/* Conversion badge */}
             <div className="floating-badge fb-2">
-              ⚡ Otimizado para SEO &amp; velocidade
+              ⚡ SEO + velocidade acima de 90
+            </div>
+
+            {/* Price anchor badge */}
+            <div className="hero-price-badge">
+              <div className="hpb-from">a partir de</div>
+              <div className="hpb-price">R$ 1.497</div>
+              <div className="hpb-sub">pagamento único</div>
             </div>
           </div>
         </div>

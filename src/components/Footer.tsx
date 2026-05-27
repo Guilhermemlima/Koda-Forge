@@ -1,23 +1,24 @@
+import Link from 'next/link'
+
 const LINKS = {
   Serviços: [
-    { href: '#services', label: 'Criação de sites' },
-    { href: '#services', label: 'Redesign' },
-    { href: '#services', label: 'E-commerce' },
-    { href: '#services', label: 'Manutenção' },
-    { href: '#services', label: 'SEO' },
+    { href: '/servicos', label: 'Criação de sites' },
+    { href: '/servicos', label: 'Redesign' },
+    { href: '/servicos', label: 'E-commerce' },
+    { href: '/servicos', label: 'Manutenção mensal' },
+    { href: '/precos',   label: 'Ver preços' },
   ],
   Empresa: [
-    { href: '#why',          label: 'Sobre nós' },
-    { href: '#testimonials', label: 'Portfólio' },
-    { href: '#testimonials', label: 'Depoimentos' },
-    { href: '#contact',      label: 'Contato' },
-    { href: '#',             label: 'Blog' },
+    { href: '/depoimentos', label: 'Depoimentos' },
+    { href: '/faq',         label: 'FAQ' },
+    { href: '/contato',     label: 'Contato' },
+    { href: '#',            label: 'Blog' },
   ],
   Suporte: [
-    { href: '#faq', label: 'FAQ' },
-    { href: '#',    label: 'Política de privacidade' },
-    { href: '#',    label: 'Termos de uso' },
-    { href: '#contact', label: 'Área do cliente' },
+    { href: '/faq',     label: 'Central de ajuda' },
+    { href: '/contato', label: 'Solicitar orçamento' },
+    { href: '#',        label: 'Política de privacidade' },
+    { href: '#',        label: 'Termos de uso' },
   ],
 }
 
@@ -26,12 +27,13 @@ export default function Footer() {
     <footer>
       <div className="container">
         <div className="footer-grid">
+
           {/* Brand */}
           <div className="footer-brand">
-            <a href="#" className="logo logo-footer">
+            <Link href="/" className="logo logo-footer">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/Logo.svg" alt="KodaForge" />
-            </a>
+            </Link>
             <p>
               Criamos sites que convertem — do design ao deploy,
               com excelência e comprometimento.
@@ -59,7 +61,7 @@ export default function Footer() {
               <ul>
                 {items.map((item) => (
                   <li key={item.label}>
-                    <a href={item.href}>{item.label}</a>
+                    <Link href={item.href}>{item.label}</Link>
                   </li>
                 ))}
               </ul>

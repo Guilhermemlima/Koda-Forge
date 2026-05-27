@@ -1,10 +1,20 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+const LINKS = [
+  { href: '/servicos',     label: 'Serviços'       },
+  { href: '/precos',       label: 'Preços'          },
+  { href: '/depoimentos',  label: 'Depoimentos'     },
+  { href: '/faq',          label: 'FAQ'             },
+]
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled,  setScrolled]  = useState(false)
+  const [menuOpen,  setMenuOpen]  = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80)
@@ -12,44 +22,41 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const links = [
-    { href: '#services', label: 'Serviços' },
-    { href: '#process', label: 'Como funciona' },
-    { href: '#pricing', label: 'Preços' },
-    { href: '#testimonials', label: 'Depoimentos' },
-    { href: '#faq', label: 'FAQ' },
-  ]
+  // close menu on route change
+  useEffect(() => { setMenuOpen(false) }, [pathname])
 
   return (
     <nav style={{ background: scrolled ? 'rgba(6,6,26,.95)' : 'rgba(6,6,26,.75)' }}>
       <div className="nav-inner">
-        <a href="#" className="logo">
+        <Link href="/" className="logo">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/Logo.svg" alt="KodaForge" />
-        </a>
+        </Link>
 
         <ul className={`nav-links${menuOpen ? ' open' : ''}`}>
-          {links.map((l) => (
+          {LINKS.map((l) => (
             <li key={l.href}>
-              <a href={l.href} onClick={() => setMenuOpen(false)}>
+              <Link
+                href={l.href}
+                onClick={() => setMenuOpen(false)}
+                className={pathname === l.href ? 'active' : ''}
+              >
                 {l.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
 
-        <a href="#contact" className="nav-cta" onClick={() => setMenuOpen(false)}>
+        <Link href="/contato" className="nav-cta" onClick={() => setMenuOpen(false)}>
           Solicitar orçamento
-        </a>
+        </Link>
 
         <div
           className="hamburger"
-          onClick={() => setMenuOpen((prev) => !prev)}
+          onClick={() => setMenuOpen((p) => !p)}
           aria-label="Menu"
         >
-          <span />
-          <span />
-          <span />
+          <span /><span /><span />
         </div>
       </div>
     </nav>

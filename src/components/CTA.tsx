@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function CTA() {
   return (
     <section id="cta">
@@ -10,12 +12,12 @@ export default function CTA() {
             orçamento sem compromisso em menos de 24 horas.
           </p>
           <div className="cta-actions">
-            <a href="#contact" className="btn-primary">
+            <Link href="/contato" className="btn-primary">
               <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
               </svg>
               Solicitar orçamento grátis
-            </a>
+            </Link>
             <a
               href="https://wa.me/5542991250274"
               className="btn-outline"
