@@ -381,6 +381,8 @@ nav {
 .pricing-grid {
   position: relative; z-index: 1;
   display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem;
+  align-items: start;
+  padding-top: 20px; /* space for .popular-tag at top: -14px */
 }
 .price-card {
   background: var(--card-bg); border: 1px solid var(--border);
@@ -394,6 +396,15 @@ nav {
   background: linear-gradient(160deg, rgba(109,40,217,.25) 0%, rgba(13,18,53,.7) 100%);
   transform: scale(1.03);
   box-shadow: 0 20px 60px rgba(109,40,217,.35);
+  z-index: 2; /* stay on top of adjacent cards when scaled */
+}
+/* Fix: reveal animation must preserve scale(1.03) for the popular card.
+   Higher specificity (4 classes) beats both .price-card.popular and .reveal.visible */
+.price-card.popular.reveal:not(.visible) {
+  transform: scale(1.03) translateY(30px);
+}
+.price-card.popular.reveal.visible {
+  transform: scale(1.03) translateY(0);
 }
 .popular-tag {
   position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
@@ -627,6 +638,8 @@ footer {
   .hero-visual { display: none; }
   .services-grid, .pricing-grid, .testimonials-grid { grid-template-columns: 1fr; }
   .price-card.popular { transform: scale(1); }
+  .price-card.popular.reveal:not(.visible) { transform: scale(1) translateY(30px); }
+  .price-card.popular.reveal.visible { transform: scale(1) translateY(0); }
   .process-steps { grid-template-columns: 1fr 1fr; }
   .mini-cards { grid-template-columns: 1fr 1fr; }
   .form-row { grid-template-columns: 1fr; }
