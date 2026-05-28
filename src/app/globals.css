@@ -212,23 +212,148 @@ nav {
    LOGOS STRIP
 ======================== */
 #logos {
-  padding: 40px 0;
+  padding: 40px 0 48px;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   background: rgba(13,18,53,.3);
 }
-.logos-label { text-align: center; color: var(--muted); font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 1.5rem; }
+.logos-label {
+  text-align: center; color: var(--muted);
+  font-size: .82rem; letter-spacing: .06em;
+  text-transform: uppercase; margin-bottom: .4rem;
+}
+.logos-hint {
+  text-align: center; color: rgba(148,163,184,.35);
+  font-size: .72rem; margin-bottom: 1.8rem;
+  font-style: italic;
+}
 .logos-track {
   display: flex; align-items: center; justify-content: center;
-  gap: 3rem; flex-wrap: wrap;
+  gap: 2.5rem; flex-wrap: wrap;
 }
+
+/* Each tech wrapper — relative so tooltip is anchored to it */
+.logo-item-wrap {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
 .logo-item {
   font-family: var(--font-space), 'Space Grotesk', sans-serif;
-  font-size: 1.1rem; font-weight: 700;
-  color: rgba(255,255,255,.15);
-  letter-spacing: .04em; transition: color var(--trans);
+  font-size: 1rem; font-weight: 700;
+  color: rgba(255,255,255,.18);
+  letter-spacing: .04em;
+  transition: color var(--trans), transform var(--trans);
+  display: flex; align-items: center; gap: .4rem;
+  padding: 6px 4px;
 }
-.logo-item:hover { color: rgba(168,85,247,.5); }
+.logo-item-icon { font-size: 1rem; opacity: .6; transition: opacity var(--trans); }
+
+.logo-item-wrap:hover .logo-item,
+.logo-item--active {
+  color: rgba(168,85,247,.85) !important;
+  transform: translateY(-2px);
+}
+.logo-item-wrap:hover .logo-item-icon,
+.logo-item-wrap--open .logo-item-icon { opacity: 1; }
+
+/* ── Tooltip ── */
+.tech-tooltip {
+  position: absolute;
+  bottom: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  background: #0d1235;
+  border: 1px solid rgba(168,85,247,.35);
+  border-radius: 14px;
+  padding: 1.25rem;
+  z-index: 200;
+  box-shadow: 0 20px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(168,85,247,.1);
+  animation: tt-in .18s ease;
+  pointer-events: none; /* only informational */
+}
+
+/* Arrow pointing down */
+.tt-arrow {
+  position: absolute;
+  bottom: -7px; left: 50%; transform: translateX(-50%) rotate(45deg);
+  width: 12px; height: 12px;
+  background: #0d1235;
+  border-right: 1px solid rgba(168,85,247,.35);
+  border-bottom: 1px solid rgba(168,85,247,.35);
+}
+
+@keyframes tt-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0);   }
+}
+
+.tt-header {
+  display: flex; align-items: center; gap: .75rem;
+  margin-bottom: .9rem;
+  padding-bottom: .9rem;
+  border-bottom: 1px solid rgba(139,92,246,.15);
+}
+.tt-icon {
+  font-size: 1.6rem;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(109,40,217,.2);
+  border: 1px solid rgba(168,85,247,.2);
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+.tt-name {
+  font-family: var(--font-space), 'Space Grotesk', sans-serif;
+  font-size: .95rem; font-weight: 700; color: var(--white);
+  margin-bottom: 2px;
+}
+.tt-category {
+  font-size: .72rem; font-weight: 600;
+  letter-spacing: .05em; text-transform: uppercase;
+}
+
+.tt-desc {
+  font-size: .82rem; color: var(--muted);
+  line-height: 1.7; margin-bottom: .9rem;
+}
+
+.tt-uses-label {
+  font-size: .72rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  color: rgba(168,85,247,.7); margin-bottom: .5rem;
+}
+.tt-uses ul {
+  list-style: none;
+  display: flex; flex-direction: column; gap: .3rem;
+}
+.tt-uses ul li {
+  font-size: .8rem; color: #cbd5e1;
+  display: flex; align-items: center; gap: .5rem;
+}
+.tt-uses ul li::before {
+  content: '';
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--plum); flex-shrink: 0;
+}
+
+/* On mobile: tooltip goes below the item to avoid going off-screen */
+@media (max-width: 640px) {
+  .tech-tooltip {
+    bottom: auto;
+    top: calc(100% + 14px);
+    width: 240px;
+  }
+  .tt-arrow {
+    bottom: auto;
+    top: -7px;
+    border-right: none; border-bottom: none;
+    border-left: 1px solid rgba(168,85,247,.35);
+    border-top: 1px solid rgba(168,85,247,.35);
+  }
+}
 
 /* ========================
    SERVICES
