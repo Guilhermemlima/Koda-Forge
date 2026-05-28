@@ -21,6 +21,7 @@ export default function Contact() {
     const form = e.currentTarget
     const data = {
       name:    (form.elements.namedItem('name')    as HTMLInputElement).value,
+      company: (form.elements.namedItem('company') as HTMLInputElement).value,
       email:   (form.elements.namedItem('email')   as HTMLInputElement).value,
       phone:   (form.elements.namedItem('phone')   as HTMLInputElement).value,
       service: (form.elements.namedItem('service') as HTMLSelectElement).value,
@@ -100,16 +101,23 @@ export default function Contact() {
                   <input name="name" type="text" id="name" placeholder="Seu nome" required />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="email">E-mail *</label>
-                  <input name="email" type="email" id="email" placeholder="seu@email.com" required />
+                  <label htmlFor="company">Nome da empresa</label>
+                  <input name="company" type="text" id="company" placeholder="Sua empresa (opcional)" />
                 </div>
               </div>
 
               <div className="form-row">
                 <div className="form-group">
+                  <label htmlFor="email">E-mail *</label>
+                  <input name="email" type="email" id="email" placeholder="seu@email.com" required />
+                </div>
+                <div className="form-group">
                   <label htmlFor="phone">WhatsApp</label>
                   <input name="phone" type="tel" id="phone" placeholder="(42) 99125-0274" />
                 </div>
+              </div>
+
+              <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="service">Serviço de interesse</label>
                   <select name="service" id="service">
@@ -121,18 +129,17 @@ export default function Contact() {
                     <option>Outro</option>
                   </select>
                 </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="budget">Orçamento aproximado</label>
-                <select name="budget" id="budget">
-                  <option value="">Selecione...</option>
-                  <option>Até R$ 1.500</option>
-                  <option>R$ 1.500 – R$ 3.000</option>
-                  <option>R$ 3.000 – R$ 6.000</option>
-                  <option>Acima de R$ 6.000</option>
-                  <option>Plano mensal</option>
-                </select>
+                <div className="form-group">
+                  <label htmlFor="budget">Orçamento aproximado</label>
+                  <select name="budget" id="budget">
+                    <option value="">Selecione...</option>
+                    <option>Até R$ 1.500</option>
+                    <option>R$ 1.500 – R$ 3.000</option>
+                    <option>R$ 3.000 – R$ 6.000</option>
+                    <option>Acima de R$ 6.000</option>
+                    <option>Plano mensal</option>
+                  </select>
+                </div>
               </div>
 
               <div className="form-group">

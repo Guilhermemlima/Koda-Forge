@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, phone, service, budget, message } = await req.json()
+    const { name, company, email, phone, service, budget, message } = await req.json()
 
     if (!name || !email || !message) {
       return NextResponse.json(
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     const sheetRes = await fetch(webhookUrl, {
       method:  'POST',
       headers: { 'Content-Type': 'text/plain' }, // Apps Script lê via e.postData.contents
-      body:    JSON.stringify({ name, email, phone, service, budget, message }),
+      body:    JSON.stringify({ name, company, email, phone, service, budget, message }),
       redirect: 'follow',
     })
 
