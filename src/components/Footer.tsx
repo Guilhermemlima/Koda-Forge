@@ -9,10 +9,10 @@ const LINKS = {
     { href: '/precos',   label: 'Ver preços' },
   ],
   Empresa: [
-    { href: '/depoimentos', label: 'Depoimentos' },
-    { href: '/faq',         label: 'FAQ' },
-    { href: '/contato',     label: 'Contato' },
-    { href: '#',            label: 'Blog' },
+    { href: '/comparativo', label: 'Comparativo'  },
+    { href: '/depoimentos', label: 'Depoimentos'  },
+    { href: '/faq',         label: 'FAQ'          },
+    { href: '/contato',     label: 'Contato'      },
   ],
   Suporte: [
     { href: '/faq',     label: 'Central de ajuda' },

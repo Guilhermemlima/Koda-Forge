@@ -798,3 +798,250 @@ nav a.active { color: var(--plum) !important; }
   .hero-price-badge   { display: none; }
   .page-hero          { padding: 100px 0 50px; }
 }
+
+/* ========================
+   COMPARISON PAGE
+======================== */
+
+/* Table section */
+.cmp-wrapper { width: 100%; }
+
+.cmp-table-section { padding: 100px 0 60px; }
+
+.cmp-scroll-hint {
+  display: none;
+  text-align: center;
+  font-size: .78rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+  opacity: .7;
+}
+
+.cmp-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+
+.cmp-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+  background: var(--card-bg);
+}
+
+/* Header row */
+.cmp-table thead tr {
+  background: rgba(13,18,53,.8);
+  border-bottom: 1px solid var(--border);
+}
+.cmp-th-criterion,
+.cmp-th {
+  padding: 1.2rem 1.5rem;
+  font-family: var(--font-space), 'Space Grotesk', sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+}
+.cmp-th-criterion { text-align: left; width: 34%; color: var(--white); }
+
+/* KodaForge column header — highlighted */
+.cmp-th-koda {
+  background: linear-gradient(160deg, rgba(109,40,217,.35) 0%, rgba(168,85,247,.15) 100%);
+  border-left: 1px solid rgba(168,85,247,.35);
+  border-right: 1px solid rgba(168,85,247,.35);
+  position: relative;
+}
+.cmp-koda-label {
+  display: block;
+  font-size: .95rem;
+  color: var(--white);
+  margin-bottom: .3rem;
+}
+.cmp-best-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--violet), var(--plum));
+  color: #fff;
+  font-size: .65rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 999px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+/* Body rows */
+.cmp-table tbody tr {
+  border-bottom: 1px solid rgba(139,92,246,.08);
+  transition: background var(--trans);
+}
+.cmp-table tbody tr:last-child { border-bottom: none; }
+.cmp-table tbody tr:hover { background: rgba(109,40,217,.06); }
+
+.cmp-row-highlight { background: rgba(109,40,217,.05); }
+.cmp-row-highlight:hover { background: rgba(109,40,217,.1) !important; }
+
+.cmp-td-criterion {
+  padding: 1.1rem 1.5rem;
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--white);
+}
+.cmp-td {
+  padding: 1.1rem 1.5rem;
+  text-align: center;
+  font-size: .88rem;
+  color: var(--muted);
+}
+.cmp-td-koda {
+  background: rgba(109,40,217,.07);
+  border-left: 1px solid rgba(168,85,247,.2);
+  border-right: 1px solid rgba(168,85,247,.2);
+  font-weight: 600;
+}
+
+/* Cell icons */
+.cmp-check  { color: #22c55e; font-size: 1.1rem; font-weight: 800; }
+.cmp-x      { color: rgba(148,163,184,.35); font-size: 1.1rem; font-weight: 800; }
+.cmp-partial { color: #f59e0b; font-size: 1.1rem; font-weight: 800; }
+.cmp-text   { color: var(--white); font-weight: 600; }
+.cmp-td-koda .cmp-text { color: var(--pink); }
+
+/* Legend */
+.cmp-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border);
+  background: rgba(13,18,53,.5);
+  font-size: .78rem;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+.cmp-legend span { display: flex; align-items: center; gap: .4rem; }
+
+/* Differentials section */
+.cmp-diffs-section {
+  padding: 80px 0;
+  background: rgba(13,18,53,.4);
+}
+.cmp-diffs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+.cmp-diff-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  backdrop-filter: blur(16px);
+  transition: transform var(--trans), border-color var(--trans);
+}
+.cmp-diff-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(168,85,247,.35);
+}
+.cmp-diff-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(109,40,217,.3), rgba(168,85,247,.2));
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+}
+.cmp-diff-card h3 {
+  font-family: var(--font-space), 'Space Grotesk', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: .75rem;
+}
+.cmp-diff-card p {
+  font-size: .88rem;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+/* Honest section */
+.cmp-honest-section { padding: 60px 0; }
+.cmp-honest-box {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  background: rgba(13,18,53,.6);
+  border: 1px solid rgba(245,158,11,.2);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  backdrop-filter: blur(16px);
+}
+.cmp-honest-icon {
+  font-size: 2.4rem;
+  flex-shrink: 0;
+  margin-top: .1rem;
+}
+.cmp-honest-box h3 {
+  font-family: var(--font-space), 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: .75rem;
+}
+.cmp-honest-box h3 em { color: #f59e0b; font-style: normal; }
+.cmp-honest-box p {
+  font-size: .9rem;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+/* CTA section */
+.cmp-cta-section {
+  padding: 80px 0 100px;
+  background: radial-gradient(ellipse 100% 80% at 50% 50%, rgba(109,40,217,.15) 0%, transparent 70%);
+}
+.cmp-cta-box {
+  background: var(--card-bg);
+  border: 1px solid rgba(168,85,247,.3);
+  border-radius: 24px;
+  padding: 4rem;
+  text-align: center;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 30px 80px rgba(0,0,0,.4), 0 0 0 1px rgba(168,85,247,.1);
+  position: relative;
+  overflow: hidden;
+}
+.cmp-cta-box::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(109,40,217,.12) 0%, rgba(168,85,247,.06) 50%, transparent 100%);
+}
+.cmp-cta-box > * { position: relative; z-index: 1; }
+.cmp-cta-box h2 {
+  font-family: var(--font-space), 'Space Grotesk', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 1rem;
+}
+.cmp-cta-box p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 500px;
+  margin: 0 auto 2.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cmp-scroll-hint  { display: block; }
+  .cmp-diffs-grid   { grid-template-columns: 1fr; }
+  .cmp-honest-box   { flex-direction: column; gap: 1rem; }
+  .cmp-cta-box      { padding: 2.5rem 1.5rem; }
+}
