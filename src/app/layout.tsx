@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   title: 'KodaForge — Sites que convertem',
   description:
     'Criamos, redesenhamos e mantemos sites com foco em conversão, desempenho e identidade visual. Seu negócio merece uma presença digital à altura.',
-  icons: { icon: '/Logo.svg' },
+  icons: { icon: '/favicon.svg' },
 }
 
 export default function RootLayout({

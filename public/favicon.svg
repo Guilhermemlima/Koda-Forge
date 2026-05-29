@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Fundo roxo arredondado -->
+  <rect width="64" height="64" rx="14" fill="#6d28d9"/>
+  <!-- Letra K em branco -->
+  <text
+    x="10"
+    y="50"
+    font-family="'Space Grotesk', 'Arial Black', sans-serif"
+    font-size="52"
+    font-weight="900"
+    fill="#ffffff"
+  >K</text>
+</svg>
