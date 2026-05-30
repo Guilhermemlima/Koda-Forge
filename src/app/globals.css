@@ -734,13 +734,18 @@ footer {
 .footer-brand p { color: var(--muted); font-size: .88rem; margin-top: 1rem; max-width: 280px; line-height: 1.7; }
 .footer-social { display: flex; gap: .75rem; margin-top: 1.5rem; }
 .soc-btn {
-  width: 36px; height: 36px; border-radius: 8px;
+  width: 38px; height: 38px; border-radius: 10px;
   background: rgba(255,255,255,.06); border: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
-  font-size: .85rem; text-decoration: none;
-  transition: background var(--trans), border-color var(--trans);
+  text-decoration: none; color: rgba(148,163,184,.7);
+  transition: background var(--trans), border-color var(--trans), color var(--trans), transform var(--trans);
 }
-.soc-btn:hover { background: rgba(168,85,247,.2); border-color: rgba(168,85,247,.4); }
+.soc-btn:hover {
+  background: rgba(168,85,247,.2);
+  border-color: rgba(168,85,247,.5);
+  color: rgba(168,85,247,1);
+  transform: translateY(-2px);
+}
 .footer-col h5 {
   font-family: var(--font-space), 'Space Grotesk', sans-serif;
   font-size: .88rem; font-weight: 700; color: var(--white); margin-bottom: 1.2rem;

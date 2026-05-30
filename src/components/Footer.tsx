@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Instagram, Linkedin, MessageCircle, Dribbble } from 'lucide-react'
 
 const LINKS = {
   Serviços: [
@@ -38,8 +39,18 @@ export default function Footer() {
               com excelência e comprometimento.
             </p>
             <div className="footer-social">
-              <a href="#" className="soc-btn" title="Instagram">📸</a>
-              <a href="#" className="soc-btn" title="LinkedIn">💼</a>
+              <a
+                href="https://www.instagram.com/kodaforge/"
+                className="soc-btn"
+                title="Instagram"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Instagram size={18} strokeWidth={1.75} />
+              </a>
+              <a href="#" className="soc-btn" title="LinkedIn">
+                <Linkedin size={18} strokeWidth={1.75} />
+              </a>
               <a
                 href="https://wa.me/5542991250274"
                 className="soc-btn"
@@ -47,9 +58,11 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                💬
+                <MessageCircle size={18} strokeWidth={1.75} />
               </a>
-              <a href="#" className="soc-btn" title="Behance">🎨</a>
+              <a href="#" className="soc-btn" title="Behance">
+                <Dribbble size={18} strokeWidth={1.75} />
+              </a>
             </div>
           </div>
 
