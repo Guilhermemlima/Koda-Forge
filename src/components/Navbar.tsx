@@ -29,9 +29,8 @@ export default function Navbar() {
   return (
     <nav style={{ background: scrolled ? 'rgba(6,6,26,.95)' : 'rgba(6,6,26,.75)' }}>
       <div className="nav-inner">
-        <Link href="/" className="logo">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/Logo.svg" alt="KodaForge" />
+        <Link href="/" className="logo logo-text">
+          <span className="logo-koda">Koda</span><span className="logo-forge">Forge</span>
         </Link>
 
         <ul className={`nav-links${menuOpen ? ' open' : ''}`}>

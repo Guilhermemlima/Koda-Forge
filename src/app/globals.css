@@ -92,6 +92,34 @@ nav {
 }
 .logo:hover img { filter: drop-shadow(0 0 14px rgba(168,85,247,.8)); }
 .logo-footer img { height: 64px; }
+
+/* Logo texto */
+.logo-text {
+  line-height: 1;
+  font-family: var(--font-space), 'Space Grotesk', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  gap: 0;
+}
+.logo-koda {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(109,40,217,.5);
+  transition: color var(--trans), text-shadow var(--trans);
+}
+.logo-forge {
+  color: rgba(168,85,247,1);
+  text-shadow: 0 0 10px rgba(168,85,247,.5);
+  transition: color var(--trans), text-shadow var(--trans);
+}
+.logo-text:hover .logo-koda {
+  color: rgba(168,85,247,.9);
+  text-shadow: 0 0 18px rgba(168,85,247,.8);
+}
+.logo-text:hover .logo-forge {
+  color: #fff;
+  text-shadow: 0 0 18px rgba(255,255,255,.6);
+}
 .nav-links { display: flex; gap: 2rem; list-style: none; }
 .nav-links a {
   color: var(--muted); text-decoration: none; font-size: .9rem;
