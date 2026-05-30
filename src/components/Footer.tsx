@@ -30,9 +30,8 @@ export default function Footer() {
 
           {/* Brand */}
           <div className="footer-brand">
-            <Link href="/" className="logo logo-footer">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/Logo.svg" alt="KodaForge" />
+            <Link href="/" className="logo logo-text logo-footer">
+              <span className="logo-koda">Koda</span><span className="logo-forge">Forge</span>
             </Link>
             <p>
               Criamos sites que convertem — do design ao deploy,

@@ -91,7 +91,7 @@ nav {
   transition: filter var(--trans);
 }
 .logo:hover img { filter: drop-shadow(0 0 14px rgba(168,85,247,.8)); }
-.logo-footer img { height: 64px; }
+.logo-footer { font-size: 1.8rem; }
 
 /* Logo texto */
 .logo-text {
