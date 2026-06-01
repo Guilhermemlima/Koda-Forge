@@ -43,7 +43,7 @@ export default function BlogPage() {
         <div className="container">
           <div className="blog-grid">
             {POSTS.map((post) => (
-              <article key={post.slug} className="blog-card reveal">
+              <Link key={post.slug} href={`/blog/${post.slug}`} className="blog-card reveal" style={{ textDecoration: 'none' }}>
                 <div className="blog-cover" />
                 <div className="blog-info">
                   <div className="blog-meta">
@@ -57,7 +57,7 @@ export default function BlogPage() {
                     <span className="blog-read-link">Ler artigo →</span>
                   </div>
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
         </div>

@@ -924,6 +924,115 @@ footer {
 .indicacao-card p { color: var(--muted); font-size: .88rem; line-height: 1.6; }
 
 /* ========================
+   PORTFOLIO — view demo link
+======================== */
+.portfolio-view-demo {
+  display: inline-block; margin-top: .9rem;
+  font-size: .82rem; font-weight: 700; color: rgba(168,85,247,.9);
+  transition: color var(--trans);
+}
+.portfolio-card:hover .portfolio-view-demo { color: #fff; }
+
+/* ========================
+   BLOG POST PAGE
+======================== */
+.blog-post-page { padding: 4rem 0 5rem; }
+.blog-post-header { max-width: 760px; margin: 0 auto 3rem; }
+.blog-post-meta { display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.blog-post-header h1 {
+  font-size: clamp(1.8rem,4vw,2.6rem); font-weight: 800;
+  color: var(--white); line-height: 1.2; margin-bottom: 1.25rem;
+}
+.blog-post-lead {
+  font-size: 1.1rem; color: rgba(148,163,184,.85); line-height: 1.7; margin-bottom: 1.5rem;
+}
+.blog-post-author { display: flex; align-items: center; gap: .75rem; }
+.blog-post-cover {
+  max-width: 900px; margin: 0 auto 3rem;
+  height: 260px; border-radius: 16px;
+  background: linear-gradient(135deg,rgba(109,40,217,.25),rgba(168,85,247,.1));
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+}
+.blog-post-cover-inner { text-align: center; color: var(--white); }
+.blog-post-cover-inner span { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.blog-post-cover-inner h3 { font-size: 1.6rem; font-weight: 800; margin: .5rem 0 .25rem; }
+.blog-post-cover-inner p { color: var(--muted); font-size: .85rem; }
+.blog-post-content {
+  max-width: 760px; margin: 0 auto;
+  color: rgba(148,163,184,.9); line-height: 1.85; font-size: 1rem;
+}
+.blog-post-content h2 {
+  font-size: 1.5rem; font-weight: 800; color: var(--white);
+  margin: 2.5rem 0 1rem; line-height: 1.3;
+}
+.blog-post-content h3 {
+  font-size: 1.15rem; font-weight: 700; color: var(--white);
+  margin: 2rem 0 .75rem;
+}
+.blog-post-content p { margin-bottom: 1.25rem; }
+.blog-post-content ul { padding-left: 1.5rem; margin-bottom: 1.25rem; }
+.blog-post-content ul li { margin-bottom: .4rem; }
+.blog-post-content strong { color: var(--white); }
+.blog-post-content em { color: rgba(168,85,247,.9); font-style: normal; }
+
+/* Comparison table */
+.blog-comparison-table {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden; margin: 1.5rem 0 2rem; font-size: .88rem;
+}
+.bct-header, .bct-row {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: .75rem 1rem; gap: 1rem; align-items: center;
+}
+.bct-header { background: rgba(168,85,247,.1); font-weight: 700; color: var(--white); font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+.bct-row { border-top: 1px solid var(--border); }
+.bct-yes { color: #10b981; font-weight: 700; }
+.bct-no  { color: #ef4444; font-weight: 700; }
+.bct-mid { color: #f59e0b; font-weight: 700; }
+
+/* Tip boxes */
+.blog-tip {
+  background: rgba(168,85,247,.08); border-left: 3px solid rgba(168,85,247,.6);
+  padding: .9rem 1.2rem; border-radius: 0 8px 8px 0; margin: 1rem 0 1.75rem;
+  font-size: .9rem;
+}
+
+/* Signal cards */
+.blog-signal-card {
+  display: flex; align-items: center; gap: 1rem; margin: 2rem 0 1rem;
+}
+.blog-signal-number {
+  min-width: 42px; height: 42px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 1.1rem; color: #fff; flex-shrink: 0;
+}
+.blog-signal-card h2 { margin: 0; font-size: 1.25rem; }
+
+/* Score grid */
+.blog-score-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin: 1.5rem 0;
+}
+.blog-score-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 1.2rem; display: flex; flex-direction: column; gap: .4rem;
+}
+.blog-score-card strong { color: var(--white); font-size: .92rem; }
+.blog-score-card span { color: var(--muted); font-size: .8rem; line-height: 1.5; }
+
+/* CTA block inside post */
+.blog-post-cta {
+  background: linear-gradient(135deg,rgba(109,40,217,.2),rgba(168,85,247,.08));
+  border: 1px solid rgba(168,85,247,.3); border-radius: 14px;
+  padding: 2.5rem; text-align: center; margin: 3rem 0;
+}
+.blog-post-cta h3 { color: var(--white); font-size: 1.35rem; margin-bottom: .75rem; }
+.blog-post-cta p { color: var(--muted); margin-bottom: 1.5rem; }
+
+/* Back link */
+.blog-post-back { max-width: 760px; margin: 3rem auto 0; }
+
+/* ========================
    MOBILE MENU
 ======================== */
 @media (max-width: 768px) {

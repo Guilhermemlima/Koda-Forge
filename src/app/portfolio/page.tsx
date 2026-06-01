@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 
 const PROJECTS = [
   {
+    slug: 'clinica-bem-estar',
     name: 'Clínica Bem Estar',
     segment: 'Saúde',
     desc: 'Redesign completo com foco em agendamento online. Aumento de 3x nas consultas em 60 dias.',
@@ -20,6 +21,7 @@ const PROJECTS = [
     color: '#7c3aed',
   },
   {
+    slug: 'construtora-alves-lima',
     name: 'Construtora Alves Lima',
     segment: 'Construção Civil',
     desc: 'Site institucional com portfólio de obras, formulário de orçamento e integração com WhatsApp.',
@@ -28,6 +30,7 @@ const PROJECTS = [
     color: '#0891b2',
   },
   {
+    slug: 'escola-de-idiomas-prime',
     name: 'Escola de Idiomas Prime',
     segment: 'Educação',
     desc: 'Plataforma de captação de alunos com landing pages por curso, blog e chatbot de atendimento.',
@@ -51,7 +54,7 @@ export default function PortfolioPage() {
         <div className="container">
           <div className="portfolio-grid">
             {PROJECTS.map((p) => (
-              <div key={p.name} className="portfolio-card reveal">
+              <Link key={p.name} href={`/portfolio/${p.slug}`} className="portfolio-card reveal" style={{ textDecoration: 'none', display: 'block' }}>
                 <div className="portfolio-cover" style={{ background: `linear-gradient(135deg, ${p.color}33, ${p.color}11)` }}>
                   <div className="portfolio-mock">
                     <div className="portfolio-mock-bar">
@@ -76,8 +79,9 @@ export default function PortfolioPage() {
                       <span key={t} className="portfolio-tag">{t}</span>
                     ))}
                   </div>
+                  <span className="portfolio-view-demo">Ver demonstração →</span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
