@@ -12,7 +12,8 @@ const DETAILS = [
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
 export default function Contact() {
-  const [status, setStatus] = useState<Status>('idle')
+  const [status,  setStatus]  = useState<Status>('idle')
+  const [hasSite, setHasSite] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -25,7 +26,8 @@ export default function Contact() {
       email:     (form.elements.namedItem('email')     as HTMLInputElement).value,
       phone:     (form.elements.namedItem('phone')     as HTMLInputElement).value,
       segment:   (form.elements.namedItem('segment')   as HTMLSelectElement).value,
-      hassite:   (form.querySelector('input[name="hassite"]:checked') as HTMLInputElement)?.value ?? '',
+      hassite:   hasSite ? 'Sim' : 'Não',
+      siteurl:   hasSite ? (form.elements.namedItem('siteurl') as HTMLInputElement)?.value ?? '' : '',
       plan:      (form.elements.namedItem('plan')      as HTMLSelectElement).value,
       service:   (form.elements.namedItem('service')   as HTMLSelectElement).value,
       budget:    (form.elements.namedItem('budget')    as HTMLSelectElement).value,
@@ -145,15 +147,28 @@ export default function Contact() {
               </div>
 
               <div className="form-group">
-                <label>Já tem site?</label>
-                <div className="form-radio-group">
-                  <label className="form-radio-label">
-                    <input type="radio" name="hassite" value="Sim" /> Sim
-                  </label>
-                  <label className="form-radio-label">
-                    <input type="radio" name="hassite" value="Não" /> Não
-                  </label>
-                </div>
+                <label className="form-checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="hassite"
+                    checked={hasSite}
+                    onChange={e => setHasSite(e.target.checked)}
+                    className="form-checkbox"
+                  />
+                  <span className="form-checkbox-text">Já tenho um site</span>
+                </label>
+
+                {hasSite && (
+                  <div className="form-site-url reveal-field">
+                    <label htmlFor="siteurl">URL do seu site atual</label>
+                    <input
+                      name="siteurl"
+                      type="url"
+                      id="siteurl"
+                      placeholder="https://www.seusite.com.br"
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="form-row">
