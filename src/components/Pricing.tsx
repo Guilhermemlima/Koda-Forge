@@ -7,6 +7,7 @@ type Plan = {
   name: string
   monthly: string
   oneoff: string
+  installment: string
   desc: string
   features: Feature[]
   popular: boolean
@@ -19,6 +20,7 @@ const PLANS: Plan[] = [
     name: 'Starter',
     monthly: '997',
     oneoff: '1.497',
+    installment: '124,75',
     desc: 'Ideal para profissionais autônomos e pequenos negócios que querem uma presença online profissional.',
     features: [
       { ok: true,  text: 'Site institucional até 5 páginas' },
@@ -37,6 +39,7 @@ const PLANS: Plan[] = [
     name: 'Profissional',
     monthly: '1.997',
     oneoff: '2.997',
+    installment: '249,75',
     desc: 'Para empresas que querem um site robusto, com mais páginas, funcionalidades e geração de leads.',
     features: [
       { ok: true,  text: 'Site até 10 páginas + blog' },
@@ -55,6 +58,7 @@ const PLANS: Plan[] = [
     name: 'Enterprise',
     monthly: '3.997',
     oneoff: '5.997',
+    installment: '499,75',
     desc: 'Solução completa para e-commerce, portais ou projetos com necessidades avançadas e escalabilidade.',
     features: [
       { ok: true, text: 'Páginas ilimitadas' },
@@ -118,6 +122,9 @@ export default function Pricing() {
                 <span className="price-value">{isMonthly ? plan.monthly : plan.oneoff}</span>
                 <span className="price-period">&nbsp;{isMonthly ? '/mês' : 'único'}</span>
               </div>
+              {!isMonthly && (
+                <p className="price-installment">ou 12x de R$ {plan.installment} no cartão</p>
+              )}
               <p className="price-desc">{plan.desc}</p>
               <ul className="price-features">
                 {plan.features.map((f) => (

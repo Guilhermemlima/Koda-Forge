@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Instagram, Linkedin, MessageCircle, Dribbble } from 'lucide-react'
+import { Instagram, MessageCircle, Mail } from 'lucide-react'
 
 const LINKS = {
   Serviços: [
@@ -10,16 +10,18 @@ const LINKS = {
     { href: '/precos',   label: 'Ver preços' },
   ],
   Empresa: [
+    { href: '/portfolio',   label: 'Portfólio'    },
     { href: '/comparativo', label: 'Comparativo'  },
     { href: '/depoimentos', label: 'Depoimentos'  },
     { href: '/faq',         label: 'FAQ'          },
     { href: '/contato',     label: 'Contato'      },
   ],
   Suporte: [
-    { href: '/faq',     label: 'Central de ajuda' },
-    { href: '/contato', label: 'Solicitar orçamento' },
-    { href: '#',        label: 'Política de privacidade' },
-    { href: '#',        label: 'Termos de uso' },
+    { href: '/faq',        label: 'Central de ajuda' },
+    { href: '/contato',    label: 'Solicitar orçamento' },
+    { href: '/indicacao',  label: 'Indique e Ganhe' },
+    { href: '/blog',       label: 'Blog' },
+    { href: '#',           label: 'Política de privacidade' },
   ],
 }
 
@@ -48,9 +50,6 @@ export default function Footer() {
               >
                 <Instagram size={18} strokeWidth={1.75} />
               </a>
-              <a href="#" className="soc-btn" title="LinkedIn">
-                <Linkedin size={18} strokeWidth={1.75} />
-              </a>
               <a
                 href="https://wa.me/5542991250274"
                 className="soc-btn"
@@ -60,8 +59,12 @@ export default function Footer() {
               >
                 <MessageCircle size={18} strokeWidth={1.75} />
               </a>
-              <a href="#" className="soc-btn" title="Behance">
-                <Dribbble size={18} strokeWidth={1.75} />
+              <a
+                href="mailto:kodaforge2026@gmail.com"
+                className="soc-btn"
+                title="E-mail"
+              >
+                <Mail size={18} strokeWidth={1.75} />
               </a>
             </div>
           </div>

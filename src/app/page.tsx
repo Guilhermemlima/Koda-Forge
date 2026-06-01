@@ -3,6 +3,7 @@ import Link from 'next/link'
 import ClientLayout   from '@/components/ClientLayout'
 import Navbar         from '@/components/Navbar'
 import Hero           from '@/components/Hero'
+import LaunchBanner   from '@/components/LaunchBanner'
 import LogosStrip     from '@/components/LogosStrip'
 import CTA            from '@/components/CTA'
 import Footer         from '@/components/Footer'
@@ -71,6 +72,7 @@ export default function Home() {
     <ClientLayout>
       <Navbar />
       <Hero />
+      <LaunchBanner />
       <LogosStrip />
 
       {/* ── Serviços mini ── */}

@@ -5,8 +5,8 @@ import Link from 'next/link'
 
 const STATS = [
   { target: 120, suffix: '+', label: 'Projetos entregues' },
-  { target: 97,  suffix: '%', label: 'Clientes satisfeitos' },
-  { target: 48,  suffix: 'h', label: 'Resposta média' },
+  { target: 100, suffix: '%', label: 'Clientes satisfeitos' },
+  { target: 24,  suffix: 'h', label: 'Resposta média', prefix: '<' },
 ]
 
 export default function Hero() {
@@ -80,6 +80,11 @@ export default function Hero() {
               </Link>
             </div>
 
+            {/* Geo trust */}
+            <p className="hero-geo">
+              Agência de criação de sites em Guarapuava, PR — atendemos todo o Brasil.
+            </p>
+
             {/* Trust signals */}
             <div className="hero-trust">
               <span>✓ Orçamento gratuito</span>
@@ -88,9 +93,9 @@ export default function Hero() {
             </div>
 
             <div className="hero-stats">
-              {STATS.map(({ suffix, label }, i) => (
+              {STATS.map(({ suffix, label, prefix }, i) => (
                 <div className="hero-stat" key={label}>
-                  <strong>{counts[i]}{suffix}</strong>
+                  <strong>{prefix ?? ''}{counts[i]}{suffix}</strong>
                   <span>{label}</span>
                 </div>
               ))}

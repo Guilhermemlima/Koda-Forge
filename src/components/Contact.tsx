@@ -20,13 +20,16 @@ export default function Contact() {
 
     const form = e.currentTarget
     const data = {
-      name:    (form.elements.namedItem('name')    as HTMLInputElement).value,
-      company: (form.elements.namedItem('company') as HTMLInputElement).value,
-      email:   (form.elements.namedItem('email')   as HTMLInputElement).value,
-      phone:   (form.elements.namedItem('phone')   as HTMLInputElement).value,
-      service: (form.elements.namedItem('service') as HTMLSelectElement).value,
-      budget:  (form.elements.namedItem('budget')  as HTMLSelectElement).value,
-      message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
+      name:      (form.elements.namedItem('name')      as HTMLInputElement).value,
+      company:   (form.elements.namedItem('company')   as HTMLInputElement).value,
+      email:     (form.elements.namedItem('email')     as HTMLInputElement).value,
+      phone:     (form.elements.namedItem('phone')     as HTMLInputElement).value,
+      segment:   (form.elements.namedItem('segment')   as HTMLSelectElement).value,
+      hassite:   (form.querySelector('input[name="hassite"]:checked') as HTMLInputElement)?.value ?? '',
+      plan:      (form.elements.namedItem('plan')      as HTMLSelectElement).value,
+      service:   (form.elements.namedItem('service')   as HTMLSelectElement).value,
+      budget:    (form.elements.namedItem('budget')    as HTMLSelectElement).value,
+      message:   (form.elements.namedItem('message')  as HTMLTextAreaElement).value,
     }
 
     try {
@@ -114,6 +117,42 @@ export default function Contact() {
                 <div className="form-group">
                   <label htmlFor="phone">WhatsApp</label>
                   <input name="phone" type="tel" id="phone" placeholder="(42) 99125-0274" />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="segment">Segmento do negócio</label>
+                  <select name="segment" id="segment">
+                    <option value="">Selecione...</option>
+                    <option>Clínica / Saúde</option>
+                    <option>Comércio</option>
+                    <option>Serviços</option>
+                    <option>Educação</option>
+                    <option>Outro</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="plan">Plano de interesse</label>
+                  <select name="plan" id="plan">
+                    <option value="">Selecione...</option>
+                    <option>Starter</option>
+                    <option>Profissional</option>
+                    <option>Enterprise</option>
+                    <option>Não sei ainda</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>Já tem site?</label>
+                <div className="form-radio-group">
+                  <label className="form-radio-label">
+                    <input type="radio" name="hassite" value="Sim" /> Sim
+                  </label>
+                  <label className="form-radio-label">
+                    <input type="radio" name="hassite" value="Não" /> Não
+                  </label>
                 </div>
               </div>
 
