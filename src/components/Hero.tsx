@@ -64,7 +64,7 @@ export default function Hero() {
               em tempo recorde.
             </p>
 
-            <div className="hero-actions">
+            <div className="hero-actions" style={{ marginTop: '2.5rem' }}>
               <Link href="/contato" className="btn-primary">
                 <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
@@ -102,47 +102,99 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* ── RIGHT — browser mock ── */}
+          {/* ── RIGHT — code editor ── */}
           <div className="hero-visual reveal">
+
+            {/* Badge topo */}
             <div className="floating-badge fb-1">
               <div className="fb-dot" />
-              Projeto ao vivo
+              Deploy em produção
             </div>
 
-            <div className="browser-mock">
-              <div className="browser-bar">
+            {/* Editor de código */}
+            <div className="code-editor">
+              {/* Barra do editor */}
+              <div className="code-editor-bar">
                 <div className="browser-dots">
                   <span /><span /><span />
                 </div>
-                <div className="browser-url">seusite.com.br</div>
+                <div className="code-editor-tabs">
+                  <span className="code-tab active">index.tsx</span>
+                  <span className="code-tab">styles.css</span>
+                  <span className="code-tab">api.ts</span>
+                </div>
               </div>
-              <div className="browser-body">
-                <div className="mock-hero">
-                  <div className="mock-hero-text">
-                    <div className="mock-bar" />
-                    <div className="mock-bar short" />
+
+              {/* Corpo do código */}
+              <div className="code-body">
+                <div className="code-lines">
+                  {/* linha de números */}
+                  <div className="code-nums">
+                    {Array.from({ length: 16 }, (_, i) => (
+                      <span key={i}>{i + 1}</span>
+                    ))}
+                  </div>
+                  {/* código animado */}
+                  <div className="code-content">
+                    <div className="code-line"><span className="ck">import</span> <span className="cs">{'{'} Hero, SEO, Analytics {'}'}</span> <span className="ck">from</span> <span className="cstr">&apos;@kodaforge/core&apos;</span></div>
+                    <div className="code-line"> </div>
+                    <div className="code-line"><span className="ck">export default function</span> <span className="cfn">SeuSite</span><span className="cp">()</span> <span className="cp">{'{'}</span></div>
+                    <div className="code-line">  <span className="ck">return</span> <span className="cp">(</span></div>
+                    <div className="code-line">    <span className="ctag">&lt;main</span> <span className="cattr">className</span><span className="cp">=</span><span className="cstr">&quot;site&quot;</span><span className="ctag">&gt;</span></div>
+                    <div className="code-line">      <span className="ctag">&lt;Hero</span></div>
+                    <div className="code-line code-typed">        <span className="cattr">title</span><span className="cp">=</span><span className="cstr">&quot;Seu negócio no topo&quot;</span></div>
+                    <div className="code-line">        <span className="cattr">cta</span><span className="cp">=</span><span className="cstr">&quot;Solicitar orçamento&quot;</span></div>
+                    <div className="code-line">      <span className="ctag">/&gt;</span></div>
+                    <div className="code-line">      <span className="ctag">&lt;SEO</span> <span className="cattr">local</span><span className="cp">=</span><span className="cstr">&quot;Guarapuava&quot;</span> <span className="ctag">/&gt;</span></div>
+                    <div className="code-line">      <span className="ctag">&lt;Analytics</span> <span className="cattr">provider</span><span className="cp">=</span><span className="cstr">&quot;google&quot;</span> <span className="ctag">/&gt;</span></div>
+                    <div className="code-line">    <span className="ctag">&lt;/main&gt;</span></div>
+                    <div className="code-line">  <span className="cp">)</span></div>
+                    <div className="code-line"><span className="cp">{'}'}</span></div>
+                    <div className="code-line"> </div>
+                    <div className="code-line code-comment"><span className="cc">{'// ✓ Build concluído em 1.2s — Deploy ao vivo'}</span></div>
                   </div>
                 </div>
-                <div className="mock-cards">
-                  <div className="mock-card" />
-                  <div className="mock-card" />
-                  <div className="mock-card" />
+
+                {/* Status bar */}
+                <div className="code-statusbar">
+                  <span className="code-status-dot" />
+                  <span>TypeScript</span>
+                  <span className="code-status-sep">·</span>
+                  <span>Next.js 15</span>
+                  <span className="code-status-sep">·</span>
+                  <span style={{ color: '#10b981' }}>✓ Sem erros</span>
+                  <span className="code-status-right">PageSpeed: 98</span>
                 </div>
-                <div className="mock-btn" />
               </div>
             </div>
 
-            {/* Conversion badge */}
+            {/* Badge velocidade */}
             <div className="floating-badge fb-2">
-              ⚡ SEO + velocidade acima de 90
+              ⚡ PageSpeed 98 · SEO 100
             </div>
 
-            {/* Price anchor badge */}
-            <div className="hero-price-badge">
-              <div className="hpb-from">a partir de</div>
-              <div className="hpb-price">R$ 1.497</div>
-              <div className="hpb-sub">pagamento único</div>
+            {/* Metrics card */}
+            <div className="hero-metrics-card">
+              <div className="hmc-row">
+                <span className="hmc-dot green" />
+                <span className="hmc-label">Conversão</span>
+                <div className="hmc-bar"><div className="hmc-fill" style={{ width: '78%', background: '#10b981' }} /></div>
+                <span className="hmc-val">+78%</span>
+              </div>
+              <div className="hmc-row">
+                <span className="hmc-dot purple" />
+                <span className="hmc-label">Tráfego</span>
+                <div className="hmc-bar"><div className="hmc-fill" style={{ width: '92%', background: '#a855f7' }} /></div>
+                <span className="hmc-val">+92%</span>
+              </div>
+              <div className="hmc-row">
+                <span className="hmc-dot blue" />
+                <span className="hmc-label">Leads</span>
+                <div className="hmc-bar"><div className="hmc-fill" style={{ width: '65%', background: '#38bdf8' }} /></div>
+                <span className="hmc-val">+65%</span>
+              </div>
             </div>
+
           </div>
         </div>
       </div>
