@@ -3,6 +3,7 @@ import ClientLayout from '@/components/ClientLayout'
 import Navbar       from '@/components/Navbar'
 import PageHero     from '@/components/PageHero'
 import Pricing      from '@/components/Pricing'
+import Indicacao    from '@/components/Indicacao'
 import FAQ          from '@/components/FAQ'
 import CTA          from '@/components/CTA'
 import Footer       from '@/components/Footer'
@@ -23,6 +24,7 @@ export default function PrecosPage() {
         subtitle="Escolha o plano ideal para o momento do seu negócio. Sem taxas ocultas, sem surpresas."
       />
       <Pricing />
+      <Indicacao />
       <FAQ />
       <CTA />
       <Footer />
