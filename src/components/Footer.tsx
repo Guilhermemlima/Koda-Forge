@@ -1,5 +1,16 @@
 import Link from 'next/link'
-import { Instagram, MessageCircle, Mail } from 'lucide-react'
+import { MessageCircle, Mail } from 'lucide-react'
+
+// Instagram SVG (lucide-react v1 não inclui este ícone)
+function InstagramIcon({ size = 18 }: { size?: number }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+      <circle cx="12" cy="12" r="4"/>
+      <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+    </svg>
+  )
+}
 
 const LINKS = {
   Serviços: [
@@ -48,7 +59,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Instagram size={18} strokeWidth={1.75} />
+                <InstagramIcon size={18} />
               </a>
               <a
                 href="https://wa.me/5542991250274"
