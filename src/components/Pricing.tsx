@@ -158,7 +158,7 @@ export default function Pricing() {
           </h2>
         </div>
 
-        <div className="services-grid" style={{ gridTemplateColumns: 'repeat(3,1fr)' }}>
+        <div className="maintenance-grid">
           {MAINTENANCE.map((m) => (
             <div
               key={m.name}

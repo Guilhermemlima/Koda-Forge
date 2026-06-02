@@ -470,6 +470,11 @@ nav {
   position: relative; z-index: 1;
   display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem;
 }
+.maintenance-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
 .service-card {
   background: var(--card-bg); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 2rem;
@@ -1178,6 +1183,7 @@ footer {
 ======================== */
 @media (max-width: 1024px) {
   .services-grid { grid-template-columns: 1fr 1fr; }
+  .maintenance-grid { grid-template-columns: 1fr 1fr; }
   .process-steps { grid-template-columns: repeat(2,1fr); }
   .process-steps::before { display: none; }
 }
@@ -1186,7 +1192,7 @@ footer {
   .hamburger { display: flex; }
   .hero-grid, .why-grid, .contact-grid, .footer-grid { grid-template-columns: 1fr; }
   .hero-visual { display: none; }
-  .services-grid, .pricing-grid, .testimonials-grid { grid-template-columns: 1fr; }
+  .services-grid, .pricing-grid, .testimonials-grid, .maintenance-grid { grid-template-columns: 1fr; }
   .price-card.popular { transform: scale(1); }
   .price-card.popular.reveal:not(.visible) { transform: scale(1) translateY(30px); }
   .price-card.popular.reveal.visible { transform: scale(1) translateY(0); }
