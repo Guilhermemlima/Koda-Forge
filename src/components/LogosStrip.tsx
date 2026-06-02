@@ -67,6 +67,38 @@ const TECHS = [
     desc: 'Plataforma de hospedagem especializada em Next.js com deploy automático, CDN global e SSL gratuito.',
     uses: ['Hospedagem de sites Next.js', 'Deploy automático via GitHub', 'Performance global com CDN'],
   },
+  {
+    name: 'Hotmart',
+    icon: '🔥',
+    category: 'Plataforma de Infoprodutos',
+    color: '#ff4d00',
+    desc: 'Plataforma líder para venda de cursos online, e-books e assinaturas digitais, com checkout otimizado e área de membros.',
+    uses: ['Landing pages de cursos e infoprodutos', 'Integração com área de membros', 'Páginas de vendas otimizadas para conversão'],
+  },
+  {
+    name: 'Kiwify',
+    icon: '🥝',
+    category: 'Plataforma de Infoprodutos',
+    color: '#00c28e',
+    desc: 'Plataforma brasileira para venda de produtos digitais com checkout de alta conversão e integração nativa com ferramentas de marketing.',
+    uses: ['Páginas de vendas integradas', 'Funis de upsell e downsell', 'Integração com pixel e analytics'],
+  },
+  {
+    name: 'Cakto',
+    icon: '🎂',
+    category: 'Plataforma de Pagamentos',
+    color: '#6c47ff',
+    desc: 'Plataforma de checkout inteligente para produtos digitais e físicos com foco em recuperação de vendas e maximização de conversão.',
+    uses: ['Checkout de alta conversão', 'Recuperação de carrinho abandonado', 'Integração com sites e landing pages'],
+  },
+  {
+    name: 'Kirvano',
+    icon: '⚡',
+    category: 'Plataforma de Vendas Digitais',
+    color: '#f59e0b',
+    desc: 'Solução completa para criadores digitais com checkout, área de membros e funis de vendas integrados em uma única plataforma.',
+    uses: ['Sites de vendas para infoprodutores', 'Integração com área de membros', 'Funis de vendas automatizados'],
+  },
 ]
 
 type Tech = (typeof TECHS)[number]

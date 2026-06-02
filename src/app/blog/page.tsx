@@ -17,6 +17,8 @@ const POSTS = [
     date: '2 jun. 2026',
     readTime: '5 min de leitura',
     category: 'Estratégia Digital',
+    categoryColor: '#7c3aed',
+    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80&auto=format&fit=crop',
     excerpt: 'A presença digital já não é opcional — é o canal principal de captação de clientes. Saiba por que negócios locais que investem em sites profissionais saem na frente da concorrência.',
   },
   {
@@ -25,6 +27,8 @@ const POSTS = [
     date: '10 jun. 2026',
     readTime: '4 min de leitura',
     category: 'Conversão',
+    categoryColor: '#0891b2',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80&auto=format&fit=crop',
     excerpt: 'Lentidão, design desatualizado, falta de CTA e SEO mal configurado são os erros mais comuns. Veja como identificá-los e corrigi-los antes que custam mais vendas.',
   },
 ]
@@ -44,10 +48,20 @@ export default function BlogPage() {
           <div className="blog-grid">
             {POSTS.map((post) => (
               <Link key={post.slug} href={`/blog/${post.slug}`} className="blog-card reveal" style={{ textDecoration: 'none' }}>
-                <div className="blog-cover" />
+                <div
+                  className="blog-cover"
+                  style={{
+                    backgroundImage: `url(${post.image})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                  }}
+                >
+                  <span className="blog-cover-category" style={{ background: post.categoryColor }}>
+                    {post.category}
+                  </span>
+                </div>
                 <div className="blog-info">
                   <div className="blog-meta">
-                    <span className="blog-category">{post.category}</span>
                     <span className="blog-read-time">{post.readTime}</span>
                   </div>
                   <h2>{post.title}</h2>

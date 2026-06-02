@@ -19,6 +19,7 @@ const PROJECTS = [
     tags: ['Next.js', 'Tailwind', 'SEO'],
     label: 'Projeto Conceitual',
     color: '#7c3aed',
+    image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80&auto=format&fit=crop',
   },
   {
     slug: 'construtora-alves-lima',
@@ -28,6 +29,7 @@ const PROJECTS = [
     tags: ['React', 'Node.js', 'Google Maps'],
     label: 'Projeto Conceitual',
     color: '#0891b2',
+    image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80&auto=format&fit=crop',
   },
   {
     slug: 'escola-de-idiomas-prime',
@@ -37,6 +39,7 @@ const PROJECTS = [
     tags: ['Next.js', 'CMS', 'Analytics'],
     label: 'Projeto Conceitual',
     color: '#059669',
+    image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80&auto=format&fit=crop',
   },
 ]
 
@@ -55,8 +58,18 @@ export default function PortfolioPage() {
           <div className="portfolio-grid">
             {PROJECTS.map((p) => (
               <Link key={p.name} href={`/portfolio/${p.slug}`} className="portfolio-card reveal" style={{ textDecoration: 'none', display: 'block' }}>
-                <div className="portfolio-cover" style={{ background: `linear-gradient(135deg, ${p.color}33, ${p.color}11)` }}>
-                  <div className="portfolio-mock">
+                <div
+                  className="portfolio-cover"
+                  style={{
+                    backgroundImage: `url(${p.image})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    padding: 0,
+                  }}
+                >
+                  {/* overlay + browser mock flutuante */}
+                  <div className="portfolio-cover-overlay" style={{ borderColor: p.color }} />
+                  <div className="portfolio-mock portfolio-mock-float">
                     <div className="portfolio-mock-bar">
                       <span /><span /><span />
                     </div>
