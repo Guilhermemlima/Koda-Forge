@@ -19,9 +19,12 @@ export const metadata: Metadata = {
   description:
     'Agência de criação de sites em Guarapuava, PR. Criamos, redesenhamos e mantemos sites com foco em conversão, desempenho e identidade visual. Atendemos todo o Brasil.',
   icons: {
-    icon: '/favicon-logo.jpg',
-    apple: '/favicon-logo.jpg',
-    shortcut: '/favicon-logo.jpg',
+    icon: [
+      { url: '/favicon.ico',       sizes: '32x32', type: 'image/x-icon' },
+      { url: '/favicon-logo.png',  sizes: '48x48', type: 'image/png'    },
+    ],
+    apple:   '/favicon-logo.png',
+    shortcut: '/favicon.ico',
   },
   openGraph: {
     title: 'KodaForge — Sites que convertem',
