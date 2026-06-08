@@ -5,8 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>KodaForge — Sites que convertem</title>
   <link rel="icon" type="image/png" href="Logo.png.png" />
+  <!-- Preconnects para Google Fonts (elimina render-blocking) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+  <!-- Carregamento não-bloqueante das fontes -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" /></noscript>
   <style>
     /* ========================
        RESET & BASE
@@ -116,8 +123,23 @@
       text-decoration: none;
     }
     .nav-cta:hover { opacity: .88; transform: translateY(-1px); }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
-    .hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: var(--trans); }
+    .hamburger {
+      display: none; flex-direction: column; justify-content: center;
+      gap: 5px; cursor: pointer;
+      width: 44px; height: 44px; /* touch target mínimo */
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .hamburger span {
+      width: 24px; height: 2px;
+      background: var(--white); border-radius: 2px;
+      transition: transform .3s ease, opacity .3s ease;
+      display: block;
+    }
+    /* Animação X quando menu aberto */
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
     /* ========================
        HERO
@@ -567,6 +589,50 @@
     .footer-bottom p { font-size: .8rem; color: var(--muted); }
 
     /* ========================
+       MOBILE NAV OVERLAY
+    ======================== */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 68px; left: 0; right: 0;
+      background: rgba(6,6,26,.98);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+      padding: 1.5rem 5vw 2rem;
+      z-index: 999;
+      flex-direction: column;
+      gap: .25rem;
+      transform: translateY(-8px);
+      opacity: 0;
+      transition: transform .25s ease, opacity .25s ease;
+    }
+    .mobile-menu.open {
+      display: flex;
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .mobile-menu a {
+      color: var(--muted); text-decoration: none;
+      font-size: 1rem; font-weight: 500;
+      padding: 13px 0;
+      border-bottom: 1px solid rgba(139,92,246,.1);
+      transition: color var(--trans);
+      display: block;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--white); }
+    .mobile-menu .mobile-cta {
+      margin-top: 1.25rem;
+      background: linear-gradient(135deg, var(--violet), var(--purple));
+      color: var(--white) !important;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: 600 !important;
+      padding: 14px !important;
+      border-bottom: none !important;
+    }
+
+    /* ========================
        SCROLL-REVEAL
     ======================== */
     .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
@@ -583,20 +649,75 @@
     @media (max-width: 768px) {
       .nav-links, .nav-cta { display: none; }
       .hamburger { display: flex; }
-      .hero-grid, .why-grid, .contact-grid, .footer-grid { grid-template-columns: 1fr; }
+
+      /* Seções com menos padding vertical no mobile */
+      #services, #process, #why, #pricing,
+      #testimonials, #faq, #cta, #contact { padding: 70px 0; }
+
+      .hero-grid, .why-grid, .contact-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
       .hero-visual { display: none; }
       .services-grid, .pricing-grid, .testimonials-grid { grid-template-columns: 1fr; }
       .price-card.popular { transform: scale(1); }
       .process-steps { grid-template-columns: 1fr 1fr; }
       .mini-cards { grid-template-columns: 1fr 1fr; }
       .form-row { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
       .cta-box { padding: 2.5rem 1.5rem; }
+
+      /* Botões com melhor touch target no mobile */
+      .btn-primary, .btn-outline, .btn-plan {
+        padding: 15px 24px;
+        min-height: 48px;
+      }
+      input, select, textarea { padding: 13px 14px; font-size: 1rem; }
+
+      /* Corrige label de métricas que cortava em telas menores */
+      .metric-label { width: 110px; font-size: .8rem; }
+      .metric-val { font-size: .8rem; }
+
+      /* Why-grid: visual embaixo */
+      .why-grid { gap: 2.5rem; }
+      .why-visual { order: 2; }
+      .why-content { order: 1; }
+
+      /* Hero stats mais compacto */
+      .hero-stats { gap: 1.5rem; }
+      .hero-stat strong { font-size: 1.5rem; }
+
+      /* Pricing toggle mais compacto */
+      .pricing-toggle { gap: .75rem; }
+
+      /* Seção de manutenção mensal fica 1 col */
+      .services-grid[style] { grid-template-columns: 1fr !important; }
     }
+
     @media (max-width: 480px) {
       .process-steps { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr; }
       .hero-stats { flex-wrap: wrap; gap: 1rem; }
+
+      /* Padding hero menor */
+      #hero { padding: 90px 0 50px; }
+
+      /* CTA actions em coluna */
+      .cta-actions { flex-direction: column; align-items: stretch; }
+      .cta-actions a { text-align: center; justify-content: center; }
+
+      /* Hero actions em coluna */
+      .hero-actions { flex-direction: column; }
+      .hero-actions a { text-align: center; justify-content: center; }
+
+      /* Métricas em coluna */
+      .metric-label { width: 100px; }
+
+      /* Contact grid 1 col */
+      .contact-grid { gap: 2.5rem; }
+
+      /* Footer bottom em coluna */
+      .footer-bottom { flex-direction: column; text-align: center; gap: .5rem; }
+
+      /* Mini cards menores */
+      .mini-card strong { font-size: 1.3rem; }
     }
   </style>
 </head>
@@ -616,11 +737,21 @@
       <li><a href="#faq">FAQ</a></li>
     </ul>
     <a href="#contact" class="nav-cta">Solicitar orçamento</a>
-    <div class="hamburger" onclick="toggleMenu()">
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Abrir menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </div>
   </div>
 </nav>
+
+<!-- MENU MOBILE OVERLAY -->
+<div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Menu mobile">
+  <a href="#services" onclick="closeMenu()">Serviços</a>
+  <a href="#process" onclick="closeMenu()">Como funciona</a>
+  <a href="#pricing" onclick="closeMenu()">Preços</a>
+  <a href="#testimonials" onclick="closeMenu()">Depoimentos</a>
+  <a href="#faq" onclick="closeMenu()">FAQ</a>
+  <a href="#contact" class="mobile-cta" onclick="closeMenu()">Solicitar orçamento</a>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -1294,6 +1425,9 @@
 </footer>
 
 <!-- SCRIPTS -->
+<script defer>
+// Inline scripts não suportam defer nativamente, mas o posicionamento no fim
+// do body já garante execução após o HTML. Mantido aqui para compatibilidade.</script>
 <script>
   /* Scroll reveal */
   const observer = new IntersectionObserver((entries) => {
@@ -1340,21 +1474,34 @@
 
   /* Hamburger (mobile) */
   function toggleMenu() {
-    const links = document.querySelector('.nav-links');
-    const cta = document.querySelector('.nav-cta');
-    if (links) {
-      const showing = links.style.display === 'flex';
-      links.style.display = showing ? 'none' : 'flex';
-      links.style.flexDirection = 'column';
-      links.style.position = 'absolute';
-      links.style.top = '68px';
-      links.style.left = '0';
-      links.style.right = '0';
-      links.style.background = 'rgba(6,6,26,.97)';
-      links.style.padding = '1.5rem 5vw';
-      links.style.borderBottom = '1px solid rgba(139,92,246,.18)';
+    const menu = document.getElementById('mobileMenu');
+    const hamburger = document.getElementById('hamburger');
+    const isOpen = menu.classList.contains('open');
+    if (isOpen) {
+      menu.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    } else {
+      menu.classList.add('open');
+      hamburger.classList.add('open');
+      hamburger.setAttribute('aria-expanded', 'true');
     }
   }
+  function closeMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const hamburger = document.getElementById('hamburger');
+    menu.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
+  /* Fechar menu ao clicar fora */
+  document.addEventListener('click', (e) => {
+    const menu = document.getElementById('mobileMenu');
+    const hamburger = document.getElementById('hamburger');
+    if (menu.classList.contains('open') && !menu.contains(e.target) && !hamburger.contains(e.target)) {
+      closeMenu();
+    }
+  });
 
   /* Sticky nav tint */
   window.addEventListener('scroll', () => {
