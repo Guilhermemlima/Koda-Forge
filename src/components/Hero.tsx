@@ -141,8 +141,14 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* ══ RIGHT — code editor ══════════════════════════ */}
+          {/* ══ RIGHT — code editor + badges + metrics ═══════ */}
           <div className="hero-visual">
+
+            <div className="floating-badge fb-1">
+              <div className="fb-dot" />
+              Forjando seu site
+            </div>
+
             <div className="code-editor-window">
               <div className="ced-titlebar">
                 <span className="ced-dot red"   />
@@ -176,6 +182,37 @@ export default function Hero() {
                 <span className="ced-status-right">KodaForge v2.0</span>
               </div>
             </div>
+            <div className="floating-badge fb-2">
+              ⚡ PageSpeed 98 · SEO 100
+            </div>
+
+            <div className="hero-metrics-card">
+              <div className="hmc-row">
+                <span className="hmc-dot green" />
+                <span className="hmc-label">Conversão</span>
+                <div className="hmc-bar">
+                  <div className="hmc-fill" style={{ width: '78%', background: '#10b981' }} />
+                </div>
+                <span className="hmc-val">+78%</span>
+              </div>
+              <div className="hmc-row">
+                <span className="hmc-dot purple" />
+                <span className="hmc-label">Tráfego</span>
+                <div className="hmc-bar">
+                  <div className="hmc-fill" style={{ width: '92%', background: '#a855f7' }} />
+                </div>
+                <span className="hmc-val">+92%</span>
+              </div>
+              <div className="hmc-row">
+                <span className="hmc-dot blue" />
+                <span className="hmc-label">Leads</span>
+                <div className="hmc-bar">
+                  <div className="hmc-fill" style={{ width: '65%', background: '#38bdf8' }} />
+                </div>
+                <span className="hmc-val">+65%</span>
+              </div>
+            </div>
+
           </div>
 
         </div>
