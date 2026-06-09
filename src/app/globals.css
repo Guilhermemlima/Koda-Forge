@@ -1050,6 +1050,8 @@ nav {
 }
 .c-text strong { display: block; font-size: .88rem; color: var(--white); font-weight: 600; }
 .c-text span { font-size: .82rem; color: var(--muted); }
+.c-link { font-size: .82rem; color: var(--plum); text-decoration: none; transition: color var(--trans); }
+.c-link:hover { color: var(--white); text-decoration: underline; }
 .contact-form {
   background: var(--card-bg); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 2.5rem;

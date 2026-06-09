@@ -3,10 +3,10 @@
 import { useState } from 'react'
 
 const DETAILS = [
-  { icon: '📧', label: 'E-mail',                 value: 'kodaforge2026@gmail.com' },
-  { icon: '💬', label: 'WhatsApp',               value: '(42) 99125-0274' },
-  { icon: '🕐', label: 'Horário de atendimento', value: 'Seg–Sex, 9h às 18h' },
-  { icon: '⚡', label: 'Resposta em',            value: 'Até 24 horas úteis' },
+  { icon: '📧', label: 'E-mail',                 value: 'kodaforge2026@gmail.com', href: 'mailto:kodaforge2026@gmail.com' },
+  { icon: '💬', label: 'WhatsApp',               value: '(42) 99125-0274',         href: 'https://wa.me/5542991250274' },
+  { icon: '🕐', label: 'Horário de atendimento', value: 'Seg–Sex, 9h às 18h',      href: null },
+  { icon: '⚡', label: 'Resposta em',            value: 'Até 24 horas úteis',      href: null },
 ]
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
@@ -89,7 +89,10 @@ export default function Contact() {
                   <div className="c-icon">{d.icon}</div>
                   <div className="c-text">
                     <strong>{d.label}</strong>
-                    <span>{d.value}</span>
+                    {d.href
+                      ? <a href={d.href} target={d.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="c-link">{d.value}</a>
+                      : <span>{d.value}</span>
+                    }
                   </div>
                 </div>
               ))}
