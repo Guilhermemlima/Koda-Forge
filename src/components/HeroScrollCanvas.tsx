@@ -33,7 +33,7 @@ export default function HeroScrollCanvas() {
 
     /* ── resize canvas to viewport ── */
     function resize() {
-      if (!canvas) return
+      if (!canvas || !ctx) return
       canvas.width  = window.innerWidth
       canvas.height = window.innerHeight
       ctx.imageSmoothingEnabled = true
