@@ -11,17 +11,30 @@
   <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
   <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
   <!-- Carregamento não-bloqueante das fontes -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" /></noscript>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" /></noscript>
   <style>
     /* ========================
        RESET & BASE
     ======================== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overscroll-behavior-y: none; }
+    /* Touch targets mínimos — recomendação UX Pro Max */
+    a, button, [role="button"] { touch-action: manipulation; }
+    /* Focus ring visível para acessibilidade WCAG AA */
+    :focus-visible {
+      outline: 3px solid rgba(168,85,247,.7);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+    /* Respeita preferência por movimento reduzido */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      html { scroll-behavior: auto; }
+    }
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       background: #06061a;
       color: #e2e8f0;
       overflow-x: hidden;
@@ -46,6 +59,8 @@
       --card-bg: rgba(13,18,53,.6);
       --glow-1:  rgba(109,40,217,.35);
       --glow-2:  rgba(168,85,247,.2);
+      --orange:  #EA580C;
+      --orange-lt: rgba(234,88,12,.15);
       --radius:  16px;
       --trans:   .25s ease;
     }
@@ -238,26 +253,47 @@
     .fb-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; }
 
     /* ========================
-       LOGOS STRIP
+       LOGOS STRIP — carousel animado
     ======================== */
     #logos {
       padding: 40px 0;
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
       background: rgba(13,18,53,.3);
+      overflow: hidden;
     }
     .logos-label { text-align: center; color: var(--muted); font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .logos-overflow { overflow: hidden; position: relative; }
+    /* Fade nas bordas */
+    .logos-overflow::before,
+    .logos-overflow::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none;
+    }
+    .logos-overflow::before { left: 0; background: linear-gradient(to right, rgba(13,18,53,.9), transparent); }
+    .logos-overflow::after  { right: 0; background: linear-gradient(to left, rgba(13,18,53,.9), transparent); }
     .logos-track {
-      display: flex; align-items: center; justify-content: center;
-      gap: 3rem; flex-wrap: wrap;
+      display: flex; align-items: center;
+      gap: 3.5rem; width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+    .logos-track:hover { animation-play-state: paused; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
     .logo-item {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.1rem; font-weight: 700;
-      color: rgba(255,255,255,.15);
-      letter-spacing: .04em; transition: color var(--trans);
+      font-size: 1rem; font-weight: 700;
+      color: rgba(255,255,255,.18);
+      letter-spacing: .06em;
+      white-space: nowrap;
+      transition: color .3s ease, text-shadow .3s ease;
+      cursor: default;
     }
-    .logo-item:hover { color: rgba(168,85,247,.5); }
+    .logo-item:hover {
+      color: var(--plum);
+      text-shadow: 0 0 16px rgba(168,85,247,.5);
+    }
 
     /* ========================
        SERVICES
@@ -302,6 +338,87 @@
       background: linear-gradient(135deg, var(--violet), var(--plum));
       color: white; font-size: .7rem; font-weight: 700;
       padding: 3px 10px; border-radius: 999px; letter-spacing: .04em;
+    }
+
+    /* ========================
+       BENTO GRID (serviços)
+    ======================== */
+    .bento-grid {
+      position: relative; z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto;
+      gap: 1.25rem;
+    }
+    .bento-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 20px; padding: 2rem;
+      backdrop-filter: blur(16px);
+      transition: transform var(--trans), border-color var(--trans), box-shadow var(--trans);
+      position: relative; overflow: hidden;
+    }
+    .bento-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(109,40,217,.08) 0%, transparent 60%);
+      opacity: 0; transition: opacity var(--trans);
+    }
+    .bento-card:hover { transform: translateY(-5px); border-color: rgba(168,85,247,.35); box-shadow: 0 20px 50px rgba(109,40,217,.2); }
+    .bento-card:hover::before { opacity: 1; }
+    /* Card grande — destaque principal */
+    .bento-card.bento-wide {
+      grid-column: span 2;
+      background: linear-gradient(135deg, rgba(109,40,217,.22) 0%, rgba(13,18,53,.8) 100%);
+      border-color: rgba(168,85,247,.4);
+    }
+    /* Card alto — lateral */
+    .bento-card.bento-tall {
+      grid-row: span 2;
+      background: linear-gradient(180deg, rgba(234,88,12,.12) 0%, rgba(13,18,53,.7) 100%);
+      border-color: rgba(234,88,12,.25);
+    }
+    /* Card de stat */
+    .bento-card.bento-stat {
+      text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: rgba(255,255,255,.03);
+      min-height: 120px;
+    }
+    .bento-stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--white); line-height: 1; }
+    .bento-stat-label { font-size: .8rem; color: var(--muted); margin-top: .4rem; }
+    .bento-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--indigo), var(--violet));
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.2rem; font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .bento-icon.orange { background: linear-gradient(135deg, #c2410c, var(--orange)); }
+    .bento-card h3 {
+      font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700;
+      color: var(--white); margin-bottom: .6rem;
+    }
+    .bento-card p { color: var(--muted); font-size: .9rem; line-height: 1.7; }
+    .bento-list { list-style: none; display: flex; flex-direction: column; gap: .5rem; margin-top: 1rem; }
+    .bento-list li { font-size: .85rem; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+    .bento-list li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--plum); flex-shrink: 0; }
+    .bento-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, var(--violet), var(--plum));
+      color: white; font-size: .7rem; font-weight: 700;
+      padding: 3px 12px; border-radius: 999px; letter-spacing: .04em;
+      margin-bottom: 1rem;
+    }
+    .bento-badge.orange-badge {
+      background: linear-gradient(135deg, #c2410c, var(--orange));
+    }
+    /* Responsive bento */
+    @media (max-width: 900px) {
+      .bento-grid { grid-template-columns: 1fr 1fr; }
+      .bento-card.bento-wide { grid-column: span 2; }
+      .bento-card.bento-tall { grid-row: span 1; }
+    }
+    @media (max-width: 600px) {
+      .bento-grid { grid-template-columns: 1fr; }
+      .bento-card.bento-wide, .bento-card.bento-tall { grid-column: span 1; grid-row: span 1; }
     }
 
     /* ========================
@@ -544,7 +661,7 @@
       width: 100%; background: rgba(255,255,255,.05);
       border: 1px solid var(--border); border-radius: 10px;
       padding: 11px 14px; color: var(--white);
-      font-family: 'Inter', sans-serif; font-size: .9rem;
+      font-family: 'DM Sans', sans-serif; font-size: .9rem;
       transition: border-color var(--trans), background var(--trans);
       outline: none; appearance: none;
     }
@@ -630,6 +747,82 @@
       font-weight: 600 !important;
       padding: 14px !important;
       border-bottom: none !important;
+    }
+
+    /* ========================
+       FLOATING WHATSAPP CTA
+    ======================== */
+    .fab-whatsapp {
+      position: fixed; bottom: 24px; right: 24px; z-index: 1100;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: 1.6rem;
+      box-shadow: 0 6px 24px rgba(34,197,94,.45);
+      transition: transform var(--trans), box-shadow var(--trans);
+      animation: fab-pulse 2.5s ease-in-out infinite;
+    }
+    .fab-whatsapp:hover {
+      transform: scale(1.1);
+      box-shadow: 0 10px 32px rgba(34,197,94,.65);
+      animation: none;
+    }
+    @keyframes fab-pulse {
+      0%, 100% { box-shadow: 0 6px 24px rgba(34,197,94,.45); }
+      50% { box-shadow: 0 6px 32px rgba(34,197,94,.75), 0 0 0 8px rgba(34,197,94,.12); }
+    }
+    .fab-tooltip {
+      position: absolute; right: 68px; top: 50%; transform: translateY(-50%);
+      background: rgba(6,6,26,.95); color: var(--white);
+      font-size: .8rem; font-weight: 600;
+      padding: 6px 14px; border-radius: 8px; white-space: nowrap;
+      border: 1px solid var(--border);
+      opacity: 0; pointer-events: none;
+      transition: opacity var(--trans);
+    }
+    .fab-whatsapp:hover .fab-tooltip { opacity: 1; }
+
+    /* ========================
+       PROBLEMA / DOR
+    ======================== */
+    #problem {
+      padding: 80px 0;
+      background: rgba(13,18,53,.4);
+      position: relative; overflow: hidden;
+    }
+    .problem-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem;
+      position: relative; z-index: 1;
+    }
+    .problem-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.75rem;
+      backdrop-filter: blur(12px);
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .problem-icon {
+      font-size: 1.6rem; flex-shrink: 0;
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.2);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .problem-card h4 {
+      font-family: 'Space Grotesk', sans-serif; font-size: .95rem;
+      font-weight: 700; color: var(--white); margin-bottom: .35rem;
+    }
+    .problem-card p { font-size: .85rem; color: var(--muted); line-height: 1.65; }
+    .problem-arrow {
+      display: flex; align-items: center; justify-content: center;
+      margin: 2.5rem 0 0; gap: 1rem; flex-wrap: wrap;
+    }
+    .problem-arrow span {
+      font-size: .95rem; color: var(--muted);
+    }
+    .problem-arrow strong {
+      color: var(--plum); font-weight: 700;
+    }
+    @media (max-width: 768px) {
+      .problem-grid { grid-template-columns: 1fr; }
     }
 
     /* ========================
@@ -727,7 +920,7 @@
 <nav>
   <div class="nav-inner">
     <a href="#" class="logo">
-      <img src="Logo.png.png" alt="KodaForge" />
+      <img src="Logo.png.png" alt="KodaForge" width="auto" height="48" fetchpriority="high" />
     </a>
     <ul class="nav-links">
       <li><a href="#services">Serviços</a></li>
@@ -833,19 +1026,73 @@
   </div>
 </section>
 
+<!-- PROBLEMA / DOR -->
+<section id="problem">
+  <div class="container">
+    <div class="section-head reveal" style="margin-bottom:2.5rem">
+      <span class="tag">O problema</span>
+      <h2 class="section-title" style="margin-top:.8rem">Seu site está <span style="background:linear-gradient(135deg,#ef4444,#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent">custando clientes</span></h2>
+      <p class="section-sub">Mais de 53% dos usuários abandonam um site que demora mais de 3 segundos para carregar. E design antigo transmite desconfiança.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card reveal">
+        <div class="problem-icon">🐌</div>
+        <div>
+          <h4>Site lento = cliente perdido</h4>
+          <p>1 segundo a mais de carregamento reduz conversões em até 7%. Sites lentos aparecem mal no Google e afastam visitantes antes de você poder apresentar sua proposta.</p>
+        </div>
+      </div>
+      <div class="problem-card reveal">
+        <div class="problem-icon">📵</div>
+        <div>
+          <h4>Design que não funciona no celular</h4>
+          <p>Mais de 65% do tráfego vem de smartphones. Se o seu site não for responsivo, você está ignorando a maioria dos seus clientes em potencial.</p>
+        </div>
+      </div>
+      <div class="problem-card reveal">
+        <div class="problem-icon">👻</div>
+        <div>
+          <h4>Invisível no Google</h4>
+          <p>Sem SEO técnico correto, seu site não aparece para quem está procurando exatamente o que você vende. Presença digital sem visibilidade é dinheiro desperdiçado.</p>
+        </div>
+      </div>
+    </div>
+    <div class="problem-arrow reveal">
+      <span>A solução?</span>
+      <strong>→ Um site profissional feito pela KodaForge.</strong>
+    </div>
+  </div>
+</section>
+
 <!-- LOGOS -->
 <section id="logos">
   <div class="container">
     <p class="logos-label">Tecnologias que dominamos</p>
-    <div class="logos-track">
-      <span class="logo-item">React</span>
-      <span class="logo-item">Next.js</span>
-      <span class="logo-item">WordPress</span>
-      <span class="logo-item">Shopify</span>
-      <span class="logo-item">Figma</span>
-      <span class="logo-item">Tailwind</span>
-      <span class="logo-item">Node.js</span>
-      <span class="logo-item">Vercel</span>
+    <div class="logos-overflow">
+      <!-- Duplicado para loop contínuo sem salto -->
+      <div class="logos-track" aria-hidden="true">
+        <span class="logo-item">React</span>
+        <span class="logo-item">Next.js</span>
+        <span class="logo-item">WordPress</span>
+        <span class="logo-item">Shopify</span>
+        <span class="logo-item">Figma</span>
+        <span class="logo-item">Tailwind CSS</span>
+        <span class="logo-item">Node.js</span>
+        <span class="logo-item">Vercel</span>
+        <span class="logo-item">TypeScript</span>
+        <span class="logo-item">Google Analytics</span>
+        <!-- Cópia para loop -->
+        <span class="logo-item">React</span>
+        <span class="logo-item">Next.js</span>
+        <span class="logo-item">WordPress</span>
+        <span class="logo-item">Shopify</span>
+        <span class="logo-item">Figma</span>
+        <span class="logo-item">Tailwind CSS</span>
+        <span class="logo-item">Node.js</span>
+        <span class="logo-item">Vercel</span>
+        <span class="logo-item">TypeScript</span>
+        <span class="logo-item">Google Analytics</span>
+      </div>
     </div>
   </div>
 </section>
@@ -859,44 +1106,82 @@
       <h2 class="section-title" style="margin-top:.8rem">Tudo que seu negócio<br />precisa no digital</h2>
       <p class="section-sub">Soluções sob medida — desde a criação do zero até a manutenção mensal com suporte dedicado.</p>
     </div>
-    <div class="services-grid">
-      <div class="service-card reveal">
-        <div class="service-icon">🚀</div>
-        <h3>Criação de Site</h3>
-        <p>Do briefing ao deploy. Desenvolvemos sites modernos, rápidos e prontos para converter visitantes em clientes.</p>
-        <ul class="service-list">
-          <li>Design exclusivo e responsivo</li>
-          <li>Otimização SEO on-page</li>
-          <li>Integração com Google Analytics</li>
-          <li>Velocidade acima de 90 no PageSpeed</li>
-          <li>Entrega em até 15 dias úteis</li>
-        </ul>
+    <!-- BENTO GRID — estilo Apple/moderno recomendado pelo UI/UX Pro Max -->
+    <div class="bento-grid">
+
+      <!-- Card largo: Criação de Site -->
+      <div class="bento-card bento-wide reveal">
+        <div style="display:flex;align-items:flex-start;gap:1.25rem;flex-wrap:wrap">
+          <div>
+            <div class="bento-icon">🚀</div>
+          </div>
+          <div style="flex:1;min-width:200px">
+            <div class="bento-badge">Mais pedido</div>
+            <h3>Criação de Site do Zero</h3>
+            <p>Do briefing ao deploy. Sites modernos, rápidos e prontos para converter visitantes em clientes pagantes.</p>
+            <ul class="bento-list" style="margin-top:1rem;columns:2;gap:.5rem;display:block">
+              <li>Design exclusivo e responsivo</li>
+              <li>SEO on-page completo</li>
+              <li>Google Analytics integrado</li>
+              <li>PageSpeed acima de 90</li>
+              <li>Entrega em até 15 dias úteis</li>
+              <li>30 dias de suporte incluso</li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="service-card featured reveal">
-        <span class="featured-badge">MAIS PEDIDO</span>
-        <div class="service-icon">✨</div>
+
+      <!-- Card alto lateral: Redesign -->
+      <div class="bento-card bento-tall reveal">
+        <div class="bento-badge">Mais impacto</div>
+        <div class="bento-icon">✨</div>
         <h3>Redesign Completo</h3>
         <p>Transformamos sites antigos em experiências modernas que geram confiança, retêm visitantes e aumentam conversões.</p>
-        <ul class="service-list">
-          <li>Auditoria completa do site atual</li>
-          <li>Novo visual alinhado à sua marca</li>
-          <li>Migração de conteúdo sem perda</li>
-          <li>Melhora na experiência mobile</li>
-          <li>Aumento de velocidade garantido</li>
+        <ul class="bento-list">
+          <li>Auditoria completa</li>
+          <li>Visual alinhado à sua marca</li>
+          <li>Migração sem perda de dados</li>
+          <li>Mobile-first garantido</li>
+          <li>Velocidade otimizada</li>
         </ul>
+        <div style="margin-top:auto;padding-top:1.5rem">
+          <div style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.25);border-radius:12px;padding:1rem;text-align:center">
+            <div style="font-size:1.6rem;font-weight:800;color:var(--white);font-family:'Space Grotesk',sans-serif">+78%</div>
+            <div style="font-size:.78rem;color:var(--muted)">aumento médio em conversões</div>
+          </div>
+        </div>
       </div>
-      <div class="service-card reveal">
-        <div class="service-icon">🔄</div>
-        <h3>Manutenção Mensal</h3>
-        <p>Sua presença digital nunca para. Atualizações, backups, segurança e suporte — tudo incluído no plano mensal.</p>
-        <ul class="service-list">
-          <li>Suporte prioritário por WhatsApp</li>
-          <li>Atualizações ilimitadas de conteúdo</li>
-          <li>Backups diários automáticos</li>
-          <li>Monitoramento de uptime 24/7</li>
-          <li>Relatório mensal de performance</li>
-        </ul>
+
+      <!-- Card stat: Projetos -->
+      <div class="bento-card bento-stat reveal">
+        <div class="bento-stat-num">120+</div>
+        <div class="bento-stat-label">Projetos entregues</div>
       </div>
+
+      <!-- Card stat: Satisfação -->
+      <div class="bento-card bento-stat reveal">
+        <div class="bento-stat-num" style="color:var(--plum)">4.9★</div>
+        <div class="bento-stat-label">Avaliação média</div>
+      </div>
+
+      <!-- Card: Manutenção Mensal -->
+      <div class="bento-card reveal" style="grid-column:span 2">
+        <div style="display:flex;align-items:flex-start;gap:1.25rem">
+          <div class="bento-icon orange">🔄</div>
+          <div>
+            <div class="bento-badge orange-badge">Recorrente</div>
+            <h3>Manutenção Mensal</h3>
+            <p style="margin-bottom:1rem">Sua presença digital nunca para. Atualizações, backups, segurança e suporte — tudo incluído.</p>
+            <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+              <span style="font-size:.8rem;color:var(--muted);background:rgba(255,255,255,.05);padding:5px 12px;border-radius:999px;border:1px solid var(--border)">💬 WhatsApp Priority</span>
+              <span style="font-size:.8rem;color:var(--muted);background:rgba(255,255,255,.05);padding:5px 12px;border-radius:999px;border:1px solid var(--border)">🔒 Backup diário</span>
+              <span style="font-size:.8rem;color:var(--muted);background:rgba(255,255,255,.05);padding:5px 12px;border-radius:999px;border:1px solid var(--border)">📊 Relatório mensal</span>
+              <span style="font-size:.8rem;color:var(--muted);background:rgba(255,255,255,.05);padding:5px 12px;border-radius:999px;border:1px solid var(--border)">🟢 Uptime 24/7</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1325,17 +1610,17 @@
           <div class="form-row">
             <div class="form-group">
               <label for="name">Nome completo *</label>
-              <input type="text" id="name" placeholder="Seu nome" required />
+              <input type="text" id="name" placeholder="Seu nome" required autocomplete="name" inputmode="text" />
             </div>
             <div class="form-group">
               <label for="email">E-mail *</label>
-              <input type="email" id="email" placeholder="seu@email.com" required />
+              <input type="email" id="email" placeholder="seu@email.com" required autocomplete="email" inputmode="email" />
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
               <label for="phone">WhatsApp</label>
-              <input type="tel" id="phone" placeholder="(11) 99999-9999" />
+              <input type="tel" id="phone" placeholder="(11) 99999-9999" autocomplete="tel" inputmode="tel" />
             </div>
             <div class="form-group">
               <label for="service">Serviço de interesse</label>
@@ -1377,7 +1662,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="#" class="logo logo-footer">
-          <img src="Logo.png.png" alt="KodaForge" />
+          <img src="Logo.png.png" alt="KodaForge" loading="lazy" width="auto" height="48" />
         </a>
         <p>Criamos sites que convertem — do design ao deploy, com excelência e comprometimento.</p>
         <div class="footer-social">
@@ -1423,6 +1708,12 @@
     </div>
   </div>
 </footer>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/5542991250274" class="fab-whatsapp" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  💬
+  <span class="fab-tooltip">Falar no WhatsApp</span>
+</a>
 
 <!-- SCRIPTS -->
 <script defer>
