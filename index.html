@@ -240,6 +240,77 @@
     .mock-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
     .mock-card { background: rgba(255,255,255,.05); border-radius: 8px; height: 64px; border: 1px solid var(--border); }
     .mock-btn { margin-top: 14px; background: linear-gradient(135deg, var(--violet), var(--purple)); border-radius: 6px; height: 32px; width: 50%; }
+    /* ========================
+       CANVAS SPRITE ANIMATION
+    ======================== */
+    .canvas-wrap {
+      position: relative;
+      width: 100%; max-width: 520px;
+    }
+    /* Moldura com brilho pulsante ao redor do canvas */
+    .canvas-frame {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(168,85,247,.35);
+      box-shadow:
+        0 0 0 1px rgba(168,85,247,.15),
+        0 24px 64px rgba(0,0,0,.55),
+        0 0 60px rgba(109,40,217,.25);
+      animation: canvas-glow 3s ease-in-out infinite;
+    }
+    @keyframes canvas-glow {
+      0%, 100% { box-shadow: 0 0 0 1px rgba(168,85,247,.15), 0 24px 64px rgba(0,0,0,.55), 0 0 60px rgba(109,40,217,.25); }
+      50%       { box-shadow: 0 0 0 1px rgba(168,85,247,.3),  0 24px 64px rgba(0,0,0,.55), 0 0 90px rgba(109,40,217,.5); }
+    }
+    /* Quando ocorre explosão, dispara flash */
+    .canvas-frame.exploding {
+      animation: explosion-flash .12s ease-out forwards;
+    }
+    @keyframes explosion-flash {
+      0%   { box-shadow: 0 0 0 1px rgba(234,88,12,.8),  0 24px 64px rgba(0,0,0,.55), 0 0 120px rgba(234,88,12,.9); filter: brightness(1.4); }
+      100% { box-shadow: 0 0 0 1px rgba(168,85,247,.35), 0 24px 64px rgba(0,0,0,.55), 0 0 60px rgba(109,40,217,.25); filter: brightness(1); }
+    }
+    #heroCanvas {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #000;
+    }
+    /* Overlay gradiente inferior para fundir com o fundo */
+    .canvas-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 60%,
+        rgba(6,6,26,.6) 100%
+      );
+      pointer-events: none; border-radius: 20px;
+    }
+    /* Barra de progresso do loop */
+    .canvas-progress {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: rgba(255,255,255,.08); border-radius: 0 0 20px 20px;
+      overflow: hidden;
+    }
+    .canvas-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--violet), var(--orange));
+      transition: width .04s linear;
+      width: 0%;
+    }
+    /* Chip de status no canto */
+    .canvas-chip {
+      position: absolute; top: 12px; left: 12px;
+      background: rgba(6,6,26,.75); border: 1px solid var(--border);
+      border-radius: 8px; padding: 5px 10px;
+      font-size: .7rem; font-weight: 600; color: var(--white);
+      display: flex; align-items: center; gap: 6px;
+      backdrop-filter: blur(12px);
+    }
+    .chip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); animation: dot-pulse 1s ease infinite; }
+    @keyframes dot-pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+
     .floating-badge {
       position: absolute;
       background: var(--card-bg); border: 1px solid var(--border);
@@ -248,8 +319,8 @@
       display: flex; align-items: center; gap: 8px;
       box-shadow: 0 8px 24px rgba(0,0,0,.3);
     }
-    .fb-1 { top: -20px; right: -20px; }
-    .fb-2 { bottom: 20px; left: -30px; }
+    .fb-1 { top: -16px; right: -16px; }
+    .fb-2 { bottom: 10px; left: -24px; }
     .fb-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; }
 
     /* ========================
@@ -849,7 +920,9 @@
 
       .hero-grid, .why-grid, .contact-grid { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
-      .hero-visual { display: none; }
+      .hero-visual { display: flex; justify-content: center; margin-top: 2rem; }
+      .canvas-wrap { max-width: 100%; }
+      .fb-1, .fb-2 { display: none; } /* badges ocultam no mobile */
       .services-grid, .pricing-grid, .testimonials-grid { grid-template-columns: 1fr; }
       .price-card.popular { transform: scale(1); }
       .process-steps { grid-template-columns: 1fr 1fr; }
@@ -994,32 +1067,32 @@
       <div class="hero-visual reveal">
         <div class="floating-badge fb-1">
           <div class="fb-dot"></div>
-          Projeto ao vivo
+          Forjando seu site
         </div>
-        <div class="browser-mock">
-          <div class="browser-bar">
-            <div class="browser-dots">
-              <span></span><span></span><span></span>
+
+        <div class="canvas-wrap">
+          <div class="canvas-frame" id="canvasFrame">
+            <!-- Chip de status -->
+            <div class="canvas-chip">
+              <span class="chip-dot"></span>
+              KodaForge em ação
             </div>
-            <div class="browser-url">seusite.com.br</div>
-          </div>
-          <div class="browser-body">
-            <div class="mock-hero">
-              <div class="mock-hero-text">
-                <div class="mock-bar"></div>
-                <div class="mock-bar short"></div>
-              </div>
+            <!-- Canvas da animação sprite -->
+            <canvas id="heroCanvas" width="320" height="180"
+              aria-label="Animação de forja — martelo batendo na bigorna com explosão de faíscas"
+              role="img">
+            </canvas>
+            <!-- Overlay gradiente inferior -->
+            <div class="canvas-overlay"></div>
+            <!-- Barra de progresso do loop -->
+            <div class="canvas-progress">
+              <div class="canvas-progress-bar" id="canvasProgressBar"></div>
             </div>
-            <div class="mock-cards">
-              <div class="mock-card"></div>
-              <div class="mock-card"></div>
-              <div class="mock-card"></div>
-            </div>
-            <div class="mock-btn"></div>
           </div>
         </div>
+
         <div class="floating-badge fb-2">
-          ⚡ Otimizado para SEO &amp; velocidade
+          ⚡ Precisão &amp; performance no código
         </div>
       </div>
     </div>
@@ -1723,6 +1796,118 @@
 // Inline scripts não suportam defer nativamente, mas o posicionamento no fim
 // do body já garante execução após o HTML. Mantido aqui para compatibilidade.</script>
 <script>
+  /* ================================================
+     SPRITE SHEET ANIMATOR — Hero Canvas
+     Sprite: public/sprite.jpg  (3840×1440, 12×8, 96 frames, 24fps)
+     UI/UX Pro Max: Motion-Driven + Video-First Hero
+  ================================================ */
+  (function() {
+    const canvas   = document.getElementById('heroCanvas');
+    const frame    = document.getElementById('canvasFrame');
+    const progBar  = document.getElementById('canvasProgressBar');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    // Config do sprite sheet
+    const COLS       = 12;
+    const ROWS       = 8;
+    const TOTAL      = 96;
+    const FW         = 320;   // largura de cada frame no sprite
+    const FH         = 180;   // altura de cada frame no sprite
+    const FPS        = 24;
+    const INTERVAL   = 1000 / FPS;
+
+    // Frames que representam o momento da explosão (aprox. frame 30-50)
+    const EXPLODE_START = 28;
+    const EXPLODE_END   = 52;
+
+    let currentFrame = 0;
+    let lastTimestamp = 0;
+    let rafId = null;
+    let sprite = null;
+    let loaded = false;
+
+    // Respeita prefers-reduced-motion (UI/UX Pro Max guideline)
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function drawFrame(f) {
+      if (!loaded) return;
+      const col = f % COLS;
+      const row = Math.floor(f / COLS);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(
+        sprite,
+        col * FW, row * FH, FW, FH,   // fonte no sprite
+        0, 0, canvas.width, canvas.height  // destino no canvas
+      );
+    }
+
+    function triggerExplosionEffect() {
+      if (!frame) return;
+      frame.classList.add('exploding');
+      setTimeout(() => frame.classList.remove('exploding'), 150);
+    }
+
+    function updateProgress(f) {
+      if (progBar) progBar.style.width = ((f / (TOTAL - 1)) * 100) + '%';
+    }
+
+    function tick(timestamp) {
+      if (timestamp - lastTimestamp >= INTERVAL) {
+        const prev = currentFrame;
+        currentFrame = (currentFrame + 1) % TOTAL;
+        drawFrame(currentFrame);
+        updateProgress(currentFrame);
+
+        // Dispara flash visual quando começa a explosão
+        if (currentFrame === EXPLODE_START && prev !== EXPLODE_START) {
+          triggerExplosionEffect();
+        }
+
+        lastTimestamp = timestamp;
+      }
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function startAnimation() {
+      drawFrame(0);
+      if (reducedMotion) {
+        // Modo acessível: mostra frame do meio da explosão, sem loop
+        drawFrame(EXPLODE_START);
+        updateProgress(EXPLODE_START);
+        return;
+      }
+      rafId = requestAnimationFrame(tick);
+    }
+
+    // Pausa quando fora da viewport (performance)
+    const visibilityObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          if (!rafId) rafId = requestAnimationFrame(tick);
+        } else {
+          if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        }
+      });
+    }, { threshold: 0.1 });
+    visibilityObserver.observe(canvas);
+
+    // Carrega o sprite sheet
+    sprite = new Image();
+    sprite.onload = () => {
+      loaded = true;
+      startAnimation();
+    };
+    sprite.onerror = () => {
+      // Fallback: mostra poster se sprite falhar
+      const poster = new Image();
+      poster.onload = () => ctx.drawImage(poster, 0, 0, canvas.width, canvas.height);
+      poster.src = 'public/hero-poster.jpg';
+    };
+    sprite.src = 'public/sprite.jpg';
+  })();
+
   /* Scroll reveal */
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });

@@ -36,3 +36,6 @@ Thumbs.db
 
 # Claude Code
 .claude/
+
+# Frames individuais (sprite sheet já gerado é suficiente)
+public/frames/
