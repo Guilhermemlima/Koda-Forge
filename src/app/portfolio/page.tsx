@@ -18,8 +18,9 @@ const PROJECTS = [
     desc: 'Site institucional completo com apresentação de serviços, área de atuação e captação de orçamentos pelo WhatsApp.',
     tags: ['HTML', 'CSS', 'JavaScript', 'Responsivo'],
     label: 'Projeto Real',
-    color: '#ea580c',
-    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80&auto=format&fit=crop',
+    color: '#15803d',
+    externalUrl: 'https://moraes-concreto-e-fundacoes.vercel.app/index.html',
+    image: '/portfolio/moraes-preview.jpg',
   },
   {
     slug: 'clinica-bem-estar',
@@ -29,6 +30,7 @@ const PROJECTS = [
     tags: ['Next.js', 'Tailwind', 'SEO'],
     label: 'Projeto Conceitual',
     color: '#7c3aed',
+    externalUrl: null,
     image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80&auto=format&fit=crop',
   },
   {
@@ -39,6 +41,7 @@ const PROJECTS = [
     tags: ['React', 'Node.js', 'Google Maps'],
     label: 'Projeto Conceitual',
     color: '#0891b2',
+    externalUrl: null,
     image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80&auto=format&fit=crop',
   },
   {
@@ -49,6 +52,7 @@ const PROJECTS = [
     tags: ['Next.js', 'CMS', 'Analytics'],
     label: 'Projeto Conceitual',
     color: '#059669',
+    externalUrl: null,
     image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80&auto=format&fit=crop',
   },
 ]
@@ -66,46 +70,66 @@ export default function PortfolioPage() {
       <section style={{ padding: '5rem 0' }}>
         <div className="container">
           <div className="portfolio-grid">
-            {PROJECTS.map((p) => (
-              <Link key={p.name} href={`/portfolio/${p.slug}`} className="portfolio-card reveal" style={{ textDecoration: 'none', display: 'block' }}>
-                <div
-                  className="portfolio-cover"
-                  style={{
-                    backgroundImage: `url(${p.image})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    padding: 0,
-                  }}
+            {PROJECTS.map((p) => {
+              const cardInner = (
+                <>
+                  <div
+                    className="portfolio-cover"
+                    style={{
+                      backgroundImage: p.image ? `url(${p.image})` : undefined,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center top',
+                      padding: 0,
+                    }}
+                  >
+                    <div className="portfolio-cover-overlay" style={{ borderColor: p.color }} />
+                    {!p.externalUrl && (
+                      <div className="portfolio-mock portfolio-mock-float">
+                        <div className="portfolio-mock-bar">
+                          <span /><span /><span />
+                        </div>
+                        <div className="portfolio-mock-body">
+                          <div className="portfolio-mock-line" />
+                          <div className="portfolio-mock-line short" />
+                          <div className="portfolio-mock-btn" style={{ background: p.color }} />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="portfolio-info">
+                    <div className="portfolio-meta">
+                      <span className="portfolio-segment">{p.segment}</span>
+                      <span className="portfolio-label">{p.label}</span>
+                    </div>
+                    <h3>{p.name}</h3>
+                    <p>{p.desc}</p>
+                    <div className="portfolio-tags">
+                      {p.tags.map(t => (
+                        <span key={t} className="portfolio-tag">{t}</span>
+                      ))}
+                    </div>
+                    <span className="portfolio-view-demo">{p.externalUrl ? 'Visitar o site →' : 'Ver demonstração →'}</span>
+                  </div>
+                </>
+              )
+
+              return p.externalUrl ? (
+                <a
+                  key={p.name}
+                  href={p.externalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="portfolio-card reveal"
+                  style={{ textDecoration: 'none', display: 'block' }}
                 >
-                  {/* overlay + browser mock flutuante */}
-                  <div className="portfolio-cover-overlay" style={{ borderColor: p.color }} />
-                  <div className="portfolio-mock portfolio-mock-float">
-                    <div className="portfolio-mock-bar">
-                      <span /><span /><span />
-                    </div>
-                    <div className="portfolio-mock-body">
-                      <div className="portfolio-mock-line" />
-                      <div className="portfolio-mock-line short" />
-                      <div className="portfolio-mock-btn" style={{ background: p.color }} />
-                    </div>
-                  </div>
-                </div>
-                <div className="portfolio-info">
-                  <div className="portfolio-meta">
-                    <span className="portfolio-segment">{p.segment}</span>
-                    <span className="portfolio-label">{p.label}</span>
-                  </div>
-                  <h3>{p.name}</h3>
-                  <p>{p.desc}</p>
-                  <div className="portfolio-tags">
-                    {p.tags.map(t => (
-                      <span key={t} className="portfolio-tag">{t}</span>
-                    ))}
-                  </div>
-                  <span className="portfolio-view-demo">Ver demonstração →</span>
-                </div>
-              </Link>
-            ))}
+                  {cardInner}
+                </a>
+              ) : (
+                <Link key={p.name} href={`/portfolio/${p.slug}`} className="portfolio-card reveal" style={{ textDecoration: 'none', display: 'block' }}>
+                  {cardInner}
+                </Link>
+              )
+            })}
           </div>
 
           <div style={{ textAlign: 'center', marginTop: '4rem' }}>
