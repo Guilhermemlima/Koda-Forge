@@ -12,6 +12,16 @@ export const metadata: Metadata = {
 
 const PROJECTS = [
   {
+    slug: 'moraes-concreto-e-fundacoes',
+    name: 'Moraes Concreto e Fundações',
+    segment: 'Construção Civil',
+    desc: 'Site institucional completo com apresentação de serviços, área de atuação e captação de orçamentos pelo WhatsApp.',
+    tags: ['HTML', 'CSS', 'JavaScript', 'Responsivo'],
+    label: 'Projeto Real',
+    color: '#ea580c',
+    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80&auto=format&fit=crop',
+  },
+  {
     slug: 'clinica-bem-estar',
     name: 'Clínica Bem Estar',
     segment: 'Saúde',
