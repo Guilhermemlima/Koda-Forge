@@ -28,7 +28,7 @@ export default function Navbar() {
   useEffect(() => { setMenuOpen(false) }, [pathname])
 
   return (
-    <nav style={{ background: scrolled ? 'rgba(6,6,26,.95)' : 'rgba(6,6,26,.75)' }}>
+    <nav data-scrolled={String(scrolled)}>
       <div className="nav-inner">
         <Link href="/" className="logo logo-text">
           <span className="logo-koda">Koda</span><span className="logo-forge">Forge</span>
