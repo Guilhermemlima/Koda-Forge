@@ -132,7 +132,7 @@ export default function GsapAnimations() {
         Array.from(root.querySelectorAll<HTMLElement>(sel))
 
       /* ---------- HERO: timeline de entrada ---------- */
-      const hero = document.querySelector('#hero')
+      const hero = document.querySelector<HTMLElement>('#hero')
       if (hero) {
         const title = hero.querySelector<HTMLElement>('.hero-title')
         const words = title ? splitWords(title) : []
@@ -292,6 +292,131 @@ export default function GsapAnimations() {
             card.removeEventListener('mousemove', move)
             card.removeEventListener('mouseleave', leave)
           })
+        })
+      }
+
+      /* ---------- FLUTUAÇÃO CONTÍNUA DOS BADGES DO HERO ----------
+         Cada um com duração e defasagem própria, senão sobem e descem
+         em bloco e parece um único elemento. */
+      pick(document, '.floating-badge, .hero-metrics-card, .hero-price-badge')
+        .forEach((el, i) => {
+          gsap.to(el, {
+            y: i % 2 === 0 ? -9 : 9,
+            duration: 2.6 + i * .45,
+            delay: 2.4 + i * .2,
+            ease: 'sine.inOut',
+            repeat: -1,
+            yoyo: true,
+          })
+        })
+
+      /* ---------- BOTÕES MAGNÉTICOS ---------- */
+      if (finePointer) {
+        pick(document, '.btn-primary, .btn-outline, .btn-plan, .launch-banner-btn, .form-submit')
+          .forEach((btn) => {
+            const move = (e: MouseEvent) => {
+              const r = btn.getBoundingClientRect()
+              gsap.to(btn, {
+                x: ((e.clientX - r.left) / r.width - .5) * 10,
+                y: ((e.clientY - r.top) / r.height - .5) * 6,
+                duration: .4, ease: 'power2.out', overwrite: 'auto',
+              })
+            }
+            const leave = () => {
+              gsap.to(btn, { x: 0, y: 0, duration: .5, ease: 'elastic.out(1,.5)', overwrite: 'auto' })
+            }
+            btn.addEventListener('mousemove', move)
+            btn.addEventListener('mouseleave', leave)
+            cleanups.push(() => {
+              btn.removeEventListener('mousemove', move)
+              btn.removeEventListener('mouseleave', leave)
+            })
+          })
+      }
+
+      /* ---------- CAPAS: revelação por clip-path ---------- */
+      pick(document, '.portfolio-cover, .blog-cover, .blog-post-cover').forEach((cover) => {
+        gsap.from(cover, {
+          clipPath: 'inset(0% 0% 100% 0%)',
+          duration: 1, ease: 'power3.inOut',
+          scrollTrigger: { trigger: cover, start: 'top 88%', once: true },
+          clearProps: 'clipPath',
+        })
+      })
+
+      /* ---------- ESTRELAS DOS DEPOIMENTOS ---------- */
+      pick(document, '.stars, .hero-stars').forEach((box) => {
+        // Divide em caracteres para escaloná-los um a um.
+        if (box.dataset.starsSplit !== 'done') {
+          const chars = Array.from(box.textContent ?? '').filter((c) => c.trim())
+          if (chars.length) {
+            box.textContent = ''
+            chars.forEach((c) => {
+              const s = document.createElement('span')
+              s.className = 'anim-star'
+              s.textContent = c
+              box.appendChild(s)
+            })
+            box.dataset.starsSplit = 'done'
+          }
+        }
+        const stars = box.querySelectorAll('.anim-star')
+        if (!stars.length) return
+        gsap.from(stars, {
+          scale: 0, opacity: 0, rotate: -110,
+          duration: .5, ease: 'back.out(2.2)', stagger: .07,
+          scrollTrigger: { trigger: box, start: 'top 92%', once: true },
+        })
+      })
+
+      /* ---------- LOGOS DAS TECNOLOGIAS ---------- */
+      const logosTrack = document.querySelector('.logos-track')
+      if (logosTrack) {
+        const items = pick(logosTrack, '.logo-item-wrap')
+        if (items.length) {
+          gsap.from(items, {
+            y: 22, opacity: 0, scale: .9, duration: .6,
+            ease: 'back.out(1.6)', stagger: .05,
+            scrollTrigger: { trigger: logosTrack, start: 'top 88%', once: true },
+            clearProps: 'all',
+          })
+        }
+      }
+
+      /* ---------- RODAPÉ EM CASCATA ---------- */
+      const footer = document.querySelector('footer')
+      if (footer) {
+        const cols = pick(footer, '.footer-brand, .footer-col')
+        if (cols.length) {
+          gsap.from(cols, {
+            y: 30, opacity: 0, duration: .7, ease: 'power3.out', stagger: .1,
+            scrollTrigger: { trigger: footer, start: 'top 92%', once: true },
+            clearProps: 'all',
+          })
+        }
+      }
+
+      /* ---------- LUZ QUE SEGUE O CURSOR NO HERO ---------- */
+      if (hero && finePointer) {
+        const spot = document.createElement('div')
+        spot.className = 'hero-spotlight'
+        hero.appendChild(spot)
+        const qx = gsap.quickTo(spot, 'x', { duration: .6, ease: 'power3.out' })
+        const qy = gsap.quickTo(spot, 'y', { duration: .6, ease: 'power3.out' })
+        let shown = false
+        const onMove = (e: MouseEvent) => {
+          const r = hero.getBoundingClientRect()
+          qx(e.clientX - r.left)
+          qy(e.clientY - r.top)
+          if (!shown) { shown = true; gsap.to(spot, { opacity: 1, duration: .5 }) }
+        }
+        const onLeave = () => { shown = false; gsap.to(spot, { opacity: 0, duration: .5 }) }
+        hero.addEventListener('mousemove', onMove)
+        hero.addEventListener('mouseleave', onLeave)
+        cleanups.push(() => {
+          hero.removeEventListener('mousemove', onMove)
+          hero.removeEventListener('mouseleave', onLeave)
+          spot.remove()
         })
       }
 
