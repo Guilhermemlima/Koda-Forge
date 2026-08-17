@@ -12,6 +12,17 @@ export const metadata: Metadata = {
 
 const PROJECTS = [
   {
+    slug: 'moldarte-3d',
+    name: 'Moldarte 3D',
+    segment: 'Impressão 3D',
+    desc: 'Loja online com catálogo de peças, busca de produtos, carrinho e orçamento sob medida por envio de arquivo. Produção própria com entrega para todo o Brasil.',
+    tags: ['Next.js', 'E-commerce', 'Carrinho', 'SEO'],
+    label: 'Projeto Real',
+    color: '#38bdf8',
+    externalUrl: 'https://www.3dmoldarte.com.br/',
+    image: '/portfolio/moldarte-preview.jpg',
+  },
+  {
     slug: 'sbs-imobiliaria',
     name: 'SBS Imóveis',
     segment: 'Imobiliário',
