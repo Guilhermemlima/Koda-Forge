@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import GsapAnimations from './GsapAnimations'
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -18,6 +19,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   return (
     <>
+      <GsapAnimations />
       {children}
       {/* Botão flutuante WhatsApp */}
       <a

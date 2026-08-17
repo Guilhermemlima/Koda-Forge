@@ -12,6 +12,17 @@ export const metadata: Metadata = {
 
 const PROJECTS = [
   {
+    slug: 'sbs-imobiliaria',
+    name: 'SBS Imóveis',
+    segment: 'Imobiliário',
+    desc: 'Plataforma de compra, venda e aluguel de imóveis com busca por cidade e tipo, vitrine de oportunidades e contato direto pelo WhatsApp.',
+    tags: ['Next.js', 'Busca de imóveis', 'SEO', 'Responsivo'],
+    label: 'Projeto Real',
+    color: '#c9a24d',
+    externalUrl: 'https://www.sbsimobiliaria.com.br/',
+    image: '/portfolio/sbs-preview.jpg',
+  },
+  {
     slug: 'moraes-concreto-e-fundacoes',
     name: 'Moraes Concreto e Fundações',
     segment: 'Construção Civil',
