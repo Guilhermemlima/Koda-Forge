@@ -45,25 +45,31 @@ const BENEFITS = [
   { icon: '🔒', title: 'Segurança e uptime',     desc: 'SSL, backups diários e monitoramento 24/7.' },
 ]
 
-/* ─── Mini-Testimonials ─────────────────────────────────── */
+/* ─── Mini-Testimonials ───────────────────────────────────
+   concept: true  →  o depoimento se refere a um projeto marcado como
+   conceitual no /portfolio. Precisa aparecer rotulado para não passar
+   por cliente real. Remover o campo ao substituir por depoimento real. */
 const MINI_TESTI = [
   {
     text: '"O redesign do nosso site foi um divisor de águas. Em 60 dias, nossas consultas triplicaram."',
     name: 'Marina Ferreira',
     role: 'CEO — Clínica Bem Estar',
     initials: 'MF',
+    concept: true,
   },
   {
     text: '"Profissionalismo do início ao fim. Cumpriram o prazo, o design ficou incrível e o suporte me salvou várias vezes."',
     name: 'Rafael Lima',
     role: 'Fundador — Construtora Alves Lima',
     initials: 'RL',
+    concept: true,
   },
   {
     text: '"Assino o plano mensal há 8 meses. Sinto que tenho um time de TI dedicado. Vale cada centavo."',
     name: 'Camila Santos',
     role: 'Diretora — Escola de Idiomas Prime',
     initials: 'CS',
+    concept: true,
   },
 ]
 
@@ -139,7 +145,12 @@ export default function Home() {
           <div className="home-testi-grid">
             {MINI_TESTI.map((t) => (
               <div key={t.name} className="testi-card reveal">
-                <div className="stars">★★★★★</div>
+                <div className="testi-card-top">
+                  <div className="stars">★★★★★</div>
+                  {t.concept && (
+                    <span className="testi-concept">Projeto conceitual</span>
+                  )}
+                </div>
                 <p className="testi-text">{t.text}</p>
                 <div className="testi-author">
                   <div className="author-avatar">{t.initials}</div>

@@ -23,7 +23,7 @@ export default function PrecosPage() {
         title="Investimento transparente,<br/>resultados claros"
         subtitle="Escolha o plano ideal para o momento do seu negócio. Sem taxas ocultas, sem surpresas."
       />
-      <Pricing />
+      <Pricing showHeader={false} />
       <Indicacao />
       <FAQ />
       <CTA />

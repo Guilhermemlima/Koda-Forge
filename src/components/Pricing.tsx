@@ -85,22 +85,27 @@ const MAINTENANCE = [
   { icon: '🚀', name: 'VIP',      price: '697', desc: 'Tudo do Completo + suporte 24/7, otimização contínua de SEO, melhorias mensais de performance e prioridade total.', featured: false },
 ]
 
-export default function Pricing() {
+/* showHeader: a /precos já traz este mesmo título no PageHero, então lá o
+   cabeçalho interno é desligado para não duplicar. Fica ligado por padrão
+   caso a seção seja reaproveitada numa página sem hero próprio. */
+export default function Pricing({ showHeader = true }: { showHeader?: boolean }) {
   const [isMonthly, setIsMonthly] = useState(false)
 
   return (
     <section id="pricing">
       <div className="blob" />
       <div className="container">
-        <div className="section-head reveal">
-          <span className="tag">Planos e preços</span>
-          <h2 className="section-title" style={{ marginTop: '.8rem' }}>
-            Investimento transparente,<br />resultados claros
-          </h2>
-          <p className="section-sub">
-            Escolha o plano ideal para o momento do seu negócio. Sem taxas ocultas, sem surpresas.
-          </p>
-        </div>
+        {showHeader && (
+          <div className="section-head reveal">
+            <span className="tag">Planos e preços</span>
+            <h2 className="section-title" style={{ marginTop: '.8rem' }}>
+              Investimento transparente,<br />resultados claros
+            </h2>
+            <p className="section-sub">
+              Escolha o plano ideal para o momento do seu negócio. Sem taxas ocultas, sem surpresas.
+            </p>
+          </div>
+        )}
 
         {/* Toggle */}
         <div className="pricing-toggle reveal">

@@ -12,6 +12,12 @@ gsap.registerPlugin(ScrollTrigger)
 const useIsomorphicLayoutEffect =
   typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
+/* Piso de opacidade para TEXTO. Antes os títulos partiam de 0 e ficavam
+   ilegíveis até o ScrollTrigger disparar — num scroll rápido dava para ver
+   o espaço do título vazio. Com o piso, o texto nunca some; o movimento
+   vertical é que faz o efeito. */
+const OPACITY_FLOOR = 0.35
+
 /* Elementos cujo texto usa background-clip: não podem ser divididos em
    palavras, senão o gradiente reinicia em cada palavra. */
 const ATOMIC = '.grad-text, .hero-title span, h2.section-title span, h2.section-title em, .page-hero-title span'
@@ -148,8 +154,8 @@ export default function GsapAnimations() {
 
         if (words.length) {
           tl.from(words, {
-            yPercent: 110, opacity: 0, duration: .9,
-            stagger: { each: .045, from: 'start' },
+            yPercent: 60, opacity: OPACITY_FLOOR, duration: .8,
+            stagger: { each: .04, from: 'start' },
           }, '-=.3')
         }
 
@@ -193,9 +199,9 @@ export default function GsapAnimations() {
         const words = splitWords(title)
         if (!words.length) return
         gsap.from(words, {
-          yPercent: 100, opacity: 0, duration: .8, ease: 'power3.out',
-          stagger: .04,
-          scrollTrigger: { trigger: title, start: 'top 85%', once: true },
+          yPercent: 40, opacity: OPACITY_FLOOR, duration: .7, ease: 'power3.out',
+          stagger: .035,
+          scrollTrigger: { trigger: title, start: 'top 95%', once: true },
         })
       })
 
@@ -203,8 +209,8 @@ export default function GsapAnimations() {
       gsap.utils.toArray<HTMLElement>('p.section-sub, .page-hero-sub, .cta-box p, .cmp-cta-box p')
         .forEach((el) => {
           gsap.from(el, {
-            y: 20, opacity: 0, duration: .7, ease: 'power2.out',
-            scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+            y: 18, opacity: OPACITY_FLOOR, duration: .6, ease: 'power2.out',
+            scrollTrigger: { trigger: el, start: 'top 95%', once: true },
           })
         })
 
@@ -221,8 +227,8 @@ export default function GsapAnimations() {
           if (!items.length) return
           gsap.from(items, {
             y: 46, opacity: 0, duration: .8, ease: 'power3.out',
-            stagger: .09,
-            scrollTrigger: { trigger: grid, start: 'top 82%', once: true },
+            stagger: .07,
+            scrollTrigger: { trigger: grid, start: 'top 92%', once: true },
             // popular tem scale(1.03) no CSS — não sobrescrever a transform final
             clearProps: 'transform,opacity',
           })
@@ -234,8 +240,8 @@ export default function GsapAnimations() {
         '.metrics-card, .contact-form, .cta-box, .cmp-cta-box, .cmp-honest-box, .indicacao-cta, .blog-post-cta, .cmp-table-wrap'
       ).forEach((el) => {
         gsap.from(el, {
-          y: 40, opacity: 0, duration: .9, ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+          y: 34, opacity: 0, duration: .8, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 92%', once: true },
           clearProps: 'transform,opacity',
         })
       })
