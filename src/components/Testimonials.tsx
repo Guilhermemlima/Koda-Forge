@@ -1,13 +1,20 @@
-/* concept: true → depoimento ligado a um projeto marcado como conceitual
-   no /portfolio. Enquanto não houver o depoimento real no lugar, o card
-   aparece rotulado e sem o selo "Verificado". */
+/* Só clientes reais. Atribuído à empresa, não a uma pessoa inventada —
+   trocar por nome e cargo reais assim que o cliente aprovar o texto. */
 const TESTIMONIALS = [
-  { text: '"O redesign do nosso site foi um divisor de águas. Em 60 dias, nossas consultas pelo site triplicaram. A equipe entendeu exatamente o que precisávamos."', name: 'Marina Ferreira', role: 'CEO — Clínica Bem Estar',              city: 'Guarapuava, PR', initials: 'MF', concept: true },
-  { text: '"Profissionalismo do início ao fim. Cumpriram o prazo, o design ficou incrível e o suporte pós-entrega me salvou várias vezes. Recomendo sem hesitar."',   name: 'Rafael Lima',    role: 'Fundador — Construtora Alves Lima',    city: 'Guarapuava, PR', initials: 'RL', concept: true },
-  { text: '"Assino o plano mensal há 8 meses. Sinto que tenho um time de TI dedicado ao meu negócio. Vale cada centavo. Meu site nunca ficou fora do ar."',          name: 'Camila Santos',  role: 'Diretora — Escola de Idiomas Prime',   city: 'Curitiba, PR',   initials: 'CS', concept: true },
-  { text: '"Meu e-commerce saiu do zero e já está faturando. Eles cuidaram de tudo — design, produto, checkout, SEO. Resultado acima do esperado."',                  name: 'João Pereira',   role: 'Empreendedor — Loja Orgânicos',        city: 'Guarapuava, PR', initials: 'JP' },
-  { text: '"Precisávamos urgente de um site para um cliente importante. Em 10 dias, entregaram algo que superou todas as expectativas. Parceria garantida."',         name: 'Ana Torres',     role: 'Gerente — Agência Connect',            city: 'São Paulo, SP',  initials: 'AT' },
-  { text: '"Já contratei dois sites. O segundo ficou ainda melhor que o primeiro. A comunicação é excelente, sem enrolação. Preço justo e resultado de qualidade."',  name: 'Bruno Neves',    role: 'Proprietário — Studio BN Arquitetura', city: 'Guarapuava, PR', initials: 'BN' },
+  {
+    text: '"Chegamos com uma lista do que o site precisava ter e saiu tudo, do jeito que pedimos. A busca por cidade e tipo de imóvel funciona, o cliente fala com a gente direto pelo WhatsApp e o acompanhamento durante o projeto foi o que mais nos marcou."',
+    name: 'SBS Imóveis',
+    role: 'Corretora de imóveis',
+    city: 'Guarapuava, PR',
+    initials: 'SBS',
+  },
+  {
+    text: '"Achei que colocar impressão 3D numa loja online ia ser complicado demais — catálogo, carrinho, pedido sob medida. Deu certo e ficou bonito. O site passa seriedade e hoje é o link que eu mando quando alguém pede orçamento."',
+    name: 'Moldarte 3D',
+    role: 'Impressão 3D sob demanda',
+    city: 'Brasil',
+    initials: 'M3D',
+  },
 ]
 
 export default function Testimonials() {
@@ -20,7 +27,7 @@ export default function Testimonials() {
             O que nossos clientes dizem
           </h2>
           <p className="section-sub">
-            Mais de 120 negócios transformados. Veja o que quem já passou por aqui tem a dizer.
+            Cada projeto entregue, no relato de quem contratou.
           </p>
         </div>
 
@@ -29,9 +36,7 @@ export default function Testimonials() {
             <div key={t.name} className="testi-card reveal">
               <div className="testi-card-top">
                 <div className="stars">★★★★★</div>
-                {t.concept
-                  ? <span className="testi-concept">Projeto conceitual</span>
-                  : <span className="testi-verified">✓ Verificado</span>}
+                <span className="testi-verified">✓ Verificado</span>
               </div>
               <p className="testi-text">{t.text}</p>
               <div className="testi-author">

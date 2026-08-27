@@ -46,30 +46,20 @@ const BENEFITS = [
 ]
 
 /* ─── Mini-Testimonials ───────────────────────────────────
-   concept: true  →  o depoimento se refere a um projeto marcado como
-   conceitual no /portfolio. Precisa aparecer rotulado para não passar
-   por cliente real. Remover o campo ao substituir por depoimento real. */
+   Só clientes reais. Atribuído à empresa, não a uma pessoa inventada —
+   trocar por nome e cargo reais assim que o cliente aprovar o texto. */
 const MINI_TESTI = [
   {
-    text: '"O redesign do nosso site foi um divisor de águas. Em 60 dias, nossas consultas triplicaram."',
-    name: 'Marina Ferreira',
-    role: 'CEO — Clínica Bem Estar',
-    initials: 'MF',
-    concept: true,
+    text: '"Chegamos com uma lista do que o site precisava ter e saiu tudo, do jeito que pedimos. A busca por cidade e tipo de imóvel funciona, e o cliente fala com a gente direto pelo WhatsApp."',
+    name: 'SBS Imóveis',
+    role: 'Corretora de imóveis — Guarapuava, PR',
+    initials: 'SBS',
   },
   {
-    text: '"Profissionalismo do início ao fim. Cumpriram o prazo, o design ficou incrível e o suporte me salvou várias vezes."',
-    name: 'Rafael Lima',
-    role: 'Fundador — Construtora Alves Lima',
-    initials: 'RL',
-    concept: true,
-  },
-  {
-    text: '"Assino o plano mensal há 8 meses. Sinto que tenho um time de TI dedicado. Vale cada centavo."',
-    name: 'Camila Santos',
-    role: 'Diretora — Escola de Idiomas Prime',
-    initials: 'CS',
-    concept: true,
+    text: '"Achei que colocar impressão 3D numa loja online ia ser complicado demais. O site ficou bonito e passa seriedade — hoje é o link que eu mando quando alguém pede orçamento."',
+    name: 'Moldarte 3D',
+    role: 'Impressão 3D sob demanda',
+    initials: 'M3D',
   },
 ]
 
@@ -147,9 +137,7 @@ export default function Home() {
               <div key={t.name} className="testi-card reveal">
                 <div className="testi-card-top">
                   <div className="stars">★★★★★</div>
-                  {t.concept && (
-                    <span className="testi-concept">Projeto conceitual</span>
-                  )}
+                  <span className="testi-verified">✓ Verificado</span>
                 </div>
                 <p className="testi-text">{t.text}</p>
                 <div className="testi-author">
