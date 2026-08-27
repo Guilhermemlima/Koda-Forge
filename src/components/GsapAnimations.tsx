@@ -18,6 +18,9 @@ const useIsomorphicLayoutEffect =
    vertical é que faz o efeito. */
 const OPACITY_FLOOR = 0.35
 
+/* A seta que fecha varios links/CTAs, separada para deslizar no hover. */
+const ARROW = '\u2192'
+
 /* Elementos cujo texto usa background-clip: não podem ser divididos em
    palavras, senão o gradiente reinicia em cada palavra. */
 const ATOMIC = '.grad-text, .hero-title span, h2.section-title span, h2.section-title em, .page-hero-title span'
@@ -312,28 +315,142 @@ export default function GsapAnimations() {
           })
         })
 
-      /* ---------- BOTÕES MAGNÉTICOS ---------- */
-      if (finePointer) {
-        pick(document, '.btn-primary, .btn-outline, .btn-plan, .launch-banner-btn, .form-submit')
-          .forEach((btn) => {
-            const move = (e: MouseEvent) => {
-              const r = btn.getBoundingClientRect()
-              gsap.to(btn, {
-                x: ((e.clientX - r.left) / r.width - .5) * 10,
-                y: ((e.clientY - r.top) / r.height - .5) * 6,
-                duration: .4, ease: 'power2.out', overwrite: 'auto',
-              })
-            }
-            const leave = () => {
-              gsap.to(btn, { x: 0, y: 0, duration: .5, ease: 'elastic.out(1,.5)', overwrite: 'auto' })
-            }
-            btn.addEventListener('mousemove', move)
-            btn.addEventListener('mouseleave', leave)
-            cleanups.push(() => {
-              btn.removeEventListener('mousemove', move)
-              btn.removeEventListener('mouseleave', leave)
-            })
+      /* ---------- BOTOES ----------
+         Cada familia tem um efeito proprio, em vez de todos iguais:
+         preenchidos ganham brilho que atravessa, contornados ganham um
+         preenchimento suave, e todos respondem ao toque e ao clique. */
+      const FILLED = '.btn-primary, .form-submit, .btn-plan-fill, .launch-banner-btn'
+      const OUTLINED = '.btn-outline, .btn-plan-outline, .nav-cta'
+
+      const on = (el: Element, ev: string, fn: EventListener) => {
+        el.addEventListener(ev, fn)
+        cleanups.push(() => el.removeEventListener(ev, fn))
+      }
+
+      pick(document, FILLED + ', ' + OUTLINED).forEach((btn) => {
+        const outlined = btn.matches(OUTLINED)
+        btn.classList.add('btn-fx')
+        if (outlined) btn.classList.add('btn-fx--outline')
+
+        /* 1. Afunda ao pressionar e volta com elastico. Vale no toque
+              tambem - e o unico retorno tatil que o mobile tem. */
+        const press = () => gsap.to(btn, { scale: .96, duration: .12, ease: 'power2.out', overwrite: 'auto' })
+        const release = () => gsap.to(btn, { scale: 1, duration: .55, ease: 'elastic.out(1,.45)', overwrite: 'auto' })
+        on(btn, 'pointerdown', press)
+        on(btn, 'pointerup', release)
+        on(btn, 'pointercancel', release)
+        on(btn, 'pointerleave', release)
+
+        /* 2. Onda a partir de onde o dedo/cursor tocou */
+        on(btn, 'pointerdown', ((e: PointerEvent) => {
+          const r = btn.getBoundingClientRect()
+          const px = e.clientX - r.left
+          const py = e.clientY - r.top
+          gsap.set(btn, {
+            '--fx-x': px + 'px',
+            '--fx-y': py + 'px',
+            '--fx-ripple': 0,
+            '--fx-ripple-o': 1,
           })
+          // A escala precisa cobrir o canto mais distante do ponto clicado.
+          const reach = Math.hypot(
+            Math.max(px, r.width - px),
+            Math.max(py, r.height - py),
+          )
+          gsap.to(btn, {
+            '--fx-ripple': reach / 9,
+            '--fx-ripple-o': 0,
+            duration: .65, ease: 'power2.out', overwrite: 'auto',
+          })
+        }) as EventListener)
+
+        if (finePointer) {
+          /* 3. Brilho atravessando no hover */
+          on(btn, 'mouseenter', () => {
+            gsap.fromTo(btn,
+              { '--fx-shine': '-130%' },
+              { '--fx-shine': '130%', duration: .75, ease: 'power2.inOut', overwrite: 'auto' })
+          })
+
+          /* 4. Magnetico, mais contido nos contornados */
+          const pull = outlined ? 5 : 9
+          on(btn, 'mousemove', ((e: MouseEvent) => {
+            const r = btn.getBoundingClientRect()
+            gsap.to(btn, {
+              x: ((e.clientX - r.left) / r.width - .5) * pull,
+              y: ((e.clientY - r.top) / r.height - .5) * (pull * .6),
+              duration: .4, ease: 'power2.out', overwrite: 'auto',
+            })
+          }) as EventListener)
+          on(btn, 'mouseleave', () => {
+            gsap.to(btn, { x: 0, y: 0, duration: .5, ease: 'elastic.out(1,.5)', overwrite: 'auto' })
+          })
+
+          /* 5. O icone acompanha: o raio pulsa, os demais deslizam */
+          const icon = btn.querySelector('svg')
+          if (icon) {
+            const bolt = !!icon.querySelector('path[d^="M13 2"]')
+            on(btn, 'mouseenter', () => {
+              gsap.to(icon, bolt
+                ? { scale: 1.25, rotate: -8, duration: .35, ease: 'back.out(3)', overwrite: 'auto' }
+                : { x: 3, duration: .35, ease: 'power2.out', overwrite: 'auto' })
+            })
+            on(btn, 'mouseleave', () => {
+              gsap.to(icon, { scale: 1, rotate: 0, x: 0, duration: .4, ease: 'power2.out', overwrite: 'auto' })
+            })
+          }
+        }
+      })
+
+      /* ---------- SETAS DESLIZANDO ----------
+         Separa a seta final do texto para ela andar sozinha no hover. */
+      pick(document, 'a, span, button').forEach((el) => {
+        if (el.dataset.arrow === 'done') return
+        const last = el.lastChild
+        if (!last || last.nodeType !== Node.TEXT_NODE) return
+        const txt = last.textContent ?? ''
+        const i = txt.lastIndexOf(ARROW)
+        if (i === -1 || txt.slice(i + 1).trim() !== '') return
+
+        last.textContent = txt.slice(0, i)
+        const arrow = document.createElement('span')
+        arrow.className = 'anim-arrow'
+        arrow.textContent = ARROW
+        el.appendChild(arrow)
+        el.dataset.arrow = 'done'
+
+        if (!finePointer) return
+        const target = el.closest('a, button') ?? el
+        on(target, 'mouseenter', () => {
+          gsap.to(arrow, { x: 5, duration: .3, ease: 'power2.out', overwrite: 'auto' })
+        })
+        on(target, 'mouseleave', () => {
+          gsap.to(arrow, { x: 0, duration: .4, ease: 'elastic.out(1,.6)', overwrite: 'auto' })
+        })
+      })
+
+      /* ---------- CTA PRINCIPAL: respiro ocasional ----------
+         Chama atencao sem piscar sem parar. Pausa enquanto o mouse esta
+         em cima, para nao brigar com o hover. */
+      const mainCta = document.querySelector<HTMLElement>('#hero .btn-primary')
+      if (mainCta) {
+        const breathe = gsap.timeline({ repeat: -1, repeatDelay: 5, delay: 4 })
+        breathe
+          .to(mainCta, { scale: 1.04, duration: .5, ease: 'power2.out' })
+          .to(mainCta, { scale: 1, duration: .8, ease: 'elastic.out(1,.4)' })
+        on(mainCta, 'mouseenter', () => breathe.pause())
+        on(mainCta, 'mouseleave', () => breathe.play())
+      }
+
+      /* ---------- WHATSAPP: chacoalhada periodica ---------- */
+      const wa = document.querySelector<HTMLElement>('.whatsapp-float svg')
+      if (wa) {
+        gsap.timeline({ repeat: -1, repeatDelay: 7, delay: 6 })
+          .to(wa, { rotate: 14, duration: .1 })
+          .to(wa, { rotate: -12, duration: .1 })
+          .to(wa, { rotate: 9, duration: .1 })
+          .to(wa, { rotate: -6, duration: .1 })
+          .to(wa, { rotate: 0, duration: .15 })
       }
 
       /* ---------- CAPAS: revelação por clip-path ---------- */

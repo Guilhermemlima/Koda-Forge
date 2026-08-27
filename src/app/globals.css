@@ -1212,6 +1212,56 @@ html.gsap-ready .reveal { opacity: 1; transform: none; transition: none; }
 /* Estrelas divididas para escalonar a entrada */
 .anim-star { display: inline-block; will-change: transform, opacity; }
 
+/* ------------------------
+   EFEITOS DE BOTÃO (dirigidos por GSAP)
+   Tudo em pseudo-elemento + custom property. Assim o GSAP anima variáveis
+   em vez de inserir nós dentro de botões renderizados pelo React, que
+   poderiam sumir numa reconciliação.
+------------------------ */
+.btn-fx {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  will-change: transform;
+}
+
+/* Brilho que atravessa o botão no hover */
+.btn-fx::before {
+  content: ''; position: absolute; inset: -1px; z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(100deg,
+    transparent 38%,
+    rgba(255,255,255,.30) 50%,
+    transparent 62%);
+  transform: translateX(var(--fx-shine, -130%));
+}
+/* No contorno, o brilho é mais discreto e vira um preenchimento suave */
+.btn-fx--outline::before {
+  background: linear-gradient(100deg,
+    transparent 38%,
+    rgba(168,85,247,.28) 50%,
+    transparent 62%);
+}
+
+/* Onda que nasce do ponto do clique */
+.btn-fx::after {
+  content: ''; position: absolute; z-index: 1;
+  pointer-events: none;
+  top: var(--fx-y, 50%); left: var(--fx-x, 50%);
+  width: 18px; height: 18px; margin: -9px 0 0 -9px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.55);
+  transform: scale(var(--fx-ripple, 0));
+  opacity: var(--fx-ripple-o, 0);
+}
+.btn-fx--outline::after { background: rgba(168,85,247,.5); }
+
+/* A seta "→" separada do texto, para deslizar sozinha */
+.anim-arrow { display: inline-block; will-change: transform; }
+
+/* O ícone dentro do botão reage junto */
+.btn-fx svg { position: relative; z-index: 2; }
+
 /* Luz que segue o cursor no hero */
 .hero-spotlight {
   position: absolute; top: 0; left: 0;
