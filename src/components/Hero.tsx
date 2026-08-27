@@ -1,13 +1,7 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-
-const STATS = [
-  { target: 120, suffix: '+',  label: 'Projetos entregues' },
-  { target: 100, suffix: '%',  label: 'Clientes satisfeitos' },
-  { target: 24,  suffix: 'h',  label: 'Resposta média', prefix: '<' },
-]
 
 /* ── Code lines displayed in the editor mock ── */
 const CODE_LINES = [
@@ -40,34 +34,7 @@ const TOKEN_COLORS: Record<string, string> = {
 }
 
 export default function Hero() {
-  const [counts, setCounts]    = useState(STATS.map(() => 0))
   const [typedLines, setTyped] = useState(0)
-  const heroRef  = useRef<HTMLElement>(null)
-  const counted  = useRef(false)
-
-  /* animated counters on scroll into view */
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !counted.current) {
-          counted.current = true
-          STATS.forEach(({ target }, i) => {
-            let current = 0
-            const step  = Math.ceil(target / 40)
-            const timer = setInterval(() => {
-              current = Math.min(current + step, target)
-              setCounts((prev) => { const n = [...prev]; n[i] = current; return n })
-              if (current >= target) clearInterval(timer)
-            }, 35)
-          })
-        }
-      },
-      { threshold: 0.3 },
-    )
-    const el = heroRef.current
-    if (el) observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
 
   /* code typing effect */
   useEffect(() => {
@@ -77,7 +44,7 @@ export default function Hero() {
   }, [typedLines])
 
   return (
-    <section id="hero" ref={heroRef}>
+    <section id="hero">
       <div className="blob" />
       <div className="blob" />
 
@@ -129,15 +96,6 @@ export default function Hero() {
               <span>✓ Orçamento gratuito</span>
               <span>✓ Sem compromisso</span>
               <span>✓ Resposta em até 24 h</span>
-            </div>
-
-            <div className="hero-stats">
-              {STATS.map(({ suffix, label, prefix }, i) => (
-                <div className="hero-stat" key={label}>
-                  <strong>{prefix ?? ''}{counts[i]}{suffix}</strong>
-                  <span>{label}</span>
-                </div>
-              ))}
             </div>
           </div>
 

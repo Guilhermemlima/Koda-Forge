@@ -263,12 +263,6 @@ nav[data-scrolled="true"] a.active { color: var(--txt-100) !important; }
 }
 .btn-outline:hover { border-color: var(--plum); color: var(--txt-100); }
 
-.hero-stats {
-  display: flex; gap: 2rem; margin-top: 3rem;
-  padding-top: 2rem; border-top: 1px solid rgba(255,255,255,.1);
-}
-.hero-stat strong { display: block; font-size: 1.8rem; font-weight: 800; color: var(--txt-100); }
-.hero-stat span { font-size: .82rem; color: var(--txt-400); font-family: var(--font-mono); }
 
 .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; }
 
@@ -1089,7 +1083,6 @@ footer .logo-forge { color: var(--txt-400); }
 @media (max-width: 480px) {
   .process-steps { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
-  .hero-stats { flex-wrap: wrap; gap: 1rem; }
   .home-benefits-grid { grid-template-columns: 1fr 1fr; }
   .home-testi-grid { grid-template-columns: 1fr; }
   .blog-score-grid { grid-template-columns: 1fr; }

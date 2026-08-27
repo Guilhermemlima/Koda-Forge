@@ -162,8 +162,6 @@ export default function GsapAnimations() {
         add('.hero-social-proof, .hero-geo, .hero-desc, .hero-actions, .hero-trust',
           { y: 24, opacity: 0, duration: .7, stagger: .1 }, '-=.5')
 
-        add('.hero-stat', { y: 20, opacity: 0, duration: .6, stagger: .1 }, '-=.4')
-
         /* Os badges flutuantes têm a própria entrada, logo abaixo — se
            entrassem também por `.hero-visual > *`, dois `from` sobrepostos
            no mesmo alvo fariam o segundo capturar o valor no meio da
@@ -258,9 +256,7 @@ export default function GsapAnimations() {
         )
       })
 
-      /* ---------- CONTADORES ----------
-         Fora daqui: .hero-stat strong. O Hero já anima aqueles números via
-         estado do React — mexer no textContent brigaria com a reconciliação. */
+      /* ---------- CONTADORES ---------- */
       const counters = pick(document,
         '.mini-card strong, .metric-val, .indicacao-reward')
       counters.forEach((el) => animateCounter(el))
