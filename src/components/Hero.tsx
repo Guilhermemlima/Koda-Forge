@@ -54,13 +54,6 @@ export default function Hero() {
           {/* ══ LEFT — copy ══════════════════════════════════ */}
           <div className="hero-content">
 
-            <div className="hero-social-proof">
-              <span className="hero-stars">★★★★★</span>
-              <span className="hero-rating-text">
-                4.9 · <strong>120+ projetos</strong> entregues
-              </span>
-            </div>
-
             <h1 className="hero-title">
               Sites que vendem,<br />
               <span>não só que existem</span>

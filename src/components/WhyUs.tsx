@@ -6,7 +6,6 @@ const METRICS = [
 ]
 
 const MINI = [
-  { val: '120+', label: 'Clientes ativos' },
   { val: '4.9★', label: 'Avaliação média' },
   { val: '15d',  label: 'Entrega média' },
   { val: '100%', label: 'Uptime garantido' },

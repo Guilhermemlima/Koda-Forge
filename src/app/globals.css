@@ -312,10 +312,6 @@ nav[data-scrolled="true"] a.active { color: var(--txt-100) !important; }
 /* A margem negativa vinha de quando este texto ficava logo abaixo da
    descrição; hoje ele vem depois dos botões e colidia com eles. */
 .hero-geo { font-size: .85rem; color: var(--txt-500); margin: 0 0 1rem; line-height: 1.5; max-width: 480px; }
-.hero-social-proof { display: flex; align-items: center; gap: .6rem; margin-bottom: 1.2rem; }
-.hero-stars { color: var(--gold); font-size: 1rem; letter-spacing: 2px; }
-.hero-rating-text { font-size: .85rem; color: var(--txt-400); }
-.hero-rating-text strong { color: var(--txt-100); }
 .hero-trust { display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0; font-size: .8rem; color: var(--txt-400); }
 .hero-trust span { display: flex; align-items: center; gap: .3rem; }
 
@@ -501,7 +497,7 @@ nav[data-scrolled="true"] a.active { color: var(--txt-100) !important; }
 .metric-bar-wrap { flex: 1; background: rgba(255,255,255,.1); border-radius: 999px; height: 8px; }
 .metric-bar { height: 100%; border-radius: 999px; background: var(--grad-brand); }
 .metric-val { font-size: .85rem; font-weight: 600; color: var(--txt-100); width: 36px; text-align: right; }
-.mini-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+.mini-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1rem; margin-top: 1rem; }
 .mini-card {
   background: var(--ink-800); border: 1px solid rgba(168,85,247,.15);
   border-radius: var(--r-md); padding: 1.2rem; text-align: center;

@@ -159,7 +159,7 @@ export default function GsapAnimations() {
           }, '-=.3')
         }
 
-        add('.hero-social-proof, .hero-geo, .hero-desc, .hero-actions, .hero-trust',
+        add('.hero-geo, .hero-desc, .hero-actions, .hero-trust',
           { y: 24, opacity: 0, duration: .7, stagger: .1 }, '-=.5')
 
         /* Os badges flutuantes têm a própria entrada, logo abaixo — se
@@ -347,7 +347,7 @@ export default function GsapAnimations() {
       })
 
       /* ---------- ESTRELAS DOS DEPOIMENTOS ---------- */
-      pick(document, '.stars, .hero-stars').forEach((box) => {
+      pick(document, '.stars').forEach((box) => {
         // Divide em caracteres para escaloná-los um a um.
         if (box.dataset.starsSplit !== 'done') {
           const chars = Array.from(box.textContent ?? '').filter((c) => c.trim())

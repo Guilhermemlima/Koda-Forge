@@ -9,7 +9,7 @@ import Footer       from '@/components/Footer'
 export const metadata: Metadata = {
   title: 'Depoimentos — KodaForge',
   description:
-    'Veja o que mais de 120 clientes dizem sobre a KodaForge. Resultados reais, histórias reais.',
+    'Veja o que os clientes da KodaForge dizem sobre os projetos entregues.',
 }
 
 export default function DepoimentosPage() {
@@ -19,7 +19,7 @@ export default function DepoimentosPage() {
       <PageHero
         tag="Depoimentos"
         title="O que nossos clientes<br/>dizem sobre nós"
-        subtitle="Mais de 120 negócios transformados. Veja histórias reais de quem confiou na KodaForge."
+        subtitle="Histórias de quem confiou na KodaForge para colocar o próprio site no ar."
       />
       <Testimonials />
       <CTA />
