@@ -4,10 +4,15 @@ import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import Script from 'next/script'
 
-/* O ID vem de variável de ambiente. Sem ela o componente não renderiza nada,
-   então em desenvolvimento e em preview não se polui a conta do Meta com
-   acessos que não são de visitantes reais. */
-const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID
+/* Pixel da KodaForge. Não é segredo — o ID fica visível no HTML de qualquer
+   site que usa o pixel —, então vale como padrão e o deploy funciona sem
+   depender de configuração na Vercel. A variável de ambiente ainda tem
+   prioridade, para apontar outro pixel sem mexer no código. */
+const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? '1634037228353876'
+
+/* Só dispara em build de produção. Assim o `npm run dev` do dia a dia não
+   entra como visita nos relatórios do Meta. */
+const ENABLED = process.env.NODE_ENV === 'production' && !!PIXEL_ID
 
 declare global {
   interface Window {
@@ -21,7 +26,7 @@ export default function MetaPixel() {
   const firstLoad = useRef(true)
 
   useEffect(() => {
-    if (!PIXEL_ID) return
+    if (!ENABLED) return
 
     /* O snippet base já dispara um PageView no carregamento. Este efeito
        cobre a navegação client-side do Next, que troca de página sem
@@ -33,7 +38,7 @@ export default function MetaPixel() {
     window.fbq?.('track', 'PageView')
   }, [pathname])
 
-  if (!PIXEL_ID) return null
+  if (!ENABLED) return null
 
   return (
     <>
@@ -67,6 +72,6 @@ fbq('track', 'PageView');
 
 /** Dispara um evento nomeado do Meta (Lead, Contact, etc.). */
 export function trackMetaEvent(event: string, params?: Record<string, unknown>) {
-  if (!PIXEL_ID) return
+  if (!ENABLED) return
   window.fbq?.('track', event, params)
 }
