@@ -145,7 +145,7 @@ export default function Post1() {
               Pense assim: se você perde apenas <strong>5 clientes por mês</strong> para um concorrente que aparece no Google e você não aparece, e cada cliente vale R$ 300 — você está perdendo R$ 1.500 por mês. R$ 18.000 por ano.
             </p>
             <p>
-              Um site profissional da KodaForge começa em R$ 1.497. O retorno sobre o investimento pode acontecer em semanas.
+              Um site profissional da KodaForge começa em R$ 1.247. O retorno sobre o investimento pode acontecer em semanas.
             </p>
 
             <h2>Por onde começar?</h2>

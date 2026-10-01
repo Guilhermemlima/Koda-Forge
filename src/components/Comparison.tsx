@@ -6,7 +6,7 @@ import Link from 'next/link'
 const ROWS = [
   {
     criterion: 'Investimento médio',
-    koda:       'R$ 1.497 – R$ 5.997',
+    koda:       'R$ 1.247 – R$ 4.997',
     agency:     'R$ 8.000 – R$ 30.000+',
     freelancer: 'R$ 300 – R$ 800',
     highlight:  true,

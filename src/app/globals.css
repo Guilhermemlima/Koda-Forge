@@ -581,6 +581,29 @@ nav[data-scrolled="true"] a.active { color: var(--txt-100) !important; }
 .btn-plan-fill:hover { filter: brightness(1.12); transform: translateY(-2px); }
 .price-installment { font-size: .78rem; color: var(--txt-400); text-align: center; margin: -.25rem 0 .75rem; font-family: var(--font-mono); }
 
+/* Preco de tabela riscado, acima do promocional */
+.price-was {
+  font-size: .82rem; color: var(--txt-500);
+  margin-bottom: -.35rem;
+}
+.price-was s { color: var(--txt-400); text-decoration-color: var(--gold); }
+
+/* Selo do desconto, logo abaixo do valor */
+.price-promo-tag {
+  display: inline-block;
+  font-size: .72rem; font-weight: 700; letter-spacing: .03em;
+  color: var(--ink-950); background: var(--grad-brand);
+  padding: .18rem .6rem; border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  margin: .15rem 0 .5rem;
+}
+
+/* Letra miuda do card: o que acontece depois dos 12 meses, etc. */
+.price-note {
+  font-size: .74rem; color: var(--txt-500); line-height: 1.5;
+  margin: -.15rem 0 .75rem;
+}
+
 /* ========================
    TESTIMONIALS
 ======================== */

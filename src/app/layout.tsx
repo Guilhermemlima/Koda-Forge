@@ -68,7 +68,7 @@ export default function RootLayout({
       addressCountry: 'BR',
     },
     areaServed: 'Brasil',
-    priceRange: 'R$ 1.497 a R$ 5.997',
+    priceRange: 'R$ 1.247 a R$ 4.997',
     sameAs: ['https://www.instagram.com/kodaforge/'],
   }
 

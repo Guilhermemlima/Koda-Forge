@@ -1,13 +1,24 @@
 'use client'
 
 import { useState } from 'react'
+import { LIST_PRICE, INSTALLMENT, promo, type PlanName } from '@/lib/promo'
 
 type Feature = { ok: boolean; text: string }
+
+/** Assinatura: site + manutenção numa mensalidade só, por 12 meses. */
+type Subscription = {
+  entrada: string
+  mensal: string
+  /** Alternativa sem entrada, quando o plano tiver uma. */
+  semEntrada?: string
+  /** Para onde a mensalidade cai depois dos 12 meses. */
+  depois: string
+  depoisPlano: string
+}
+
 type Plan = {
-  name: string
-  monthly: string
-  oneoff: string
-  installment: string
+  name: PlanName
+  sub: Subscription
   waMsg: string
   desc: string
   features: Feature[]
@@ -19,9 +30,7 @@ type Plan = {
 const PLANS: Plan[] = [
   {
     name: 'Starter',
-    monthly: '997',
-    oneoff: '1.497',
-    installment: '124,75',
+    sub: { entrada: '497', mensal: '297', semEntrada: '347', depois: '197', depoisPlano: 'Básico' },
     waMsg: 'Olá! Tenho interesse no Plano Starter da KodaForge. Podemos conversar sobre o meu projeto?',
     desc: 'Ideal para profissionais autônomos e pequenos negócios que querem uma presença online profissional.',
     features: [
@@ -39,9 +48,7 @@ const PLANS: Plan[] = [
   },
   {
     name: 'Profissional',
-    monthly: '1.997',
-    oneoff: '2.997',
-    installment: '249,75',
+    sub: { entrada: '997', mensal: '597', depois: '397', depoisPlano: 'Completo' },
     waMsg: 'Olá! Tenho interesse no Plano Profissional da KodaForge. Gostaria de saber mais detalhes e fazer um orçamento.',
     desc: 'Para empresas que querem um site robusto, com mais páginas, funcionalidades e geração de leads.',
     features: [
@@ -59,9 +66,7 @@ const PLANS: Plan[] = [
   },
   {
     name: 'Enterprise',
-    monthly: '3.997',
-    oneoff: '5.997',
-    installment: '499,75',
+    sub: { entrada: '1.997', mensal: '1.097', depois: '697', depoisPlano: 'VIP' },
     waMsg: 'Olá! Tenho interesse no Plano Enterprise da KodaForge para um projeto completo. Podemos agendar uma conversa?',
     desc: 'Solução completa para e-commerce, portais ou projetos com necessidades avançadas e escalabilidade.',
     features: [
@@ -80,9 +85,9 @@ const PLANS: Plan[] = [
 ]
 
 const MAINTENANCE = [
-  { icon: '🛡️', name: 'Básico',   price: '197', desc: 'Backup semanal, monitoramento de uptime, certificado SSL renovado automaticamente.',                                                                          featured: false },
-  { icon: '⚙️', name: 'Completo', price: '397', desc: 'Tudo do Básico + atualizações de conteúdo ilimitadas, suporte WhatsApp em horário comercial e relatório mensal.',                                           featured: true  },
-  { icon: '🚀', name: 'VIP',      price: '697', desc: 'Tudo do Completo + suporte 24/7, otimização contínua de SEO, melhorias mensais de performance e prioridade total.', featured: false },
+  { icon: '🛡️', name: 'Básico',   price: '197', semestral: '177', anual: '164', desc: 'Backup semanal, monitoramento de uptime, certificado SSL renovado automaticamente.',                                 featured: false },
+  { icon: '⚙️', name: 'Completo', price: '397', semestral: '357', anual: '331', desc: 'Tudo do Básico + atualizações de conteúdo ilimitadas, suporte WhatsApp em horário comercial e relatório mensal.',   featured: true  },
+  { icon: '🚀', name: 'VIP',      price: '697', semestral: '627', anual: '581', desc: 'Tudo do Completo + suporte 24/7, otimização contínua de SEO, melhorias mensais de performance e prioridade total.', featured: false },
 ]
 
 /* showHeader: a /precos já traz este mesmo título no PageHero, então lá o
@@ -107,17 +112,18 @@ export default function Pricing({ showHeader = true }: { showHeader?: boolean })
           </div>
         )}
 
-        {/* Toggle */}
+        {/* Toggle: pagamento único do site x assinatura com manutenção junto */}
         <div className="pricing-toggle reveal">
-          <span className="toggle-label">Avulso</span>
+          <span className="toggle-label">Valor único</span>
           <div
             className={`toggle-switch${isMonthly ? ' active' : ''}`}
             onClick={() => setIsMonthly((p) => !p)}
             role="switch"
             aria-checked={isMonthly}
+            aria-label="Alternar entre valor único e assinatura mensal"
           />
-          <span className="toggle-label">Mensal</span>
-          <span className="save-badge">Economize 20%</span>
+          <span className="toggle-label">Assinatura</span>
+          <span className="save-badge">{isMonthly ? 'Site + manutenção' : promo.offFull}</span>
         </div>
 
         {/* Plans */}
@@ -126,14 +132,42 @@ export default function Pricing({ showHeader = true }: { showHeader?: boolean })
             <div key={plan.name} className={`price-card${plan.popular ? ' popular' : ''} reveal`}>
               {plan.popular && <span className="popular-tag">MAIS POPULAR</span>}
               <h3>{plan.name}</h3>
-              <div className="price-amount">
-                <span className="price-currency">R$</span>
-                <span className="price-value">{isMonthly ? plan.monthly : plan.oneoff}</span>
-                <span className="price-period">&nbsp;{isMonthly ? '/mês' : 'único'}</span>
-              </div>
-              {!isMonthly && (
-                <p className="price-installment">ou 12x de R$ {plan.installment} no cartão</p>
+
+              {isMonthly ? (
+                <>
+                  <div className="price-amount">
+                    <span className="price-currency">R$</span>
+                    <span className="price-value">{plan.sub.mensal}</span>
+                    <span className="price-period">&nbsp;/mês</span>
+                  </div>
+                  <p className="price-installment">
+                    + entrada de R$ {plan.sub.entrada}
+                    {plan.sub.semEntrada && <> · ou sem entrada por R$ {plan.sub.semEntrada}/mês</>}
+                  </p>
+                  <p className="price-note">
+                    Após 12 meses passa para a manutenção {plan.sub.depoisPlano},
+                    R$ {plan.sub.depois}/mês.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="price-was">
+                    de <s>R$ {LIST_PRICE[plan.name]}</s> por
+                  </p>
+                  <div className="price-amount">
+                    <span className="price-currency">R$</span>
+                    <span className="price-value">{promo.pix[plan.name]}</span>
+                    <span className="price-period">&nbsp;no Pix</span>
+                  </div>
+                  <p className="price-promo-tag">
+                    {promo.off} · até {promo.endLabel}
+                  </p>
+                  <p className="price-installment">
+                    ou 12x de R$ {INSTALLMENT[plan.name]} no cartão (valor de tabela)
+                  </p>
+                </>
               )}
+
               <p className="price-desc">{plan.desc}</p>
               <ul className="price-features">
                 {plan.features.map((f) => (
@@ -177,6 +211,9 @@ export default function Pricing({ showHeader = true }: { showHeader?: boolean })
                 R$ {m.price}
                 <span style={{ fontSize: '1rem', color: 'var(--muted)' }}>/mês</span>
               </div>
+              <p className="price-note" style={{ marginBottom: '.8rem' }}>
+                No semestral R$ {m.semestral}/mês · no anual R$ {m.anual}/mês
+              </p>
               <p>{m.desc}</p>
             </div>
           ))}
