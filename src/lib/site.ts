@@ -16,8 +16,12 @@ export const CITY = 'Guarapuava'
 export const STATE = 'PR'
 
 /* Endereço. Dados do CEP 85010-280, conferidos no ViaCEP e na BrasilAPI.
-   STREET_NUMBER fica vazio até o número ser informado — quando preencher,
-   o mapa passa a marcar o ponto exato em vez do trecho da rua. */
+
+   STREET_NUMBER vazio é decisão, não pendência: publicamos rua, bairro e
+   CEP, que já bastam para o Google entender a região, sem expor o número.
+   O mapa mostra o trecho da rua em vez de um ponto exato — é o esperado.
+   Se um dia houver endereço comercial, basta preencher a constante que o
+   endereço visível, o schema.org e o mapa se ajustam sozinhos. */
 export const STREET = 'Rua Presidente Getúlio Vargas'
 export const STREET_NUMBER = ''
 export const NEIGHBORHOOD = 'Centro'
