@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/blog/5-sinais-de-que-seu-site-esta-perdendo-clientes' },
   title: '5 sinais de que seu site está perdendo clientes para a concorrência — KodaForge',
   description: 'Lentidão, design desatualizado, falta de CTA e SEO mal configurado são os erros mais comuns. Veja como identificá-los e corrigi-los.',
 }

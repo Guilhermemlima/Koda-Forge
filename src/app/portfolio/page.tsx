@@ -6,6 +6,7 @@ import PageHero     from '@/components/PageHero'
 import Footer       from '@/components/Footer'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/portfolio' },
   title: 'Portfólio — KodaForge',
   description: 'Conheça os projetos desenvolvidos pela KodaForge. Sites que geram resultado para negócios reais.',
 }

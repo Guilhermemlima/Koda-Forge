@@ -6,6 +6,7 @@ import PageHero     from '@/components/PageHero'
 import Footer       from '@/components/Footer'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/blog' },
   title: 'Blog — KodaForge',
   description: 'Dicas, estratégias e insights sobre criação de sites, SEO e marketing digital para negócios em Guarapuava e em todo o Brasil.',
 }

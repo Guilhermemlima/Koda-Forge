@@ -5,6 +5,7 @@ import PageHero     from '@/components/PageHero'
 import Footer       from '@/components/Footer'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/indicacao' },
   title: 'Indique e Ganhe — KodaForge',
   description: 'Indique amigos e empresas para a KodaForge e ganhe meses grátis ou créditos em serviços. Programa de indicação exclusivo.',
 }

@@ -6,6 +6,7 @@ import Contact      from '@/components/Contact'
 import Footer       from '@/components/Footer'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/contato' },
   title: 'Contato — KodaForge',
   description:
     'Entre em contato e receba um orçamento gratuito em até 24 horas. Sem compromisso.',

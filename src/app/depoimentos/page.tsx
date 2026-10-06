@@ -7,6 +7,7 @@ import CTA          from '@/components/CTA'
 import Footer       from '@/components/Footer'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/depoimentos' },
   title: 'Depoimentos — KodaForge',
   description:
     'Veja o que os clientes da KodaForge dizem sobre os projetos entregues.',

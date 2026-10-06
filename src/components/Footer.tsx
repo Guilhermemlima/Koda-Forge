@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { MessageCircle, Mail } from 'lucide-react'
+import { MessageCircle, Mail, Phone } from 'lucide-react'
+import { PHONE_DISPLAY, PHONE_HREF, WHATSAPP_NUMBER, EMAIL, CITY, STATE } from '@/lib/site'
 
 // Instagram SVG (lucide-react v1 não inclui este ícone)
 function InstagramIcon({ size = 18 }: { size?: number }) {
@@ -32,7 +33,7 @@ const LINKS = {
     { href: '/contato',    label: 'Solicitar orçamento' },
     { href: '/indicacao',  label: 'Indique e Ganhe' },
     { href: '/blog',       label: 'Blog' },
-    { href: '#',           label: 'Política de privacidade' },
+    { href: '/politica-de-privacidade', label: 'Política de privacidade' },
   ],
 }
 
@@ -51,6 +52,14 @@ export default function Footer() {
               Criamos sites que convertem — do design ao deploy,
               com excelência e comprometimento.
             </p>
+            {/* Telefone visível e clicável: o diagnóstico apontou a falta
+                dele tanto em conversão quanto em SEO local. */}
+            <p className="footer-contact">
+              <a href={PHONE_HREF}>
+                <Phone size={14} strokeWidth={2} /> {PHONE_DISPLAY}
+              </a>
+              <span className="footer-city">{CITY}, {STATE} · atendemos todo o Brasil</span>
+            </p>
             <div className="footer-social">
               <a
                 href="https://www.instagram.com/kodaforge/"
@@ -62,7 +71,7 @@ export default function Footer() {
                 <InstagramIcon size={18} />
               </a>
               <a
-                href="https://wa.me/5542991250274"
+                href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 className="soc-btn"
                 title="WhatsApp"
                 target="_blank"
@@ -71,7 +80,7 @@ export default function Footer() {
                 <MessageCircle size={18} strokeWidth={1.75} />
               </a>
               <a
-                href="mailto:kodaforge2026@gmail.com"
+                href={`mailto:${EMAIL}`}
                 className="soc-btn"
                 title="E-mail"
               >

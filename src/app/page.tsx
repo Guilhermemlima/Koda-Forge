@@ -9,6 +9,7 @@ import CTA            from '@/components/CTA'
 import Footer         from '@/components/Footer'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/' },
   title: 'KodaForge — Sites que convertem',
   description:
     'Criamos, redesenhamos e mantemos sites com foco em conversão, desempenho e identidade visual. Do briefing ao deploy em tempo recorde.',

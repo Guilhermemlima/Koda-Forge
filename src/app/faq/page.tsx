@@ -7,6 +7,7 @@ import CTA          from '@/components/CTA'
 import Footer       from '@/components/Footer'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/faq' },
   title: 'Perguntas Frequentes — KodaForge',
   description:
     'Tire suas dúvidas sobre criação de sites, prazos, pagamentos e suporte da KodaForge.',

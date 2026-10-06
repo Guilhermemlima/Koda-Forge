@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, Space_Grotesk, IBM_Plex_Mono } from 'next/font/google'
 import './globals.css'
+import { SITE_URL, PHONE_E164, EMAIL, CITY, STATE } from '@/lib/site'
 import MetaPixel from '@/components/MetaPixel'
 
 const inter = Inter({
@@ -23,6 +24,8 @@ const ibmPlexMono = IBM_Plex_Mono({
 })
 
 export const metadata: Metadata = {
+  /* Base para resolver os canonical relativos de cada página. */
+  metadataBase: new URL(SITE_URL),
   title: 'KodaForge — Sites que convertem',
   description:
     'Agência de criação de sites em Guarapuava, PR. Criamos, redesenhamos e mantemos sites com foco em conversão, desempenho e identidade visual. Atendemos todo o Brasil.',
@@ -58,13 +61,15 @@ export default function RootLayout({
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
     name: 'KodaForge',
-    url: 'https://kodaforge.com.br',
-    telephone: '+55-42-99125-0274',
-    email: 'kodaforge2026@gmail.com',
+    url: SITE_URL,
+    /* E.164: o mesmo formato do link tel: do rodapé. Antes estava
+       '+55-42-99125-0274', que buscadores leem pior. */
+    telephone: PHONE_E164,
+    email: EMAIL,
     address: {
       '@type': 'PostalAddress',
-      addressLocality: 'Guarapuava',
-      addressRegion: 'PR',
+      addressLocality: CITY,
+      addressRegion: STATE,
       addressCountry: 'BR',
     },
     areaServed: 'Brasil',

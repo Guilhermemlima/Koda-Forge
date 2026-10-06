@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/blog/por-que-seu-negocio-em-guarapuava-precisa-de-um-site-profissional' },
   title: 'Por que seu negócio em Guarapuava precisa de um site profissional em 2026 — KodaForge',
   description: 'A presença digital já não é opcional. Saiba por que negócios locais em Guarapuava que investem em sites profissionais saem na frente da concorrência.',
 }

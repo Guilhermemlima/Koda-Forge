@@ -6,6 +6,7 @@ import Comparison   from '@/components/Comparison'
 import Footer       from '@/components/Footer'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/comparativo' },
   title: 'KodaForge vs Agência vs Freelancer — Comparativo',
   description:
     'Compare a KodaForge com agências tradicionais e freelancers baratos: preço, prazo, qualidade, SEO e suporte. Veja por que somos a melhor escolha para o seu site.',

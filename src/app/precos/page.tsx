@@ -9,6 +9,7 @@ import CTA          from '@/components/CTA'
 import Footer       from '@/components/Footer'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/precos' },
   title: 'Preços e Planos — KodaForge',
   description:
     'Planos transparentes para criação de sites, redesign e manutenção mensal. Sem taxas ocultas, sem surpresas.',

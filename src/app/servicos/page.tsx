@@ -9,6 +9,7 @@ import CTA          from '@/components/CTA'
 import Footer       from '@/components/Footer'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/servicos' },
   title: 'Serviços — KodaForge',
   description:
     'Criação de sites, redesign completo e manutenção mensal. Soluções digitais sob medida para o seu negócio.',

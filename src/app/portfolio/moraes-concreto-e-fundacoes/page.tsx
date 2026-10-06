@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/portfolio/moraes-concreto-e-fundacoes' },
   title: 'Moraes Concreto e Fundações — KodaForge',
   description: 'Site institucional desenvolvido pela KodaForge para a Moraes Concreto e Fundações — serviços de concretagem e fundações em Guarapuava, PR.',
 }
