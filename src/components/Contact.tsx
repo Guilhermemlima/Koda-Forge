@@ -1,11 +1,17 @@
 'use client'
 
 import { useState } from 'react'
+import {
+  EMAIL, WHATSAPP_NUMBER, PHONE_DISPLAY, PHONE_HREF,
+  ADDRESS_LINE, NEIGHBORHOOD, CITY, STATE, POSTAL_CODE,
+  ADDRESS_FULL, MAPS_EMBED_URL, MAPS_LINK,
+} from '@/lib/site'
 
 const DETAILS = [
-  { icon: '📧', label: 'E-mail',                 value: 'kodaforge2026@gmail.com', href: 'mailto:kodaforge2026@gmail.com' },
-  { icon: '💬', label: 'WhatsApp',               value: '(42) 99125-0274',         href: 'https://wa.me/5542991250274' },
-  { icon: '📞', label: 'Telefone',               value: '(42) 99125-0274',         href: 'tel:+5542991250274' },
+  { icon: '📧', label: 'E-mail',                 value: EMAIL,          href: `mailto:${EMAIL}` },
+  { icon: '💬', label: 'WhatsApp',               value: PHONE_DISPLAY,  href: `https://wa.me/${WHATSAPP_NUMBER}` },
+  { icon: '📞', label: 'Telefone',               value: PHONE_DISPLAY,  href: PHONE_HREF },
+  { icon: '📍', label: 'Endereço',               value: `${ADDRESS_LINE} — ${NEIGHBORHOOD}, ${CITY}/${STATE} · ${POSTAL_CODE}`, href: MAPS_LINK },
   { icon: '🕐', label: 'Horário de atendimento', value: 'Seg–Sex, 9h às 18h',      href: null },
   { icon: '⚡', label: 'Resposta em',            value: 'Até 24 horas úteis',      href: null },
 ]
@@ -97,6 +103,18 @@ export default function Contact() {
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* Mapa: o diagnóstico marcou a ausência dele em conversão e em
+                SEO local. loading=lazy para não pesar o carregamento. */}
+            <div className="contact-map reveal">
+              <iframe
+                src={MAPS_EMBED_URL}
+                title={`Localização da KodaForge — ${ADDRESS_FULL}`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
             </div>
           </div>
 

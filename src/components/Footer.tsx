@@ -1,6 +1,9 @@
 import Link from 'next/link'
-import { MessageCircle, Mail, Phone } from 'lucide-react'
-import { PHONE_DISPLAY, PHONE_HREF, WHATSAPP_NUMBER, EMAIL, CITY, STATE } from '@/lib/site'
+import { MessageCircle, Mail, Phone, MapPin } from 'lucide-react'
+import {
+  PHONE_DISPLAY, PHONE_HREF, WHATSAPP_NUMBER, EMAIL,
+  CITY, STATE, ADDRESS_LINE, NEIGHBORHOOD, POSTAL_CODE, MAPS_LINK,
+} from '@/lib/site'
 
 // Instagram SVG (lucide-react v1 não inclui este ícone)
 function InstagramIcon({ size = 18 }: { size?: number }) {
@@ -58,7 +61,14 @@ export default function Footer() {
               <a href={PHONE_HREF}>
                 <Phone size={14} strokeWidth={2} /> {PHONE_DISPLAY}
               </a>
-              <span className="footer-city">{CITY}, {STATE} · atendemos todo o Brasil</span>
+              <a href={MAPS_LINK} target="_blank" rel="noopener noreferrer" className="footer-address">
+                <MapPin size={14} strokeWidth={2} />
+                <span>
+                  {ADDRESS_LINE} — {NEIGHBORHOOD}<br />
+                  {CITY}, {STATE} · {POSTAL_CODE}
+                </span>
+              </a>
+              <span className="footer-city">Atendemos todo o Brasil</span>
             </p>
             <div className="footer-social">
               <a

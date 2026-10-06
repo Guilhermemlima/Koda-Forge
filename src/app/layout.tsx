@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
 import { Inter, Space_Grotesk, IBM_Plex_Mono } from 'next/font/google'
 import './globals.css'
-import { SITE_URL, PHONE_E164, EMAIL, CITY, STATE } from '@/lib/site'
+import {
+  SITE_URL, PHONE_E164, EMAIL, CITY, STATE,
+  STREET, NEIGHBORHOOD, POSTAL_CODE, GEO, ADDRESS_LINE,
+} from '@/lib/site'
 import MetaPixel from '@/components/MetaPixel'
 
 const inter = Inter({
@@ -68,9 +71,18 @@ export default function RootLayout({
     email: EMAIL,
     address: {
       '@type': 'PostalAddress',
+      streetAddress: ADDRESS_LINE,
       addressLocality: CITY,
       addressRegion: STATE,
+      postalCode: POSTAL_CODE,
       addressCountry: 'BR',
+    },
+    /* Coordenadas do CEP: ajudam o Google a posicionar o negócio
+       mesmo antes de o perfil do Google Business existir. */
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: GEO.lat,
+      longitude: GEO.lng,
     },
     areaServed: 'Brasil',
     priceRange: 'R$ 1.247 a R$ 4.997',

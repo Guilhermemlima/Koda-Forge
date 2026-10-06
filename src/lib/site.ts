@@ -15,6 +15,30 @@ export const EMAIL = 'kodaforge2026@gmail.com'
 export const CITY = 'Guarapuava'
 export const STATE = 'PR'
 
+/* Endereço. Dados do CEP 85010-280, conferidos no ViaCEP e na BrasilAPI.
+   STREET_NUMBER fica vazio até o número ser informado — quando preencher,
+   o mapa passa a marcar o ponto exato em vez do trecho da rua. */
+export const STREET = 'Rua Presidente Getúlio Vargas'
+export const STREET_NUMBER = ''
+export const NEIGHBORHOOD = 'Centro'
+export const POSTAL_CODE = '85010-280'
+export const GEO = { lat: -25.39048, lng: -51.46541 }
+
+/** Linha do endereço como o visitante lê. */
+export const ADDRESS_LINE = [STREET, STREET_NUMBER].filter(Boolean).join(', ')
+
+/** Endereço completo, para o schema.org e para a busca do mapa. */
+export const ADDRESS_FULL =
+  `${ADDRESS_LINE} - ${NEIGHBORHOOD}, ${CITY} - ${STATE}, ${POSTAL_CODE}`
+
+/** Incorporação do Google Maps. O output=embed dispensa chave de API. */
+export const MAPS_EMBED_URL =
+  `https://www.google.com/maps?q=${encodeURIComponent(ADDRESS_FULL)}&output=embed`
+
+/** Link para abrir o mapa fora do site. */
+export const MAPS_LINK =
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ADDRESS_FULL)}`
+
 /** Todas as rotas públicas. Alimenta o sitemap. */
 export const ROUTES = [
   { path: '/',             priority: 1.0,  changeFrequency: 'weekly'  },

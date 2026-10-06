@@ -95,6 +95,7 @@ export default function PoliticaDePrivacidadePage() {
               <li><strong>Vercel</strong> — hospedagem do site.</li>
               <li><strong>Resend</strong> — envio dos e-mails do formulário de contato.</li>
               <li><strong>Meta Platforms</strong> — medição de anúncios, descrita acima.</li>
+              <li><strong>Google</strong> — mapa incorporado na página de contato.</li>
             </ul>
             <p>
               Alguns desses serviços mantêm servidores fora do Brasil, o que caracteriza
